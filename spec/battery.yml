@@ -1,0 +1,133 @@
+schema_version: "0.1.0"
+battery_id: BII
+version: "0.0.0-dev"
+status: draft
+intended_use: didactic_only
+clinical_or_diagnostic_use: false
+age_range_months:
+  min: 72
+  max: 263
+age_range_label: "6;0–21;11"
+legacy_specification: "_BII - Batteria Intelligenza Inventata.md"
+n_subtests: 15
+subtest_order: [SP, RS, CS, MR, RR, QS, MO, RP, MP, SM, PG, CL, SS, CR, DM]
+roles:
+  core:
+    description: "Contributes to QI_totale."
+  completion:
+    description: "Completes an index but does not contribute to QI_totale."
+  supplementary:
+    description: "Optional qualitative extension; not required for an index score."
+domains:
+  Gc: "Intelligenza Cristallizzata"
+  Gf: "Intelligenza Fluida"
+  Gv: "Abilità Visuo-Spaziali"
+  Gwm: "Memoria di Lavoro"
+  Gs: "Velocità di Elaborazione"
+  Glr: "Apprendimento e Recupero"
+norming:
+  task_age_band_segments:
+    - {min_months: 72, max_months: 119, width_months: 4}
+    - {min_months: 120, max_months: 191, width_months: 6}
+    - {min_months: 192, max_months: 263, width_months: 12}
+  index_age_groups:
+    - {id: "6-10 anni", min_months: 72, max_months: 119}
+    - {id: "11-16 anni", min_months: 120, max_months: 191}
+    - {id: "17-22 anni", min_months: 192, max_months: 263}
+indices:
+  qIC:
+    name: "Quoziente di Intelligenza Cristallizzata"
+    domain: Gc
+    modes:
+      complete: [SP, RS]
+    supplementary: [CS]
+  qIF:
+    name: "Quoziente di Intelligenza Fluida"
+    domain: Gf
+    modes:
+      complete: [MR, RR]
+    supplementary: [QS]
+  qVS:
+    name: "Quoziente Visuo-Spaziale"
+    domain: Gv
+    modes:
+      complete: [MO, RP]
+    supplementary: [MP]
+  qML:
+    name: "Quoziente di Memoria di Lavoro"
+    domain: Gwm
+    modes:
+      base: [SM]
+      complete: [SM, PG]
+  qVE:
+    name: "Quoziente di Velocità di Elaborazione"
+    domain: Gs
+    modes:
+      base: [CL]
+      complete: [CL, SS]
+  qAR:
+    name: "Quoziente di Apprendimento e Recupero"
+    domain: Glr
+    modes:
+      base: [CR]
+      complete: [CR, DM]
+quotients:
+  QI_rapido:
+    name: "QI rapido"
+    components: [SP, RS, MR, RR]
+  QI_totale:
+    name: "QI totale"
+    components: [SP, RS, MR, RR, MO, RP, SM, CL, CR]
+administration:
+  response_statuses:
+    administered: "Risposta osservata; item_score può essere registrato."
+    omitted: "Item somministrato senza risposta entro la procedura prevista."
+    below_basal: "Non somministrato sotto basale; punteggio inferito solo dallo scorer."
+    above_ceiling: "Non somministrato sopra ceiling; punteggio inferito solo dallo scorer."
+    external_missing: "Non somministrato per ragione esterna; mai trasformare in errore."
+    invalidated: "Item o subtest invalidato; mai trasformare in errore."
+  adaptive_default:
+    precedence: subtest_specific_over_default
+    non_administered_states:
+      below_basal: "Inferred correct/full-credit only when skipped by adaptive rule."
+      above_ceiling: "Inferred incorrect/zero only when skipped by adaptive rule."
+      external: "Missing; never score as an error."
+      invalidated: "Invalid; never score as an error."
+  delayed_retrieval:
+    target_minutes: 15
+    acceptable_window_minutes: [14, 16]
+    record_actual_delay: true
+  fillers:
+    F15_V:
+      scored: false
+      modality: visual
+      use_with: CR
+      duration_minutes: [2, 4]
+    F15_A:
+      scored: false
+      modality: auditory_verbal
+      use_with: DM
+      duration_minutes: [2, 4]
+  sequences:
+    QI_rapido: [MR, SP, RR, RS]
+    QI_totale:
+      - MR
+      - SP
+      - RR
+      - RS
+      - MO
+      - SM
+      - CR_study
+      - RP
+      - CL
+      - F15_V_if_needed
+      - CR_delayed_retrieval
+    complete_indices_after_QI_totale:
+      - DM_study
+      - CS
+      - SS
+      - F15_A_if_needed
+      - DM_delayed_retrieval
+      - QS
+      - PG
+      - MP

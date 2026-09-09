@@ -1,0 +1,22 @@
+id: MR
+name: "Matrici di Regole"
+domain: Gf
+role: core
+contributes_to: [qIF, QI_rapido, QI_totale]
+response_format: multiple_choice_5
+stimulus_mode: visual
+construct: "Ragionamento induttivo non verbale su regole implicite."
+item_ordering: increasing_difficulty
+n_scored_items: 24
+n_practice_items: 2
+scoring: {type: dichotomous, item_scores: [0, 1], raw_min: 0, raw_max: 24, full_credit_for_below_basal: 1}
+timing: {planned_minutes: [8, 12]}
+administration:
+  route_type: adaptive_items
+  start_points:
+    - {age_months: [72, 107], item: 1}
+    - {age_months: [108, 155], item: 5}
+    - {age_months: [156, 263], item: 9}
+  inversion: {initial_window_items: 3, trigger: {correct_lt: 2}, direction: backward}
+  basal: {window_items: 3, correct: 3}
+  ceiling: {consecutive_items: 3, item_score: 0}

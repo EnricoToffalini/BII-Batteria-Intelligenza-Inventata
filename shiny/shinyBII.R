@@ -2,12 +2,22 @@ library(shiny)
 library(tidyverse)
 library(stringr)
 
+SPEC_LOADER_PATH <- if (file.exists(file.path("R", "spec", "load_spec.R"))) {
+  file.path("R", "spec", "load_spec.R")
+} else {
+  file.path("..", "R", "spec", "load_spec.R")
+}
+source(SPEC_LOADER_PATH)
+BII_SPEC <- read_bii_spec()
+BII_ROOT <- BII_SPEC$root
+
 # ============================================================
 # BII – nomenclatura (UI: nomi estesi + abbreviazioni)
 # Grafici: SOLO abbreviazioni
 # Bande nei grafici: stessi colori dei box
 # ============================================================
 
+if (FALSE) { # Legacy hard-coded metadata retained only for historical diff readability.
 SUBTEST_INFO <- tibble::tribble(
   ~abbr, ~label,                                   ~max_raw,
   "SP",  "Significato delle Parole (SP)",          36,
@@ -65,6 +75,35 @@ INDEX_ABBR_PLOT <- c(
   QI_rapido = "QI rap",
   QI_totale = "QI tot"
 )
+}
+
+SUBTEST_INFO <- spec_subtest_table(BII_SPEC) %>%
+  transmute(
+    abbr = id,
+    label = paste0(name, " (", id, ")"),
+    max_raw = raw_max
+  )
+SUBTESTS_ALL <- SUBTEST_INFO$abbr
+QI_TOTALE_TASKS <- BII_SPEC$battery$quotients$QI_totale$components
+QI_RAPIDO_TASKS <- BII_SPEC$battery$quotients$QI_rapido$components
+INDEX_IDS <- names(BII_SPEC$battery$indices)
+INDICES_SPEC <- c(
+  lapply(BII_SPEC$battery$indices, function(x) x$modes$complete),
+  list(QI_rapido = QI_RAPIDO_TASKS, QI_totale = QI_TOTALE_TASKS)
+)
+INDEX_LABELS <- c(
+  setNames(
+    vapply(BII_SPEC$battery$indices, function(x) paste0(x$name, " (", x$domain, ")"), character(1)),
+    INDEX_IDS
+  ),
+  QI_rapido = paste0(BII_SPEC$battery$quotients$QI_rapido$name, " (", length(QI_RAPIDO_TASKS), " subtest)"),
+  QI_totale = paste0(BII_SPEC$battery$quotients$QI_totale$name, " (", length(QI_TOTALE_TASKS), " subtest)")
+)
+INDEX_ABBR_PLOT <- c(
+  setNames(INDEX_IDS, INDEX_IDS),
+  QI_rapido = "QI rap",
+  QI_totale = "QI tot"
+)
 
 # ============================================================
 # Colori (coerenti: box + bande grafici)
@@ -83,8 +122,8 @@ COLORS_LEVELS <- c(
 # NORME (assumo norms_BII/, fallback /mnt/data/)
 # ============================================================
 
-TASKS_TABLE_PATH_1    <- file.path("norms_BII", "tasks_conversion_tables_grezzo_to_PP_by_ageband_OFFICIAL.csv")
-INDICES_TABLE_PATH_1  <- file.path("norms_BII", "indices_conversion_tables_sommaPP_to_SS_by_agegroup.csv")
+TASKS_TABLE_PATH_1    <- file.path(BII_ROOT, "norms_BII", "tasks_conversion_tables_grezzo_to_PP_by_ageband_OFFICIAL.csv")
+INDICES_TABLE_PATH_1  <- file.path(BII_ROOT, "norms_BII", "indices_conversion_tables_sommaPP_to_SS_by_agegroup.csv")
 TASKS_TABLE_PATH_2    <- file.path("/mnt/data", "tasks_conversion_tables_grezzo_to_PP_by_ageband_OFFICIAL.csv")
 INDICES_TABLE_PATH_2  <- file.path("/mnt/data", "indices_conversion_tables_sommaPP_to_SS_by_agegroup.csv")
 
@@ -118,7 +157,7 @@ AGE_MAX_M <- max(task_norms$age_hi_m, na.rm = TRUE)
 # Campione standardizzazione (per “pesca casuale”)
 # ============================================================
 
-STD_SAMPLE_PATH_1 <- file.path("norms_BII", "standardization_sample_raw.csv")
+STD_SAMPLE_PATH_1 <- file.path(BII_ROOT, "norms_BII", "standardization_sample_raw.csv")
 STD_SAMPLE_PATH_2 <- file.path("/mnt/data", "standardization_sample_raw.csv")
 STD_SAMPLE_PATH <- if (file.exists(STD_SAMPLE_PATH_1)) STD_SAMPLE_PATH_1 else STD_SAMPLE_PATH_2
 
@@ -134,13 +173,10 @@ std_sample_raw <- if (file.exists(STD_SAMPLE_PATH)) {
 
 fmt_blank <- function(x) ifelse(is.na(x), "", as.character(x))
 
-age_group_from_months <- function(age_m) {
-  dplyr::case_when(
-    age_m >= 72  & age_m < 120 ~ "6-10 anni",
-    age_m >= 120 & age_m < 192 ~ "11-16 anni",
-    age_m >= 192 & age_m <= 264 ~ "17-22 anni",
-    TRUE ~ NA_character_
-  )
+age_group_from_months <- function(age_m, groups = BII_SPEC$battery$norming$index_age_groups) {
+  hits <- vapply(groups, function(group) age_m >= group$min_months && age_m <= group$max_months, logical(1))
+  if (!any(hits)) return(NA_character_)
+  groups[[which(hits)[1]]]$id
 }
 
 age_band_from_months <- function(age_m, norms_tbl) {
@@ -179,6 +215,13 @@ make_radar_df <- function(labels, values) {
   df %>%
     mutate(seg = cumsum(miss | lag(miss, default = TRUE))) %>%
     filter(!miss)
+}
+
+active_index_ids <- function(res) {
+  c(
+    if (isTRUE(res$compute_totale)) "QI_totale" else if (isTRUE(res$compute_rapido)) "QI_rapido" else NA_character_,
+    INDEX_IDS
+  ) |> stats::na.omit() |> as.character()
 }
 
 class_ss <- function(ss) {
@@ -371,7 +414,7 @@ server <- function(input, output, session) {
     ss_rapido <- if (compute_rapido) lookup_SS("QI_rapido", age_group, sumpp_rapido, indices_norms) else NA_real_
     
     ind_sumpp <- list(); ind_ss <- list()
-    for (nm in c("qIC","qIF","qVS","qML","qVE","qAR")) {
+    for (nm in INDEX_IDS) {
       req_tasks <- INDICES_SPEC[[nm]]
       ok <- all(!is.na(PP[req_tasks]))
       ind_sumpp[[nm]] <- if (ok) sum(PP[req_tasks]) else NA_real_
@@ -443,11 +486,7 @@ server <- function(input, output, session) {
   output$indices_plot <- renderPlot({
     res <- results(); req(isTRUE(res$ok))
     
-    idx_names <- c(
-      if (isTRUE(res$compute_totale)) "QI_totale" else if (isTRUE(res$compute_rapido)) "QI_rapido" else NA_character_,
-      "qIC","qIF","qVS","qML","qVE","qAR"
-    )
-    idx_names <- idx_names[!is.na(idx_names)]
+    idx_names <- active_index_ids(res)
     
     SS_vals <- sapply(idx_names, function(nm) {
       if (nm == "QI_totale") return(res$ss_totale)
@@ -491,11 +530,7 @@ server <- function(input, output, session) {
   output$indices_radar <- renderPlot({
     res <- results(); req(isTRUE(res$ok))
     
-    idx_names <- c(
-      if (isTRUE(res$compute_totale)) "QI_totale" else if (isTRUE(res$compute_rapido)) "QI_rapido" else NA_character_,
-      "qIC","qIF","qVS","qML","qVE","qAR"
-    )
-    idx_names <- idx_names[!is.na(idx_names)]
+    idx_names <- active_index_ids(res)
     
     labs <- unname(INDEX_ABBR_PLOT[idx_names])
     vals <- sapply(idx_names, function(nm) {
@@ -531,11 +566,7 @@ server <- function(input, output, session) {
   output$index_boxes <- renderUI({
     res <- results(); req(isTRUE(res$ok))
     
-    idx_names <- c(
-      if (isTRUE(res$compute_totale)) "QI_totale" else if (isTRUE(res$compute_rapido)) "QI_rapido" else NA_character_,
-      "qIC","qIF","qVS","qML","qVE","qAR"
-    )
-    idx_names <- idx_names[!is.na(idx_names)]
+    idx_names <- active_index_ids(res)
     
     get_ss <- function(nm) {
       if (nm == "QI_totale") return(res$ss_totale)
@@ -595,10 +626,10 @@ server <- function(input, output, session) {
     }
     
     df_idx <- tibble(
-      Voce = unname(INDEX_LABELS[c("qIC","qIF","qVS","qML","qVE","qAR")]),
+      Voce = unname(INDEX_LABELS[INDEX_IDS]),
       `Grezzo` = NA_real_,
-      `Ponderato` = as.numeric(unlist(res$ind_sumpp[c("qIC","qIF","qVS","qML","qVE","qAR")])),
-      `Standardizzato (indice)` = as.numeric(unlist(res$ind_ss[c("qIC","qIF","qVS","qML","qVE","qAR")]))
+      `Ponderato` = as.numeric(unlist(res$ind_sumpp[INDEX_IDS])),
+      `Standardizzato (indice)` = as.numeric(unlist(res$ind_ss[INDEX_IDS]))
     )
     
     out <- bind_rows(df_sub, df_qi, df_idx) %>%

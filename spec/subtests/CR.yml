@@ -1,0 +1,29 @@
+id: CR
+name: "Coppie da Ricordare"
+domain: Glr
+role: core
+contributes_to: [qAR, QI_totale]
+response_format: delayed_cued_recall_then_recognition
+stimulus_mode: auditory_verbal
+construct: "Apprendimento associativo e recupero differito di coppie verbali."
+item_ordering: fixed_set
+n_scored_items: 10
+n_practice_items: 0
+scoring:
+  type: polytomous
+  item_scores: [0, 1, 2]
+  raw_min: 0
+  raw_max: 20
+  rubric:
+    2: correct_cued_recall
+    1: correct_recognition_after_incorrect_or_omitted_recall
+    0: incorrect_recognition
+timing:
+  study_minutes: [1, 1]
+  retrieval_minutes: [3, 4]
+  retention_minutes: 15
+administration:
+  route_type: delayed_retrieval
+  study_presentations: 2
+  immediate_recall: prohibited
+  retrieval_window_minutes: [14, 16]

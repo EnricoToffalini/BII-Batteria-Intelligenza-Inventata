@@ -5,6 +5,9 @@
 # - base R per simulazione, ggplot2 per visualizzazione
 ############################################################
 
+source("R/spec/load_spec.R")
+bii_spec <- read_bii_spec()
+
 set.seed(0)
 library(ggplot2)
 theme_set(theme_bw(base_size = 14))
@@ -70,7 +73,7 @@ Glr <- rnorm(N, mu_Glr, sd_spec)
 # Gs:  CL SS
 # Glr: CR DM
 
-subtests <- c("SP","RS","CS","MR","RR","QS","MO","RP","MP","SM","PG","CL","SS","CR","DM")
+subtests <- bii_spec$battery$subtest_order
 
 # Loadings su g (core più alti, completion/supp leggermente più bassi)
 lam_g <- c(
@@ -125,14 +128,16 @@ sim_binom <- function(theta, k, alpha, beta){
   rbinom(length(theta), size = k, prob = p)
 }
 
-# Range grezzi dal documento BII
-# (per 0-1-2 tratto come punti totali 0..2*n, quindi Binom(2*n, p))
-k_fixed <- c(
-  SP=36, RS=24, CS=20,
-  MR=24, RR=20, QS=24,
-  MO=32, RP=20, MP=20,
-  SM=24, PG=16,
-  CR=20
+# Range grezzi dalla spec BII. CL, SS e DM hanno scoring derivato e sono
+# simulati separatamente dalle loro componenti osservabili.
+fixed_score_ids <- subtests[vapply(
+  bii_spec$subtests[subtests],
+  function(x) x$scoring$type %in% c("dichotomous", "polytomous"),
+  logical(1)
+)]
+k_fixed <- setNames(
+  vapply(bii_spec$subtests[fixed_score_ids], function(x) as.integer(x$scoring$raw_max), integer(1)),
+  fixed_score_ids
 )
 
 # Parametri alpha/beta subtest (tweak-friendly)
@@ -282,7 +287,7 @@ cat("  g (20 anni) 0.1%  =", round(q20_lo,2), "\n")
 cat("  diff (20lo - 6hi) =", round(q20_lo - q6_hi,2), "\n\n")
 
 # Grezzi vs eta: tutti i 15 subtest (score principali)
-raw_main <- dat_obs[, c("SP","RS","CS","MR","RR","QS","MO","RP","MP","SM","PG","CR","CL","SS","DM")]
+raw_main <- dat_obs[, subtests]
 raw_long <- cbind(dat_obs[,c("age_y")], stack(raw_main))
 names(raw_long) <- c("age_y","score","subtest")
 
@@ -364,7 +369,7 @@ ggplot(raw_long, aes(x=age_y, y=score)) +
 
 df <- dat_obs[order(dat_obs$age_y), ]
 df$ID = 1:nrow(df)
-vars <- c("SP","RS","CS","MR","RR","QS","MO","RP","MP","SM","PG","CR","CL","SS","DM")
+vars <- subtests
 df_export <- df[, c("ID", "age_y", vars)]
 names(df_export)[names(df_export) %in% vars] <- paste0(vars, "_grezzo")
 write.csv(

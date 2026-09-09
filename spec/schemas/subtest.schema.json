@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BII subtest specification",
+  "type": "object",
+  "required": ["id", "name", "domain", "role", "contributes_to", "response_format", "stimulus_mode", "construct", "item_ordering", "n_scored_items", "n_practice_items", "scoring", "timing", "administration"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[A-Z]{2}$"},
+    "role": {"enum": ["core", "completion", "supplementary"]},
+    "n_scored_items": {"type": "integer", "minimum": 1},
+    "n_practice_items": {"type": "integer", "minimum": 0},
+    "scoring": {
+      "type": "object",
+      "required": ["type", "raw_min", "raw_max"],
+      "properties": {"raw_min": {"type": "number"}, "raw_max": {"type": "number"}}
+    }
+  }
+}

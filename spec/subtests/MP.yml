@@ -1,0 +1,22 @@
+id: MP
+name: "Mappe e Percorsi"
+domain: Gv
+role: supplementary
+contributes_to: [qVS]
+response_format: constructed_or_multiple_choice_path
+stimulus_mode: visual
+construct: "Pianificazione di percorsi spaziali nel rispetto di vincoli."
+item_ordering: increasing_difficulty
+age_eligibility_months: [108, 263]
+n_scored_items: 10
+n_practice_items: 1
+scoring: {type: polytomous, item_scores: [0, 1, 2], raw_min: 0, raw_max: 20, full_credit_for_below_basal: 2}
+timing: {planned_minutes: [8, 10]}
+administration:
+  route_type: adaptive_items
+  start_points:
+    - {age_months: [108, 155], item: 1}
+    - {age_months: [156, 263], item: 3}
+  inversion: {initial_window_items: 2, trigger: {total_score_lt: 2}, direction: backward}
+  basal: {window_items: 2, total_score: 4}
+  ceiling: {consecutive_items: 3, item_score: 0}

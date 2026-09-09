@@ -1,0 +1,22 @@
+id: QS
+name: "Quantità e Strategie"
+domain: Gf
+role: supplementary
+contributes_to: [qIF]
+response_format: controlled_short_response
+stimulus_mode: verbal_with_simple_visual_support
+construct: "Ragionamento quantitativo applicato, stima e trasformazioni semplici."
+item_ordering: increasing_difficulty
+n_scored_items: 12
+n_practice_items: 1
+scoring: {type: polytomous, item_scores: [0, 1, 2], raw_min: 0, raw_max: 24, full_credit_for_below_basal: 2}
+timing: {planned_minutes: [10, 12]}
+administration:
+  route_type: adaptive_items
+  start_points:
+    - {age_months: [72, 107], item: 1}
+    - {age_months: [108, 155], item: 4}
+    - {age_months: [156, 263], item: 7}
+  inversion: {initial_window_items: 2, trigger: {total_score_lt: 2}, direction: backward}
+  basal: {window_items: 2, total_score: 4}
+  ceiling: {consecutive_items: 3, item_score: 0}

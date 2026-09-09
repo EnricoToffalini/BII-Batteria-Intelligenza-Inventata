@@ -1,0 +1,23 @@
+id: SS
+name: "Scansione Selettiva"
+domain: Gs
+role: completion
+contributes_to: [qVE]
+response_format: target_marking
+stimulus_mode: visual_paper_pencil
+construct: "Ricerca visiva selettiva rapida con regola stabile."
+item_ordering: fixed_matrix
+n_scored_items: 100
+n_practice_items: 1
+stimulus_count: 200
+scoring:
+  type: derived_from_response_components
+  raw_min: 0
+  raw_max: 100
+  formula: "max(0, hits - false_alarms)"
+  components:
+    hits: {min: 0, max: 100}
+    false_alarms: {min: 0, max: 100}
+    omissions: {min: 0, max: 100}
+timing: {planned_minutes: [2, 3]}
+administration: {route_type: fixed_time, basal: null, ceiling: null}

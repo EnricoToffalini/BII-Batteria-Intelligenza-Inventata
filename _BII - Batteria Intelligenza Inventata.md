@@ -11,7 +11,7 @@ La BII è una batteria “inventata” pensata per:
 La batteria non ha finalità cliniche né diagnostiche ed è pensata esclusivamente per scopi illustrativi, formativi e di discussione metodologica.
 
 ## Target e contesto di somministrazione
-- **Età**: 6;0 – 22;0 anni  
+- **Età**: 6;0 – 21;11 anni
 - **Somministrazione**: individuale  
 - **Uso previsto**: didattico e illustrativo (non clinico). Le scelte di contenuto, timing e scoring sono volutamente **plausibili ma non normative**.
 
@@ -731,7 +731,7 @@ Valuta la memoria di lavoro visuo-spaziale come capacità di:
 ### Esempi di item (inventati)
 1. “B2, C4, A1”, ripeti in ordine.  
 2. “D3, D1, B1, C2”, ripeti al contrario.  
-3. “A4, B2, C2, E5”, ripeti in ordine (griglia 5×5).
+3. “A4, B2, C2, D3”, ripeti in ordine (griglia 4×4).
 
 
 ## Nota interpretativa sul qML

@@ -1,0 +1,31 @@
+id: DM
+name: "Disegni in Memoria"
+domain: Glr
+role: completion
+contributes_to: [qAR]
+response_format: delayed_visual_recognition
+stimulus_mode: visual
+construct: "Apprendimento visivo non verbale e riconoscimento differito."
+item_ordering: fixed_set
+n_scored_items: 8
+n_practice_items: 0
+n_targets: 8
+n_distractors: 8
+scoring:
+  type: derived_from_response_components
+  raw_min: 0
+  raw_max: 8
+  formula: "max(0, hits - false_alarms)"
+  components:
+    hits: {min: 0, max: 8}
+    false_alarms: {min: 0, max: 8}
+timing:
+  study_presentations: 2
+  study_seconds_per_presentation: 35
+  between_presentations_pause_seconds: 5
+  retrieval_minutes: [3, 4]
+  retention_minutes: 15
+administration:
+  route_type: delayed_retrieval
+  immediate_recall: prohibited
+  retrieval_window_minutes: [14, 16]

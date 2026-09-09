@@ -43,6 +43,9 @@ library(tibble)
 library(lavaan)
 library(semTools)
 
+source("R/spec/load_spec.R")
+bii_spec <- read_bii_spec()
+
 # ============================================================
 # 1) Impostazioni
 # ============================================================
@@ -91,10 +94,7 @@ if (any(grepl("_PP_prelim$", names(dd)))) {
 }
 
 # Check colonne essenziali
-pp_core12 <- c(
-  "SP_PP","RS_PP","MR_PP","RR_PP","MO_PP","RP_PP",
-  "SM_PP","PG_PP","CL_PP","SS_PP","CR_PP","DM_PP"
-)
+pp_core12 <- paste0(unique(unlist(lapply(bii_spec$battery$indices, function(x) x$modes$complete))), "_PP")
 miss_pp <- setdiff(pp_core12, names(dd))
 if (length(miss_pp) > 0) {
   stop(
@@ -130,19 +130,18 @@ if (!("age_m" %in% names(dd))) {
   dd$age_m <- round((tmp$age_lo_m + tmp$age_hi_m) / 2)
 }
 
-assign_age_group <- function(age_m) {
-  dplyr::case_when(
-    age_m >= 72  & age_m < 120 ~ "6-10 anni",
-    age_m >= 120 & age_m < 192 ~ "11-16 anni",
-    age_m >= 192 & age_m <= 264 ~ "17-22 anni",
-    TRUE ~ NA_character_
-  )
+assign_age_group <- function(age_m, groups = bii_spec$battery$norming$index_age_groups) {
+  vapply(age_m, function(value) {
+    hits <- vapply(groups, function(group) value >= group$min_months && value <= group$max_months, logical(1))
+    if (!any(hits)) return(NA_character_)
+    groups[[which(hits)[1]]]$id
+  }, character(1))
 }
 
 dd <- dd %>%
   mutate(
     age_group = assign_age_group(age_m),
-    age_group = factor(age_group, levels = c("6-10 anni","11-16 anni","17-22 anni"))
+    age_group = factor(age_group, levels = vapply(bii_spec$battery$norming$index_age_groups, `[[`, character(1), "id"))
   )
 
 if (any(is.na(dd$age_group))) {
@@ -154,17 +153,11 @@ if (any(is.na(dd$age_group))) {
 }
 
 # ============================================================
-# 4) Specifica indici (NO supplementari, MAI un solo subtest)
+# 4) Specifica indici derivata dalla spec (NO supplementari)
 # ============================================================
-indices_spec <- list(
-  qIC       = c("SP_PP", "RS_PP"),
-  qIF       = c("MR_PP", "RR_PP"),
-  qVS       = c("MO_PP", "RP_PP"),
-  qML       = c("SM_PP", "PG_PP"),
-  qVE       = c("CL_PP", "SS_PP"),
-  qAR       = c("CR_PP", "DM_PP"),
-  QI_rapido = c("SP_PP","RS_PP","MR_PP","RR_PP"),
-  QI_totale = c("SP_PP","RS_PP","MR_PP","RR_PP","MO_PP","RP_PP","SM_PP","CL_PP","CR_PP")
+indices_spec <- c(
+  lapply(bii_spec$battery$indices, function(x) paste0(x$modes$complete, "_PP")),
+  lapply(bii_spec$battery$quotients, function(x) paste0(x$components, "_PP"))
 )
 
 # ============================================================
@@ -262,7 +255,7 @@ cat("OK: salvate tabelle indici in ", out_tables_path, "\n", sep = "")
 cat("OK: salvato dataset con indici in ", out_data_path, "\n", sep = "")
 
 # ============================================================
-# 7) CFA CORE12: 6 fattori correlati vs 1 fattore
+# 7) CFA: 12 indicatori completi degli indici vs 1 fattore
 # ============================================================
 model_core12_correlated <- "
   Gc  =~ SP_PP + RS_PP
@@ -285,12 +278,12 @@ fit_1f  <- cfa(model_core12_onefactor,  data = dd, std.lv = TRUE, missing = "fim
 
 sink(file.path(OUT_DIR, "CFA_fit_summary.txt"))
 cat("INPUT FILE:\t", basename(IN_FILE), "\n", sep = "")
-cat("\n=== CFA CORE12: 6 fattori correlati (MLR) ===\n")
+cat("\n=== CFA indicatori-indici completi (12): 6 fattori correlati (MLR) ===\n")
 print(fitMeasures(fit_cor, fit.measures = fit_meas))
 cat("\n=== CFA CORE12: 1 fattore (MLR) ===\n")
 print(fitMeasures(fit_1f, fit.measures = fit_meas))
 
-cat("\n=== Composite reliability (CORE12 correlato) ===\n")
+cat("\n=== Composite reliability (indicatori-indici completi correlati) ===\n")
 print(semTools::compRelSEM(fit_cor))
 
 sink()

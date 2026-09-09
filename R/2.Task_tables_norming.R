@@ -28,6 +28,9 @@ library(readr)
 library(tibble)
 library(stringr)
 
+source("R/spec/load_spec.R")
+bii_spec <- read_bii_spec()
+
 # ============================================================
 # 1) Path + opzioni
 # ============================================================
@@ -72,24 +75,16 @@ if (length(missing_cols) > 0) stop("Mancano colonne nel CSV: ", paste(missing_co
 # ============================================================
 # 4) Bande d'età + assegnazione deterministica + label + chiavi sorting
 # ============================================================
-make_age_bands <- function(min_age_m, max_age_m) {
-  min_age_m <- max(min_age_m, 72)
+make_age_bands <- function(min_age_m, max_age_m, segments = bii_spec$battery$norming$task_age_band_segments) {
   bands <- list()
-  
-  # <10 anni: 4 mesi (72-119)
-  lower_4 <- seq(72, min(119, max_age_m), by = 4)
-  for (lo in lower_4) bands[[length(bands) + 1]] <- c(lo, min(lo + 3, max_age_m))
-  
-  # 10-15;11: 6 mesi (120-191)
-  if (max_age_m >= 120) {
-    lower_6 <- seq(120, min(191, max_age_m), by = 6)
-    for (lo in lower_6) bands[[length(bands) + 1]] <- c(lo, min(lo + 5, max_age_m))
-  }
-  
-  # >=16: 12 mesi (>=192)
-  if (max_age_m >= 192) {
-    lower_12 <- seq(192, max_age_m, by = 12)
-    for (lo in lower_12) bands[[length(bands) + 1]] <- c(lo, min(lo + 11, max_age_m))
+  for (segment in segments) {
+    lo <- max(min_age_m, as.integer(segment$min_months))
+    hi <- min(max_age_m, as.integer(segment$max_months))
+    width <- as.integer(segment$width_months)
+    if (lo <= hi) {
+      starts <- seq(lo, hi, by = width)
+      for (start in starts) bands[[length(bands) + 1]] <- c(start, min(start + width - 1L, hi))
+    }
   }
   
   bands_df <- do.call(rbind, bands) %>% as.data.frame()
@@ -107,18 +102,19 @@ make_age_bands <- function(min_age_m, max_age_m) {
     )
 }
 
-assign_age_band <- function(age_m) {
+assign_age_band <- function(age_m, segments = bii_spec$battery$norming$task_age_band_segments) {
   if (is.na(age_m)) return(NA_character_)
-  
-  if (age_m < 120) {
-    lo <- 72 + 4 * floor((age_m - 72) / 4); hi <- lo + 3
-  } else if (age_m < 192) {
-    lo <- 120 + 6 * floor((age_m - 120) / 6); hi <- lo + 5
-  } else {
-    lo <- 192 + 12 * floor((age_m - 192) / 12); hi <- lo + 11
+  for (segment in segments) {
+    segment_min <- as.integer(segment$min_months)
+    segment_max <- as.integer(segment$max_months)
+    width <- as.integer(segment$width_months)
+    if (age_m >= segment_min && age_m <= segment_max) {
+      lo <- segment_min + width * floor((age_m - segment_min) / width)
+      hi <- min(lo + width - 1L, segment_max)
+      return(sprintf("%d;%02d-%d;%02d", lo %/% 12, lo %% 12, hi %/% 12, hi %% 12))
+    }
   }
-  
-  sprintf("%d;%02d-%d;%02d", lo %/% 12, lo %% 12, hi %/% 12, hi %% 12)
+  NA_character_
 }
 
 age_band_to_label <- function(age_band) {

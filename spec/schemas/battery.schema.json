@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BII battery specification",
+  "type": "object",
+  "required": ["schema_version", "battery_id", "version", "age_range_months", "n_subtests", "subtest_order", "roles", "domains", "indices", "quotients", "administration"],
+  "properties": {
+    "battery_id": {"const": "BII"},
+    "n_subtests": {"type": "integer", "minimum": 1},
+    "subtest_order": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z]{2}$"}},
+    "age_range_months": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {"min": {"type": "integer", "minimum": 0}, "max": {"type": "integer", "minimum": 0}}
+    }
+  }
+}

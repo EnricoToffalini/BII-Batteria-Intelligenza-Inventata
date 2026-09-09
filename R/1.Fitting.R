@@ -18,6 +18,9 @@ library(dplyr)
 library(readr)
 library(tibble)
 
+source("R/spec/load_spec.R")
+bii_spec <- read_bii_spec()
+
 DATA_PATH <- "norms_BII/standardization_sample_raw.csv"
 OUT_DIR   <- "norms_BII"
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -40,12 +43,13 @@ if (min(dd$age_y, na.rm = TRUE) <= 0) stop("age_y contiene valori <= 0, controll
 
 # --- Range didattici per CL/SS ---
 
-tasks_spec <- tibble(
-  task = c("SP","RS","MR","RR","MO","RP","SM","CL","CR","PG","SS","DM","CS","QS","MP"),
-  raw_col = paste0(task, "_grezzo"),
-  minScore = rep(0,15),
-  maxScore = c(36,24,24,20,32,20,24,100,20,16,100,8,20,24,20)
-)
+tasks_spec <- spec_subtest_table(bii_spec) %>%
+  transmute(
+    task = id,
+    raw_col = paste0(task, "_grezzo"),
+    minScore = raw_min,
+    maxScore = raw_max
+  )
 
 missing_cols <- tasks_spec$raw_col[!tasks_spec$raw_col %in% names(dd)]
 if (length(missing_cols) > 0) stop("Mancano colonne: ", paste(missing_cols, collapse=", "))

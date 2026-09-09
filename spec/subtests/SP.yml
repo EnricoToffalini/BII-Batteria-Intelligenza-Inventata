@@ -1,0 +1,35 @@
+id: SP
+name: "Significato delle Parole"
+domain: Gc
+role: core
+contributes_to: [qIC, QI_rapido, QI_totale]
+response_format: oral_open_response
+stimulus_mode: verbal_with_optional_early_visual_support
+construct: "Conoscenza lessicale e definizione semanticamente generalizzabile."
+item_ordering: increasing_difficulty
+n_scored_items: 18
+n_practice_items: 2
+item_bank:
+  path: items/source/SP.csv
+  status: prototype
+  n_scored_items_current: 5
+scoring:
+  type: polytomous
+  item_scores: [0, 1, 2]
+  raw_min: 0
+  raw_max: 36
+  full_credit_for_below_basal: 2
+timing:
+  planned_minutes: [8, 12]
+administration:
+  route_type: adaptive_items
+  start_points:
+    - {age_months: [72, 107], item: 1}
+    - {age_months: [108, 155], item: 4}
+    - {age_months: [156, 263], item: 7}
+  inversion:
+    initial_window_items: 3
+    trigger: {total_score_lt: 4}
+    direction: backward
+  basal: {window_items: 3, total_score: 6}
+  ceiling: {consecutive_items: 3, item_score: 0}

@@ -1,0 +1,22 @@
+id: CL
+name: "Confronti Lampo"
+domain: Gs
+role: core
+contributes_to: [qVE, QI_totale]
+response_format: binary_marking
+stimulus_mode: visual_paper_pencil
+construct: "Confronto percettivo rapido di stringhe di simboli."
+item_ordering: fixed_sheet
+n_scored_items: 100
+n_practice_items: 10
+scoring:
+  type: derived_from_response_components
+  raw_min: 0
+  raw_max: 100
+  formula: "max(0, correct - errors)"
+  components:
+    correct: {min: 0, max: 100}
+    errors: {min: 0, max: 100}
+    omissions: {min: 0, max: 100}
+timing: {fixed_minutes: 2}
+administration: {route_type: fixed_time, basal: null, ceiling: null}
