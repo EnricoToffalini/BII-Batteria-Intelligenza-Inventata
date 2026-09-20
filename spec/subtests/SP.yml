@@ -5,14 +5,15 @@ role: core
 contributes_to: [qIC, QI_rapido, QI_totale]
 response_format: oral_open_response
 stimulus_mode: verbal_with_optional_early_visual_support
+stimulus_production: text_only
 construct: "Conoscenza lessicale e definizione semanticamente generalizzabile."
 item_ordering: increasing_difficulty
 n_scored_items: 18
 n_practice_items: 2
 item_bank:
   path: items/source/SP.csv
-  status: prototype
-  n_scored_items_current: 5
+  status: complete_draft
+  n_scored_items_current: 18
 scoring:
   type: polytomous
   item_scores: [0, 1, 2]

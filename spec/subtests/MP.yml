@@ -5,6 +5,7 @@ role: supplementary
 contributes_to: [qVS]
 response_format: constructed_or_multiple_choice_path
 stimulus_mode: visual
+stimulus_production: vector_geometry
 construct: "Pianificazione di percorsi spaziali nel rispetto di vincoli."
 item_ordering: increasing_difficulty
 age_eligibility_months: [108, 263]

@@ -1,21 +1,21 @@
 INPUT FILE:	standardization_sample_scored_PP_OFFICIAL.csv
 
-=== CFA CORE12: 6 fattori correlati (MLR) ===
-         chisq             df         pvalue          rmsea 
-        40.356         39.000          0.410          0.005 
-rmsea.ci.lower rmsea.ci.upper           srmr            cfi 
-         0.000          0.018          0.010          1.000 
-           tli            aic            bic 
-         1.000      91637.070      91911.336 
+=== CFA indicatori-indici completi (12): 6 fattori correlati (MLR) ===
+         chisq             df         pvalue          rmsea rmsea.ci.lower 
+        38.925         39.000          0.473          0.000          0.000 
+rmsea.ci.upper           srmr            cfi            tli            aic 
+         0.017          0.010          1.000          1.000      91490.405 
+           bic 
+     91764.671 
 
 === CFA CORE12: 1 fattore (MLR) ===
-         chisq             df         pvalue          rmsea 
-       346.626         54.000          0.000          0.058 
-rmsea.ci.lower rmsea.ci.upper           srmr            cfi 
-         0.052          0.064          0.032          0.939 
-           tli            aic            bic 
-         0.925      91913.340      92106.939 
+         chisq             df         pvalue          rmsea rmsea.ci.lower 
+       354.496         54.000          0.000          0.059          0.053 
+rmsea.ci.upper           srmr            cfi            tli            aic 
+         0.065          0.032          0.939          0.926      91775.977 
+           bic 
+     91969.576 
 
-=== Composite reliability (CORE12 correlato) ===
+=== Composite reliability (indicatori-indici completi correlati) ===
    Gc    Gf    Gv   Gwm    Gs   Glr 
-0.648 0.587 0.581 0.565 0.718 0.450 
+0.648 0.587 0.581 0.589 0.718 0.478 

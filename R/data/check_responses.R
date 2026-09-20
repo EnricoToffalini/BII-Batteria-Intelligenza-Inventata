@@ -11,7 +11,10 @@ response_columns <- c(
 load_item_bank <- function(root) {
   files <- list.files(file.path(root, "items", "source"), pattern = "\\.csv$", full.names = TRUE)
   if (!length(files)) stop("Nessun item bank CSV trovato.")
-  do.call(rbind, lapply(files, function(path) utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)))
+  do.call(rbind, lapply(files, function(path) {
+    items <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+    items[c("item_id", "subtest")]
+  }))
 }
 
 check_response_file <- function(path, root = NULL) {

@@ -25,6 +25,15 @@ domains:
   Gwm: "Memoria di Lavoro"
   Gs: "Velocità di Elaborazione"
   Glr: "Apprendimento e Recupero"
+stimulus_production:
+  # Capacita necessaria per produrre gli stimoli di un subtest. Serve a
+  # decidere che cosa e realmente costruibile adesso e a impedire che un
+  # subtest visivo venga "riempito" con materiale non riproducibile.
+  text_only: "Testo o parlato. Nessun materiale grafico."
+  symbol_text: "Stringhe di simboli e caratteri in sequenza, componibili come testo."
+  symbol_grid: "Griglie o matrici di caratteri stampabili con layout regolare."
+  vector_geometry: "Figure geometriche deterministiche, da generare come SVG da sorgente versionata."
+  manipulative: "Oggetti fisici, oltre a un riferimento visivo stampabile."
 norming:
   task_age_band_segments:
     - {min_months: 72, max_months: 119, width_months: 4}

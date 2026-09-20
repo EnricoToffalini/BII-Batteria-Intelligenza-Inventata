@@ -41,8 +41,58 @@ Rscript -e "shiny::runApp('shiny')"
 ```
 
 `tests/run_all.R` esegue i controlli disponibili senza modificare artefatti.
-`R/build/rebuild_all.R` rigenera i dati e le tabelle simulate legacy in
-`norms_BII/`; va quindi eseguito solo quando una modifica lo richiede.
+`R/build/rebuild_all.R` rigenera gli artefatti derivati: prima i moduli di
+registrazione e il report di QA del routing, poi i dati e le tabelle simulate
+legacy in `norms_BII/`. Va eseguito solo quando una modifica lo richiede.
+
+Se hai modificato soltanto un item bank, bastano i due passi rapidi:
+
+```powershell
+Rscript R/build/build_record_forms.R
+Rscript R/build/routing_qa.R
+```
+
+## Stato dei subtest
+
+Otto subtest su quindici hanno una forma completa in bozza e sono
+somministrabili. Per ognuno esistono item bank, rubrica, piano di progettazione,
+modulo di registrazione e sezione di [manuale](manual/ADMINISTRATION.md).
+
+| Subtest | Dominio | Ruolo | Item | Formato |
+|---|---|---|---|---|
+| SP — Significato delle Parole | Gc | core | 18 | risposta aperta 0/1/2 |
+| RS — Relazioni Semantiche | Gc | core | 24 | scelta multipla |
+| RR — Ragionamento per Regole | Gf | core | 20 | scelta multipla su simboli |
+| CR — Coppie da Ricordare | Glr | core | 14 | recupero differito + riconoscimento |
+| SM — Sequenze e Manipolazione | Gwm | core | 36 | sequenze numeriche a 3 microblocchi |
+| CS — Conoscenza Sociale | Gc | supplementare | 10 | risposta aperta 0/1/2 |
+| QS — Quantità e Strategie | Gf | supplementare | 12 | risposta breve 0/1/2 |
+| PG — Posizioni su Griglia | Gwm | completion | 16 | sequenze su griglia 4×4 |
+
+**Il QI totale non è ancora calcolabile**: richiede nove subtest core e ne sono
+pronti cinque (SP, RS, RR, CR, SM). Il QI rapido ne richiede quattro e ne manca
+uno (MR). Ogni punteggio composito prodotto adesso sarebbe incompleto.
+
+I sette subtest rimanenti sono bloccati da due cose diverse, e la distinzione
+conta:
+
+- **route type non implementati** — CL e SS usano `fixed_time` con punteggio
+  derivato da componenti (`corrette - errori`), che il motore non interpreta
+  ancora;
+- **stimoli non producibili** — MR, MO, RP, MP, DM richiedono figure
+  geometriche deterministiche o materiale manipolabile.
+
+Il campo `stimulus_production` nella spec dichiara quale capacità serve per
+ciascun subtest, e la regola è di **non popolare un item bank che non si è in
+grado di produrre fedelmente**: un subtest vuoto è uno stato visibile, un
+subtest con stimoli finti non lo è. Vedi
+[decision record 0004](docs/decisions/0004-item-development-strategy.md).
+
+Le regole di somministrazione non sono scritte nel codice:
+`R/scoring/administer.R` le legge dalla spec e smista sul route type. Sono
+implementati `adaptive_items`, `delayed_retrieval`, `adaptive_levels` e
+`adaptive_levels_by_microblock`: per un subtest che usa uno di questi non serve
+nuovo codice di routing. La procedura completa è in [AGENTS.md](AGENTS.md).
 
 Per una raccolta didattica di dati anonimi, copiare i modelli in
 [`data/templates/`](data/templates/) e seguire le istruzioni in

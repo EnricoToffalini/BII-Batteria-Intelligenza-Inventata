@@ -5,6 +5,7 @@ role: core
 contributes_to: [qVS, QI_totale]
 response_format: constructed_with_bicolour_tiles
 stimulus_mode: visual_manipulative
+stimulus_production: manipulative
 construct: "Analisi e sintesi visiva di figure mediante tasselli bicolore."
 item_ordering: increasing_difficulty
 n_scored_items: 16

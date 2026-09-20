@@ -1,0 +1,12 @@
+subject_id,age_months,subtest,item_id,item_type,order,administration_status,response,item_score,response_time_seconds,notes
+,,CS,CS-PR-01,practice,1,,,,,
+,,CS,CS-SC-01,scored,1,,,,,
+,,CS,CS-SC-02,scored,2,,,,,
+,,CS,CS-SC-03,scored,3,,,,,
+,,CS,CS-SC-04,scored,4,,,,,
+,,CS,CS-SC-05,scored,5,,,,,
+,,CS,CS-SC-06,scored,6,,,,,
+,,CS,CS-SC-07,scored,7,,,,,
+,,CS,CS-SC-08,scored,8,,,,,
+,,CS,CS-SC-09,scored,9,,,,,
+,,CS,CS-SC-10,scored,10,,,,,

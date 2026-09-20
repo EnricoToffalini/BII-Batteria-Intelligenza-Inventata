@@ -5,6 +5,7 @@ role: completion
 contributes_to: [qVE]
 response_format: target_marking
 stimulus_mode: visual_paper_pencil
+stimulus_production: symbol_grid
 construct: "Ricerca visiva selettiva rapida con regola stabile."
 item_ordering: fixed_matrix
 n_scored_items: 100

@@ -5,15 +5,27 @@ role: core
 contributes_to: [qAR, QI_totale]
 response_format: delayed_cued_recall_then_recognition
 stimulus_mode: auditory_verbal
+stimulus_production: text_only
 construct: "Apprendimento associativo e recupero differito di coppie verbali."
 item_ordering: fixed_set
-n_scored_items: 10
+n_scored_items: 14
 n_practice_items: 0
+item_bank:
+  path: items/source/CR.csv
+  status: complete_draft
+  n_scored_items_current: 14
 scoring:
   type: polytomous
   item_scores: [0, 1, 2]
   raw_min: 0
-  raw_max: 20
+  raw_max: 28
+  # Il punteggio di item non viene registrato direttamente: si deriva da due
+  # componenti osservate. Le condizioni sono nomi che il motore conosce; i
+  # valori di punteggio restano dichiarati qui.
+  derived_from: [recall, recognition]
+  components:
+    recall: [correct, incorrect, omitted]
+    recognition: [correct, incorrect, not_administered]
   rubric:
     2: correct_cued_recall
     1: correct_recognition_after_incorrect_or_omitted_recall

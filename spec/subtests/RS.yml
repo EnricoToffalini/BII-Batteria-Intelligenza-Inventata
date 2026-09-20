@@ -5,10 +5,15 @@ role: core
 contributes_to: [qIC, QI_rapido, QI_totale]
 response_format: multiple_choice_with_rare_controlled_short_response
 stimulus_mode: verbal
+stimulus_production: text_only
 construct: "Ragionamento semantico tramite analogie, categorie, funzioni e opposizioni."
 item_ordering: increasing_difficulty
 n_scored_items: 24
 n_practice_items: 2
+item_bank:
+  path: items/source/RS.csv
+  status: complete_draft
+  n_scored_items_current: 24
 scoring: {type: dichotomous, item_scores: [0, 1], raw_min: 0, raw_max: 24, full_credit_for_below_basal: 1}
 timing: {planned_minutes: [8, 10]}
 administration:

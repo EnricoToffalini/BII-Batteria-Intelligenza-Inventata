@@ -680,14 +680,14 @@ Tre micro-blocchi (ognuno con item a difficoltà crescente):
 - Punteggio totale aggregato, con possibilità (opzionale) di riportare anche punteggi separati per micro-blocco.
 
 ### Parametri di somministrazione 
-- **Lunghezza**: 3 micro-blocchi, 8 prove ciascuno (totale 24 prove).
+- **Lunghezza**: 3 micro-blocchi, 12 prove ciascuno (totale 36 prove), cioe 6 livelli di lunghezza (2-7) con 2 prove per livello.
 - **Punto di partenza (per età)**: definito come **livello iniziale di lunghezza**:
   - 6–8: start a lunghezza 2
   - 9–12: start a lunghezza 3
   - 13+: start a lunghezza 4
 - **Inversione (basal)**: se fallisce entrambe le prime 2 prove al livello di start, scendere di 1 livello finché non ottiene **2/2 corrette** (basal).
-- **Interruzione (ceiling/stop)**: 3 errori consecutivi allo stesso livello di lunghezza.
-- **Range punteggio grezzo**: 0–24 (24×1).
+- **Interruzione (ceiling/stop)**: entrambe le prove sbagliate allo stesso livello di lunghezza.
+- **Range punteggio grezzo**: 0–36 (36×1).
 - **Nota operativa (micro-blocchi)**: le regole di basale/ceiling per “livelli” si applicano **separatamente a ciascun micro-blocco** (inverso, riordino, running span), così ogni blocco conserva una progressione di difficoltà interpretabile.
 
 ### Esempi di item (inventati)
@@ -947,13 +947,13 @@ Apprendimento associativo e recupero differito tramite **cued recall**:
   - 2 punti: richiamo corretto
   - 1 punto: richiamo errato ma riconoscimento corretto
   - 0 punti: fallimento anche al riconoscimento
-  Totale: 0–20
+  Totale: 0–28
 - Annotare intrusioni e omissioni.
 
 ### Parametri di somministrazione
-- **Lunghezza**: 10 coppie
+- **Lunghezza**: 14 coppie
 - **Punto di partenza / inversione**: non applicabili.
-- **Range punteggio grezzo**: 0–20 .
+- **Range punteggio grezzo**: 0–28.
 
 ### Esempio (inventato, neutrale)
 Coppie (esempio):

@@ -2,3 +2,4 @@
 .Rproj.user/
 data/collected/*
 !data/collected/.gitkeep
+Rplots.pdf

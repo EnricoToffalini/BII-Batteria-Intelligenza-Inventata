@@ -1,8 +1,11 @@
 #!/usr/bin/env Rscript
 
-# Rebuild of legacy simulated artifacts. It is intentionally an orchestrator:
-# each historical script clears its own environment and must run in a separate
-# R process. A future item-level pipeline will replace this implementation.
+# Rebuild of derived artifacts. It is intentionally an orchestrator: each
+# script clears its own environment and must run in a separate R process.
+#
+# The first steps derive from spec/ and items/ and are the direction of travel.
+# The later steps are the legacy aggregate-score pipeline, still in place until
+# norms are regenerated from item-level simulation.
 
 file_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
 if (length(file_arg) != 1L) stop("Impossibile determinare il percorso di rebuild_all.R.")
@@ -13,6 +16,10 @@ rscript <- Sys.which("Rscript")
 if (!nzchar(rscript)) stop("Rscript non trovato nel PATH.")
 
 steps <- c(
+  # Derivati dalla spec e dall'item bank.
+  "R/build/build_record_forms.R",
+  "R/build/routing_qa.R",
+  # Pipeline legacy su punteggi aggregati.
   "R/0.Data generation.R",
   "R/1.Fitting.R",
   "R/2.Task_tables_norming.R",
@@ -26,7 +33,10 @@ for (step in steps) {
   path <- file.path(root, step)
   if (!file.exists(path)) stop("Script di rebuild mancante: ", step)
   message("[BUILD] ", step)
-  status <- system2(rscript, path, stdout = "", stderr = "")
+  # shQuote e necessario: sia i nomi di alcuni script sia il percorso del
+  # repository possono contenere spazi, e senza citazione system2 li spezza in
+  # argomenti separati.
+  status <- system2(rscript, shQuote(path), stdout = "", stderr = "")
   if (!identical(status, 0L)) stop("Build interrotta nello step: ", step)
 }
 

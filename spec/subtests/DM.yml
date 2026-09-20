@@ -5,6 +5,7 @@ role: completion
 contributes_to: [qAR]
 response_format: delayed_visual_recognition
 stimulus_mode: visual
+stimulus_production: vector_geometry
 construct: "Apprendimento visivo non verbale e riconoscimento differito."
 item_ordering: fixed_set
 n_scored_items: 8

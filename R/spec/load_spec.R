@@ -66,14 +66,19 @@ validate_bii_spec <- function(spec) {
 
   roles <- names(battery$roles)
   domains <- names(battery$domains)
+  productions <- names(battery$stimulus_production)
+  if (length(productions) == 0L) spec_error("battery.yml: stimulus_production mancante.")
   for (id in file_ids) {
     st <- subtests[[id]]
-    required_subtest <- c("id", "name", "domain", "role", "contributes_to", "response_format", "stimulus_mode", "construct", "item_ordering", "n_scored_items", "n_practice_items", "scoring", "timing", "administration")
+    required_subtest <- c("id", "name", "domain", "role", "contributes_to", "response_format", "stimulus_mode", "stimulus_production", "construct", "item_ordering", "n_scored_items", "n_practice_items", "scoring", "timing", "administration")
     missing_subtest <- setdiff(required_subtest, names(st))
     if (length(missing_subtest)) spec_error(id, ": campi mancanti: ", paste(missing_subtest, collapse = ", "))
     if (!identical(st$id, id) || !grepl("^[A-Z]{2}$", id)) spec_error(id, ": ID non valido.")
     if (!st$domain %in% domains) spec_error(id, ": dominio sconosciuto ", st$domain, ".")
     if (!st$role %in% roles) spec_error(id, ": ruolo sconosciuto ", st$role, ".")
+    if (!st$stimulus_production %in% productions) {
+      spec_error(id, ": stimulus_production sconosciuto ", st$stimulus_production, ".")
+    }
     n_items <- as_int(st$n_scored_items, paste0(id, ".n_scored_items"))
     if (n_items < 1L || as_int(st$n_practice_items, paste0(id, ".n_practice_items")) < 0L) spec_error(id, ": numero item non valido.")
     raw_min <- as_int(st$scoring$raw_min, paste0(id, ".scoring.raw_min"))
@@ -93,6 +98,28 @@ validate_bii_spec <- function(spec) {
         span <- as.integer(unlist(start$age_months, use.names = FALSE))
         if (length(span) != 2L || span[1] > span[2] || span[1] < age_min || span[2] > age_max) spec_error(id, ": start point con età fuori range.")
         if (!is.null(start$item) && (start$item < 1L || start$item > n_items)) spec_error(id, ": start item fuori range.")
+      }
+    }
+    # Nei subtest a livelli una regola espressa "sullo stesso livello" non puo
+    # richiedere piu prove di quante il livello ne contenga: sarebbe una regola
+    # impossibile da soddisfare e la somministrazione non si fermerebbe mai.
+    if (route_type %in% c("adaptive_levels", "adaptive_levels_by_microblock")) {
+      trials <- st$administration$trials_per_level
+      if (is.null(trials)) spec_error(id, ": trials_per_level mancante in un subtest a livelli.")
+      trials <- as_int(trials, paste0(id, ".administration.trials_per_level"))
+      if (trials < 1L) spec_error(id, ": trials_per_level non valido.")
+      for (rule in c("basal", "ceiling")) {
+        criterion <- st$administration[[rule]]
+        if (is.null(criterion) || !isTRUE(criterion$same_level)) next
+        needed <- criterion$consecutive_correct
+        if (is.null(needed)) needed <- criterion$consecutive_errors
+        if (is.null(needed)) next
+        if (as_int(needed, paste0(id, ".administration.", rule)) > trials) {
+          spec_error(
+            id, ": la regola ", rule, " richiede piu prove consecutive (",
+            needed, ") di quante il livello ne contenga (", trials, ")."
+          )
+        }
       }
     }
   }

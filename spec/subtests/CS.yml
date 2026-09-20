@@ -5,10 +5,15 @@ role: supplementary
 contributes_to: [qIC]
 response_format: oral_open_response
 stimulus_mode: verbal
+stimulus_production: text_only
 construct: "Ragionamento pragmatico su situazioni quotidiane standardizzate."
 item_ordering: increasing_difficulty
 n_scored_items: 10
 n_practice_items: 1
+item_bank:
+  path: items/source/CS.csv
+  status: complete_draft
+  n_scored_items_current: 10
 scoring: {type: polytomous, item_scores: [0, 1, 2], raw_min: 0, raw_max: 20, full_credit_for_below_basal: 2}
 timing: {planned_minutes: [8, 10]}
 administration:

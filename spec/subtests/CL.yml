@@ -5,6 +5,7 @@ role: core
 contributes_to: [qVE, QI_totale]
 response_format: binary_marking
 stimulus_mode: visual_paper_pencil
+stimulus_production: symbol_grid
 construct: "Confronto percettivo rapido di stringhe di simboli."
 item_ordering: fixed_sheet
 n_scored_items: 100

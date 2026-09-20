@@ -40,6 +40,46 @@ Visual stimuli should be deterministic and reproducible whenever feasible. Prefe
 
 Do not generate large item banks in one pass without review. Work by subtest and item family, with small prototypes followed by QA and expansion.
 
+### Only build what you can build faithfully
+
+Each subtest spec declares `stimulus_production`: the capability its stimuli
+actually require (`text_only`, `symbol_text`, `symbol_grid`, `vector_geometry`,
+`manipulative`). The vocabulary is defined in `spec/battery.yml`.
+
+**Do not populate an item bank whose `stimulus_production` you cannot deliver
+properly.** An agent without reliable figure-generation must not write items for
+a `vector_geometry` subtest in prose, in ASCII art, or as placeholders to be
+replaced later: a mock battery with fake stimuli is worse than one with an empty
+subtest, because the gap stops being visible. Pick a subtest you can actually
+finish, and say in your summary which ones you left untouched and why.
+
+`stimulus_production` is not a downgrade path. If a subtest genuinely does not
+need figures, change its `stimulus_production` deliberately and record why — as
+was done for RR in `docs/decisions/0004-item-development-strategy.md`. Do not
+change it merely to make a subtest fit the tools at hand, and never change a
+subtest whose construct depends on the figural format: MR, MO and RP are
+figural on purpose and are not to be reformulated as text.
+
+### Closed symbol vocabularies
+
+A subtest whose items are built from symbols declares the complete set in its
+spec (`symbol_vocabulary`), and a test fails if any other symbol appears.
+Adding a symbol silently enlarges the space of possible rules and may not
+render in print. If a new symbol is genuinely needed, add it to the spec first
+and re-check every existing item against the enlarged space.
+
+### Open-response rubrics
+
+For `0/1/2` subtests, keep the meaning of each level constant across the whole
+subtest and state it once at the top of the rubric, then give per-item examples.
+Full credit should require the *mechanism* — why a solution works, what a rule
+is for — not merely a relevant or well-mannered answer. Partial credit should
+mark an identifiable correct step, not a different wrong method.
+
+Do not let a rubric reward social desirability, verbal fluency or compliance
+with authority. State which items are most exposed to differences in a
+respondent's experience rather than assuming none are.
+
 ## Psychometric status
 
 Never describe synthetic standardization data as empirical norms.
@@ -57,6 +97,57 @@ Long-term target pipeline:
 Use explicit random seeds and write build metadata/manifests for regenerated simulations.
 
 If a psychometrically relevant spec change occurs, determine whether simulation/norming outputs must be rebuilt.
+
+## Adding a subtest
+
+Administration rules live in the spec, not in code. `R/scoring/administer.R`
+interprets them generically for every subtest with `route_type:
+adaptive_items`. For such a subtest, adding it means **no new routing code**:
+
+1. complete its `spec/subtests/<ID>.yml`, including an `item_bank` block;
+2. write `items/source/<ID>.csv`;
+3. write `items/rubrics/<ID>.md` (instruction, key or rubrics, edge cases);
+4. write `items/design/<ID>.md`, with an explicit `## Punti aperti` section;
+5. add a `# <ID> — <name>` section to `manual/ADMINISTRATION.md`;
+6. add a provenance row in `items/PROVENANCE.md`;
+7. regenerate record forms: `Rscript R/build/build_record_forms.R`;
+8. regenerate the routing QA report: `Rscript R/build/routing_qa.R`;
+9. add `tests/test_<id>_scoring.R` with routing cases computed by hand.
+
+Steps 3–7 are enforced by `tests/test_consistency.R`, so a partially wired
+subtest fails the suite rather than passing silently.
+
+**Do not hand-write a key table in a rubric.** Rubrics may repeat the item
+bank's key as a markdown table for the examiner's convenience, but that table
+duplicates the source of truth and drifts from it silently — it happened three
+times during development of CR, PG and SM. Generate the table from the CSV and
+paste the output. `tests/test_rubric_key_tables.R` enforces the rule: if a
+rubric names any scored item in a table, it must name them all, and each row
+must carry that item's key material as it stands in the CSV.
+
+If you write a new file of per-subtest routing rules, you are almost certainly
+doing it wrong. `route_subtest()` dispatches on `route_type` through the
+`BII_ROUTE_HANDLERS` registry in `R/scoring/administer.R`. Implemented:
+`adaptive_items`, `delayed_retrieval`, `adaptive_levels`,
+`adaptive_levels_by_microblock`. Still missing: `fixed_time` (CL, SS).
+
+To add a route type, write a handler and register it — do not touch
+`route_subtest()`. Implement it once for the whole class, not per subtest, and
+keep its procedure as close as possible to `adaptive_items`: the examiner should
+learn one procedure with different numbers, not several different procedures.
+
+**Scoring derived from components.** When a subtest's item score is not recorded
+directly but computed from observed components (CR's `recall` + `recognition`),
+the spec declares `scoring.derived_from`, the allowed values per component, and
+the score-to-condition map in `scoring.rubric`. The engine knows the condition
+*names*; the score *values* stay in the spec. Two consequences that must be
+preserved: the generated record form omits the `item_score` column (asking for a
+number the scorer ignores invites error), and a missing component makes the
+scorer **refuse** to score that item rather than assigning zero.
+
+Quality checks that apply to a *class* of subtests belong in a shared test
+(`tests/test_multiple_choice_banks.R` is the existing example), not copied into
+each subtest's test file.
 
 ## Administration/scoring semantics
 

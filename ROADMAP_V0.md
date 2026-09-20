@@ -237,16 +237,18 @@ Rendere sicuro il lavoro di più agenti e impedire che modifiche indipendenti cr
 - [x] Definire convenzioni per ID di subtest, item, asset e versioni.
 - [x] Definire un comando unico di test, per esempio `Rscript tests/run_all.R`.
 - [x] Definire un comando unico di rebuild, per esempio `Rscript R/build/rebuild_all.R`.
-- [ ] Aggiungere controlli automatici minimi su:
+- [x] Aggiungere controlli automatici minimi su:
   - file mancanti;
   - duplicazioni ID;
   - range incompatibili;
   - riferimenti ad asset inesistenti.
 
-> Stato 2026-09-09: il runner di test effettua già i controlli di presenza,
-> ID di subtest duplicati e validità di base dei range nella baseline legacy.
-> I controlli completi su item, range e asset saranno implementati quando
-> esisteranno `spec/` e l'item bank (fase 1–2).
+> Stato 2026-09-12: `tests/test_consistency.R` copre i quattro controlli sui
+> subtest che hanno un item bank: esistenza di file e ancore delle rubriche,
+> ID duplicati fra file, `n_scored_items_current` contro il CSV e contro
+> `raw_max`, moduli di registrazione allineati all'item bank, manuale e
+> provenienza presenti per gli item bank dichiarati completi. Restano da
+> coprire gli asset visivi, che non esistono ancora.
 
 ### Criterio di accettazione
 Un agente nuovo deve poter capire il repository e sapere come testare una modifica senza istruzioni aggiuntive.
@@ -293,8 +295,8 @@ stimulus_mode: visual
 
 ### Task
 
-- [ ] Estrarre tutti i 15 subtest dal documento corrente.
-- [ ] Formalizzare:
+- [x] Estrarre tutti i 15 subtest dal documento corrente.
+- [x] Formalizzare:
   - ruolo;
   - dominio CHC;
   - formato;
@@ -305,14 +307,14 @@ stimulus_mode: visual
   - stop/ceiling;
   - range;
   - relazione con QI/indici.
-- [ ] Formalizzare QI rapido, QI totale e indici.
-- [ ] Formalizzare la sequenza CR/DM e i filler.
-- [ ] Definire esplicitamente cosa è:
+- [x] Formalizzare QI rapido, QI totale e indici.
+- [x] Formalizzare la sequenza CR/DM e i filler.
+- [x] Definire esplicitamente cosa è:
   - `core`;
   - `completion`;
   - `supplementary`.
-- [ ] Risolvere tutte le incoerenze note e quelle trovate durante l'estrazione.
-- [ ] Implementare validation schema.
+- [x] Risolvere le incoerenze note trovate durante l'estrazione.
+- [x] Implementare validation schema.
 
 ### Criterio di accettazione
 Tutte le proprietà strutturali della batteria devono essere interrogabili dal file di specifica senza leggere prosa libera.
@@ -379,6 +381,14 @@ review_status
 ### Criterio di accettazione
 Ogni item deve essere identificabile, modificabile e collegabile allo scoring senza affidarsi alla posizione in un PDF.
 
+> Stato 2026-09-12: è disponibile uno schema CSV minimo, verificato dai test.
+> SP (18 item, aperto politomico) e RS (24 item, scelta multipla dicotomica)
+> hanno forme complete in stato `draft`, con rubriche, moduli di registrazione
+> derivati e sezioni di manuale. Entrambi passano dal motore generico di
+> somministrazione. La fase resta aperta finché i formati visivi, timed e di
+> memoria non saranno rappresentati da piccoli prototipi revisionati: nessuno
+> di quei formati ha ancora colonne di schema né un `route_type` implementato.
+
 ### Modello consigliato
 **Sol/high** per definire lo schema; **Terra/medium** per implementarlo e popolarlo.
 
@@ -404,26 +414,78 @@ Per ogni subtest usare il ciclo:
 7. fare revisione concettuale indipendente;
 8. solo dopo bloccare temporaneamente quel subtest.
 
-### 3A. Stimoli testuali
+> Stato 2026-09-12: SP e RS sono due fette verticali complete in bozza: item,
+> rubriche, moduli di registrazione derivati, istruzioni di somministrazione,
+> routing e simulazione item-level. Le due fette coprono i due formati testuali
+> principali, aperto politomico e scelta multipla dicotomica, e hanno fatto
+> emergere le convenzioni di basale registrate nel decision record 0003.
+> Mancano per entrambe revisione concettuale indipendente e prova con studenti;
+> per questo le forme non sono bloccate né calibrate. Il prossimo subtest
+> testuale (CS o QS) non richiede più codice di routing: bastano spec, item
+> bank, rubrica e sezione di manuale.
 
-Subtest principalmente testuali/orali:
+### 3.0 Capacità di produzione degli stimoli
 
-- SP;
-- RS;
-- CS;
-- RR, almeno in parte;
-- QS;
-- CR.
+Ogni subtest dichiara in `stimulus_production` la capacità che i suoi stimoli
+richiedono: `text_only`, `symbol_text`, `symbol_grid`, `vector_geometry`,
+`manipulative`. Il vocabolario è in `spec/battery.yml`.
+
+**Regola operativa:** non si popola un item bank la cui `stimulus_production`
+non si è in grado di produrre fedelmente. Un item bank vuoto è uno stato onesto
+e visibile; un item bank finto non lo è. Chi sviluppa scelga un subtest che può
+finire e dichiari quali ha lasciato intatti.
+
+`stimulus_production` non è una scorciatoia: MR, MO e RP sono figurali per
+ragioni di costrutto e non vanno riformulati come testo. Vedi
+[decision record 0004](docs/decisions/0004-item-development-strategy.md).
+
+| Capacità | Subtest | Stato |
+|---|---|---|
+| `text_only` | SP, RS, CS, QS, CR, SM | forma completa in bozza |
+| `symbol_text` | RR | forma completa in bozza |
+| `symbol_grid` | PG | forma completa in bozza |
+| `symbol_grid` | CL, SS | item bank da fare; serve prima `fixed_time` nel motore |
+| `vector_geometry` | MR, RP, MP, DM | **bloccati**: serve generazione SVG deterministica |
+| `manipulative` | MO | **bloccato**: serve riferimento stampabile + tasselli |
+
+### 3A. Stimoli testuali e simbolici
+
+- [x] SP — 18 item, risposta aperta 0/1/2.
+- [x] RS — 24 item, scelta multipla.
+- [x] RR — 20 item, scelta multipla su sequenze di simboli.
+- [x] CS — 10 item, risposta aperta 0/1/2.
+- [x] QS — 12 item, risposta breve controllata 0/1/2.
+- [x] CR — 14 coppie, recupero differito con riconoscimento.
+- [x] PG — 16 prove su 8 livelli, griglia 4×4.
+- [x] SM — 36 item, 3 microblocchi indipendenti su 6 livelli.
+- [ ] CL, SS — richiedono `fixed_time` nel motore.
 
 #### Task
 
-- [ ] Generare item completi.
-- [ ] Evitare dipendenze eccessive da cultura scolastica non voluta.
-- [ ] Costruire distractor rationale quando applicabile.
-- [ ] Costruire rubriche per scoring aperto.
-- [ ] Controllare ambiguità semantica.
-- [ ] Controllare che non esistano più risposte corrette non previste.
-- [ ] Controllare la plausibilità per fascia d'età.
+- [x] Generare item completi.
+- [x] Evitare dipendenze eccessive da cultura scolastica non voluta.
+- [x] Costruire distractor rationale quando applicabile.
+- [x] Costruire rubriche per scoring aperto.
+- [x] Controllare ambiguità semantica.
+- [x] Controllare che non esistano più risposte corrette non previste.
+- [x] Controllare la plausibilità per fascia d'età.
+
+> Stato 2026-09-13: fatto per gli otto subtest sopra. Il motore interpreta ora
+> `adaptive_items`, `delayed_retrieval`, `adaptive_levels` e
+> `adaptive_levels_by_microblock`; manca solo `fixed_time` (CL, SS). Tutti i
+> subtest `text_only` e `symbol_text`/`symbol_grid` producibili sono costruiti.
+>
+> **Difetto di copertura di SM corretto prima della costruzione, non dopo.**
+> La spec dichiarava 24 item su tre microblocchi (4 livelli, 2 prove ciascuno)
+> con punto di partenza al livello 4 per i 13-21 anni: chi avesse span ≥5
+> avrebbe saturato il microblocco al primo salto. Portato a 36 item (6 livelli
+> per microblocco, `raw_max` 24→36) prima di scrivere l'item bank. Confermato
+> dalla simulazione: 0% al punteggio massimo in tutte le fasce d'età. Vedi
+> decision record 0006.
+>
+> Il controllo di accordo fra due correttori indipendenti sulle rubriche aperte
+> (SP, CS, QS) non è ancora stato fatto: è il controllo più importante che
+> manca su questi tre subtest.
 
 #### Modello
 
@@ -462,6 +524,22 @@ Usare **stimoli vettoriali deterministici** e versionabili quando possibile:
 - layout riproducibili.
 
 Evitare di affidare item centrali a immagini generative raster non riproducibili.
+
+> **Stato 2026-09-12: fase bloccata, e va tenuta bloccata.** MR, RP, MP, DM
+> (`vector_geometry`) e MO (`manipulative`) non hanno item bank. Il blocco non è
+> una dimenticanza: finché non esiste un generatore SVG deterministico
+> verificato, popolare questi item bank produrrebbe stimoli finti che nascondono
+> il debito invece di renderlo visibile.
+>
+> Lo sbloccante è la task C1 dell'epic C — utilità SVG/layout condivise —
+> **non** la generazione di item. L'ordine corretto è: utilità di disegno,
+> generatore per un solo subtest, prototipo di 3–6 item, revisione visiva
+> stampata, e solo allora espansione.
+>
+> Due sottoclassi sono più vicine di quanto sembri: CL, SS e PG sono
+> `symbol_grid`, cioè griglie di caratteri stampabili con layout regolare. Non
+> richiedono disegno vettoriale e possono essere costruite prima dei figurali,
+> ma richiedono i route type `fixed_time` (CL, SS) e `adaptive_levels` (PG).
 
 #### Task
 
@@ -505,16 +583,25 @@ Usare una classificazione di difficoltà **progettuale**, non normativa:
 
 ### Task
 
-- [ ] Definire una metrica di difficoltà progettuale comune.
-- [ ] Assegnare difficoltà a ogni item.
-- [ ] Simulare performance item-level per età/abilità.
-- [ ] Quantificare:
+- [x] Definire una metrica di difficoltà progettuale comune.
+- [x] Assegnare difficoltà a ogni item.
+- [x] Simulare performance item-level per età/abilità.
+- [x] Quantificare:
   - numero medio di item somministrati;
   - frequenza di inversione;
   - frequenza di ceiling;
   - floor/ceiling effettivi;
   - perdita di informazione dovuta allo stop.
 - [ ] Modificare iterativamente item ordering/start/stop se necessario.
+
+> Stato 2026-09-12: fatto per i due subtest che hanno un item bank.
+> `difficulty_target` è una scala progettuale comune da -3 a +3 e
+> `R/build/routing_qa.R` scrive le cinque quantità richieste in
+> `norms_BII/generated/routing_qa.md`, per fascia d'età e con manifest.
+> Sui valori attuali non risultano necessarie modifiche a ordering, start o
+> stop: floor e ceiling effettivi restano sotto il 2,5% e il numero medio di
+> item somministrati è 11–12. La quarta casella resta aperta perché il
+> giudizio va rifatto quando esisteranno gli altri subtest e un pilot.
 
 ### Criterio di accettazione
 Le regole adattive devono produrre un comportamento plausibile nella popolazione simulata e non derivare solo da convenzioni arbitrarie.
@@ -609,6 +696,18 @@ Ogni rebuild deve salvare:
 
 ### Criterio di accettazione
 Da un clean clone deve essere possibile rigenerare tutte le norme simulate e ottenere gli stessi output con lo stesso seed.
+
+> **Stato 2026-09-12: criterio attualmente violato dalla pipeline legacy.**
+> `R/0.Data generation.R` è deterministico entro la stessa macchina (due
+> esecuzioni consecutive danno output identico) ma rigenera un
+> `norms_BII/standardization_sample_raw.csv` diverso da quello committato. La
+> differenza non dipende dalla spec: si presenta anche ripristinando la spec
+> committata. Causa probabile: versione di R o di pacchetto diversa da quella di
+> generazione, con `RNGversion()` non fissato e nessun manifest di build.
+>
+> Quando la pipeline passerà a item-level occorre: fissare `RNGversion()`,
+> scrivere un manifest con seed, versione spec, hash spec e commit — come fa già
+> `R/build/routing_qa.R` — e solo allora ricommittare le norme rigenerate.
 
 ### Modello
 
@@ -774,14 +873,19 @@ Non confondere:
 
 ### Funzioni minime
 
-- [ ] scoring item-level;
-- [ ] applicazione automatica basal/ceiling;
-- [ ] raw score;
+- [x] scoring item-level;
+- [x] applicazione automatica basal/ceiling;
+- [x] raw score;
 - [ ] PP;
 - [ ] indici/QI;
-- [ ] warning procedurali;
-- [ ] validità minima del subtest;
+- [x] warning procedurali;
+- [x] validità minima del subtest;
 - [ ] export di un report didattico.
+
+> Stato 2026-09-12: `score_subtest_record()` in `R/scoring/administer.R` copre
+> le caselle segnate, per ora solo per i subtest con `route_type:
+> adaptive_items`. PP, indici e report restano legati alla pipeline legacy su
+> punteggi aggregati e vanno rifatti dopo la fase 5.
 
 ### Test critici
 
@@ -1462,6 +1566,29 @@ Se il tempo è limitato, seguire questo ordine:
 6. **item-level simulation + norme rigenerate**;
 7. **Shiny integrata**;
 8. **QA e release**.
+
+### Ordine consigliato per il prossimo blocco di lavoro (2026-09-13)
+
+I punti 1, 4, 5 e 6 sono già in piedi per i subtest `adaptive_items`. Il collo
+di bottiglia resta il punto 2, e dentro il punto 2 sono i **route type**
+non implementati, non gli item:
+
+1. ~~estendere il motore a `delayed_retrieval`~~ — **fatto**, CR costruito;
+2. ~~estendere il motore a `adaptive_levels`~~ — **fatto**, PG costruito;
+3. ~~costruire SM applicando la correzione a 36 item~~ — **fatto**: la
+   correzione è stata applicata prima della costruzione (non simulata dopo,
+   come per CR) e confermata dalla simulazione: 0% al punteggio massimo in
+   tutte le fasce d'età. `adaptive_levels_by_microblock` è ora esercitato da un
+   subtest reale, non solo registrato nel dispatcher. Vedi decision record 0006;
+4. **estendere il motore a `fixed_time`** e costruire CL (core) e SS: lo scoring
+   è derivato da componenti (`correct - errors`). Il meccanismo del punteggio
+   derivato esiste già per CR e va generalizzato a componenti di subtest, non
+   solo di item;
+5. solo allora **la task C1**, le utilità di disegno, e i subtest figurali.
+
+Con il punto 4 il QI totale arriva a 6 componenti su 9 e mancherebbero solo i
+tre figurali (MR, MO, RP). Prima di quel punto il QI totale non è calcolabile e
+la Shiny non va toccata.
 
 Non investire molto tempo nel perfezionamento cosmetico della Shiny o nel fit delle simulazioni prima che item e procedure siano sufficientemente stabili.
 

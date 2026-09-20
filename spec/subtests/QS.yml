@@ -4,11 +4,20 @@ domain: Gf
 role: supplementary
 contributes_to: [qIF]
 response_format: controlled_short_response
-stimulus_mode: verbal_with_simple_visual_support
+stimulus_mode: verbal_with_scratch_paper
+stimulus_production: text_only
 construct: "Ragionamento quantitativo applicato, stima e trasformazioni semplici."
+# Il foglio per i calcoli e ammesso di proposito: QS misura come si imposta
+# il problema, non la memoria di lavoro necessaria a tenere a mente i passaggi.
+scratch_paper_allowed: true
+calculator_allowed: false
 item_ordering: increasing_difficulty
 n_scored_items: 12
 n_practice_items: 1
+item_bank:
+  path: items/source/QS.csv
+  status: complete_draft
+  n_scored_items_current: 12
 scoring: {type: polytomous, item_scores: [0, 1, 2], raw_min: 0, raw_max: 24, full_credit_for_below_basal: 2}
 timing: {planned_minutes: [10, 12]}
 administration:

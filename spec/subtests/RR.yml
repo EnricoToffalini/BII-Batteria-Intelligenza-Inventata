@@ -3,12 +3,18 @@ name: "Ragionamento per Regole"
 domain: Gf
 role: core
 contributes_to: [qIF, QI_rapido, QI_totale]
-response_format: multiple_choice_4_to_6
-stimulus_mode: mixed_verbal_visual
+response_format: multiple_choice_4
+stimulus_mode: symbol_sequences_with_verbal_instruction
+stimulus_production: symbol_text
 construct: "Applicazione di regole esplicite e integrazione di vincoli."
+symbol_vocabulary: ["●", "○", "■", "□", "▲", "△"]
 item_ordering: increasing_difficulty
 n_scored_items: 20
 n_practice_items: 2
+item_bank:
+  path: items/source/RR.csv
+  status: complete_draft
+  n_scored_items_current: 20
 scoring: {type: dichotomous, item_scores: [0, 1], raw_min: 0, raw_max: 20, full_credit_for_below_basal: 1}
 timing: {planned_minutes: [8, 10]}
 administration:
