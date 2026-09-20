@@ -7,6 +7,7 @@ required_paths <- c(
   "R/build/rebuild_all.R",
   "shiny/shinyBII.R",
   "docs/development/CONVENTIONS.md",
+  "docs/development/WORK_PACKETS.md",
   "docs/decisions/0001-source-of-truth-migration.md",
   "docs/decisions/0002-age-range-and-pg-grid.md",
   "spec/battery.yml",

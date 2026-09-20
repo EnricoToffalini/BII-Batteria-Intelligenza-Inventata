@@ -216,6 +216,13 @@ Per la v0 è accettabile mantenere temporaneamente `_BII - Batteria Intelligenza
 
 # 5. Roadmap esecutiva
 
+Questa sezione descrive dipendenze e direzione strategica. La selezione del
+prossimo blocco operativo, soprattutto quando la richiesta è soltanto
+«procedi», avviene dalla coda mantenuta in
+[`docs/development/WORK_PACKETS.md`](docs/development/WORK_PACKETS.md). Un agente
+completa un pacchetto alla volta e ne aggiorna lo stato; non interpreta una fase
+della roadmap come una singola task.
+
 ---
 
 ## FASE 0 — Preparare il repository per lavoro agentico
@@ -249,6 +256,10 @@ Rendere sicuro il lavoro di più agenti e impedire che modifiche indipendenti cr
 > `raw_max`, moduli di registrazione allineati all'item bank, manuale e
 > provenienza presenti per gli item bank dichiarati completi. Restano da
 > coprire gli asset visivi, che non esistono ancora.
+>
+> Stato 2026-09-20: `docs/development/WORK_PACKETS.md` rende eseguibile la
+> roadmap per richieste aperte: dipendenze, capacità richieste, fallback non
+> grafici e gate visuali sono espliciti e versionati.
 
 ### Criterio di accettazione
 Un agente nuovo deve poter capire il repository e sapere come testare una modifica senza istruzioni aggiuntive.
@@ -444,7 +455,7 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 | `text_only` | SP, RS, CS, QS, CR, SM | forma completa in bozza |
 | `symbol_text` | RR | forma completa in bozza |
 | `symbol_grid` | PG | forma completa in bozza |
-| `symbol_grid` | CL, SS | item bank da fare; serve prima `fixed_time` nel motore |
+| `symbol_grid` | CL, SS | `fixed_time` e record aggregati pronti; item bank e fogli da fare |
 | `vector_geometry` | MR, RP, MP, DM | **bloccati**: serve generazione SVG deterministica |
 | `manipulative` | MO | **bloccato**: serve riferimento stampabile + tasselli |
 
@@ -458,7 +469,8 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 - [x] CR — 14 coppie, recupero differito con riconoscimento.
 - [x] PG — 16 prove su 8 livelli, griglia 4×4.
 - [x] SM — 36 item, 3 microblocchi indipendenti su 6 livelli.
-- [ ] CL, SS — richiedono `fixed_time` nel motore.
+- [ ] CL, SS — architettura timed pronta; servono design, prototipi revisionati,
+  item bank e fogli risposta.
 
 #### Task
 
@@ -470,10 +482,11 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 - [x] Controllare che non esistano più risposte corrette non previste.
 - [x] Controllare la plausibilità per fascia d'età.
 
-> Stato 2026-09-13: fatto per gli otto subtest sopra. Il motore interpreta ora
+> Stato 2026-09-20: fatto per gli otto subtest sopra. Il motore interpreta ora
 > `adaptive_items`, `delayed_retrieval`, `adaptive_levels` e
-> `adaptive_levels_by_microblock`; manca solo `fixed_time` (CL, SS). Tutti i
-> subtest `text_only` e `symbol_text`/`symbol_grid` producibili sono costruiti.
+> `adaptive_levels_by_microblock` e `fixed_time`. CL e SS hanno scoring e moduli
+> aggregati, ma restano intenzionalmente senza item bank finché design e piccoli
+> prototipi `symbol_grid` non superano il review gate.
 >
 > **Difetto di copertura di SM corretto prima della costruzione, non dopo.**
 > La spec dichiarava 24 item su tre microblocchi (4 livelli, 2 prove ciascuno)
@@ -525,21 +538,29 @@ Usare **stimoli vettoriali deterministici** e versionabili quando possibile:
 
 Evitare di affidare item centrali a immagini generative raster non riproducibili.
 
-> **Stato 2026-09-12: fase bloccata, e va tenuta bloccata.** MR, RP, MP, DM
+> **Stato 2026-09-20: fase bloccata, e va tenuta bloccata.** MR, RP, MP, DM
 > (`vector_geometry`) e MO (`manipulative`) non hanno item bank. Il blocco non è
 > una dimenticanza: finché non esiste un generatore SVG deterministico
 > verificato, popolare questi item bank produrrebbe stimoli finti che nascondono
 > il debito invece di renderlo visibile.
 >
-> Lo sbloccante è la task C1 dell'epic C — utilità SVG/layout condivise —
-> **non** la generazione di item. L'ordine corretto è: utilità di disegno,
-> generatore per un solo subtest, prototipo di 3–6 item, revisione visiva
-> stampata, e solo allora espansione.
+> Lo sbloccante è P6/C1 — uno spike minimo della pipeline SVG/layout — **non**
+> la generazione di item né una vasta libreria condivisa anticipata. L'ordine
+> corretto è: dimostrare sorgente/render/ispezione, progettare un solo subtest,
+> prototipare 3–6 item, revisionare il rendering e solo allora espandere.
 >
 > Due sottoclassi sono più vicine di quanto sembri: CL, SS e PG sono
 > `symbol_grid`, cioè griglie di caratteri stampabili con layout regolare. Non
 > richiedono disegno vettoriale e possono essere costruite prima dei figurali,
-> ma richiedono i route type `fixed_time` (CL, SS) e `adaptive_levels` (PG).
+> usando i route type ora disponibili `fixed_time` (CL, SS) e
+> `adaptive_levels` (PG).
+
+L'espressione «generatore SVG» non implica che tutta la banca debba essere
+generata in un passaggio. Il costo reale va appreso tramite i gate G0–G6 in
+`docs/development/WORK_PACKETS.md`: capability check, design brief, tool spike,
+3–6 prototipi, revisione dei rendering, micro-lotti e soltanto infine
+integrazione. Ogni gate è un blocco separato. Un agente privo di generazione,
+rendering **o** ispezione visiva affidabile evita interamente questi pacchetti.
 
 #### Task
 
@@ -1153,6 +1174,11 @@ Effetto:
 # 7. Strategia di uso dei modelli Codex
 
 > **Nota temporale:** strategia basata sulla famiglia GPT-5.6 disponibile in Codex a settembre 2026. Se il selettore cambia, mantenere la stessa logica per classi di capacità: modello economico per lavoro meccanico, modello bilanciato per implementazione ordinaria, modello di punta per architettura e audit.
+>
+> Il nome del modello non certifica capacità grafica. Per `symbol_grid`,
+> `vector_geometry` e `manipulative` valgono prima di tutto i capability gate di
+> `docs/development/WORK_PACKETS.md`. Un agente forte nel codice ma incapace di
+> renderizzare e ispezionare gli asset sceglie un pacchetto non grafico.
 
 ## GPT-5.6 Luna
 
@@ -1264,6 +1290,11 @@ Uno per workstream separato:
 - Shiny;
 - documentation/materials.
 
+Il worker «visual stimuli» deve superare il gate G0; in caso contrario non gli
+si assegna neppure il design brief del subtest grafico. Il lavoro visuale si
+parallelizza solo fra pacchetti che hanno già interfacce e review gate separati,
+mai affidando a più agenti l'espansione non revisionata della stessa famiglia.
+
 ### QA agent indipendente
 **Sol/high**
 
@@ -1348,6 +1379,9 @@ Prefer the smallest coherent change that leaves the repository internally consis
 
 # 10. Backlog suggerito: ordine concreto delle prime issue
 
+Questo è il backlog macro storico. Per il lavoro corrente usare
+`docs/development/WORK_PACKETS.md`, che registra stati e dipendenze aggiornati.
+
 ## Epic A — Repository foundation
 
 ### A1
@@ -1398,7 +1432,8 @@ Do not assign all 15 to one agent in one task.
 ## Epic C — Visual stimulus generation
 
 ### C1
-Create shared SVG/layout utilities.
+Dimostrare la pipeline minima SVG/layout con un asset non scored. Estrarre
+utilità condivise soltanto quando almeno un prototipo reale ne mostra il bisogno.
 
 **Model:** Terra/high
 
@@ -1567,11 +1602,10 @@ Se il tempo è limitato, seguire questo ordine:
 7. **Shiny integrata**;
 8. **QA e release**.
 
-### Ordine consigliato per il prossimo blocco di lavoro (2026-09-13)
+### Ordine consigliato per i prossimi blocchi (2026-09-20)
 
-I punti 1, 4, 5 e 6 sono già in piedi per i subtest `adaptive_items`. Il collo
-di bottiglia resta il punto 2, e dentro il punto 2 sono i **route type**
-non implementati, non gli item:
+I route type necessari sono ora implementati. Il collo di bottiglia è la
+produzione fedele e revisionabile degli stimoli mancanti:
 
 1. ~~estendere il motore a `delayed_retrieval`~~ — **fatto**, CR costruito;
 2. ~~estendere il motore a `adaptive_levels`~~ — **fatto**, PG costruito;
@@ -1580,15 +1614,21 @@ non implementati, non gli item:
    come per CR) e confermata dalla simulazione: 0% al punteggio massimo in
    tutte le fasce d'età. `adaptive_levels_by_microblock` è ora esercitato da un
    subtest reale, non solo registrato nel dispatcher. Vedi decision record 0006;
-4. **estendere il motore a `fixed_time`** e costruire CL (core) e SS: lo scoring
-   è derivato da componenti (`correct - errors`). Il meccanismo del punteggio
-   derivato esiste già per CR e va generalizzato a componenti di subtest, non
-   solo di item;
-5. solo allora **la task C1**, le utilità di disegno, e i subtest figurali.
+4. ~~estendere il motore a `fixed_time`~~ — **fatto**: CL e SS hanno routing,
+   scoring aggregato, controlli temporali e moduli di registrazione, ma non item;
+5. eseguire P1–P4 della coda operativa: CL design brief, 3–6 prototipi, review
+   gate e soli lotti successivi approvati;
+6. applicare le lezioni di CL a SS senza assumere che i due fogli abbiano la
+   stessa grammatica percettiva;
+7. in parallelo soltanto con un agente graficamente forte, eseguire P6: uno
+   spike SVG non scored. Dopo il review gate scegliere MR come primo candidato
+   `vector_geometry`, perché blocca QI rapido e QI totale;
+8. gli agenti senza capacità grafica scelgono N1–N3, non placeholder visivi.
 
-Con il punto 4 il QI totale arriva a 6 componenti su 9 e mancherebbero solo i
-tre figurali (MR, MO, RP). Prima di quel punto il QI totale non è calcolabile e
-la Shiny non va toccata.
+Il QI totale arriva a 6 componenti su 9 soltanto quando CL avrà stimoli e
+procedura completi, non perché il suo scorer esiste. Resterebbero poi i tre
+figurali core MR, MO e RP. Fino ad allora la Shiny non va ampliata per simulare
+una completezza che la batteria non possiede.
 
 Non investire molto tempo nel perfezionamento cosmetico della Shiny o nel fit delle simulazioni prima che item e procedure siano sufficientemente stabili.
 

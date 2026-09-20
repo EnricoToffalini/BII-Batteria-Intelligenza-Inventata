@@ -1,10 +1,11 @@
 #!/usr/bin/env Rscript
 
-# Rigenera i moduli di registrazione a partire dall'item bank.
+# Rigenera i moduli di registrazione a partire dalla spec e, per i subtest
+# item-level, dall'item bank.
 #
-# I moduli sono artefatti derivati: ID, tipo e ordine degli item devono
-# coincidere con items/source/<ID>.csv. Se cambia l'item bank, si rilancia
-# questo script invece di modificare i CSV a mano.
+# I moduli sono artefatti derivati. Quelli item-level devono coincidere con
+# items/source/<ID>.csv; quelli fixed_time contengono una sola osservazione con
+# le componenti aggregate dichiarate nella spec.
 #
 #   Rscript R/build/build_record_forms.R
 
@@ -26,7 +27,24 @@ BII_RECORD_FORM_EXTRA <- list(
 # Contenuto del modulo, senza scrivere nulla: cosi i test possono confrontare
 # il file versionato con quello atteso senza modificare artefatti.
 record_form_table <- function(subtest_id, root) {
-  context <- load_item_bank(subtest_id, root)
+  spec <- bii_spec(root)
+  st <- spec$subtests[[subtest_id]]
+  if (is.null(st)) stop("Subtest sconosciuto nella spec: ", subtest_id, ".", call. = FALSE)
+
+  if (identical(st$administration$route_type, "fixed_time")) {
+    form <- data.frame(
+      subject_id = "",
+      age_months = "",
+      subtest = subtest_id,
+      stringsAsFactors = FALSE
+    )
+    for (component in names(st$scoring$components)) form[[component]] <- ""
+    form$actual_time_minutes <- ""
+    form$procedure_notes <- ""
+    return(form)
+  }
+
+  context <- load_item_bank(subtest_id, root, spec)
   items <- rbind(context$practice, context$items)
   items <- items[order(items$item_type != "practice", items$order), , drop = FALSE]
 
@@ -64,6 +82,16 @@ record_form_table <- function(subtest_id, root) {
   form
 }
 
+# Hanno un modulo i subtest con item bank e le prove fixed_time, il cui record
+# e aggregato e quindi non dipende dall'esistenza degli stimoli definitivi.
+record_form_subtests <- function(root) {
+  spec <- bii_spec(root)
+  ids <- spec$battery$subtest_order
+  ids[vapply(spec$subtests[ids], function(st) {
+    !is.null(st$item_bank) || identical(st$administration$route_type, "fixed_time")
+  }, logical(1))]
+}
+
 record_form_path <- function(subtest_id, root) {
   file.path(root, "materials", "record_forms", paste0(subtest_id, "_record_form.csv"))
 }
@@ -84,8 +112,8 @@ build_record_form <- function(subtest_id, root) {
 if (sys.nframe() == 0L) {
   root <- bii_build_root()
   source(file.path(root, "R", "items", "load_items.R"))
-  for (id in subtests_with_item_bank(root)) {
+  for (id in record_form_subtests(root)) {
     message("[FORM] ", basename(build_record_form(id, root)))
   }
-  message("[OK] Moduli di registrazione rigenerati dall'item bank.")
+  message("[OK] Moduli di registrazione rigenerati dalla spec e dagli item bank.")
 }

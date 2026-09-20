@@ -23,3 +23,22 @@ risultato$raw_score
 Se `risultato$valid` è `FALSE`, controlla gli item segnati
 `external_missing` o `invalidated`: non vengono trasformati automaticamente in
 risposte errate.
+
+## Prove a tempo con record aggregato
+
+I moduli di CL e SS hanno una sola riga: non rappresentano cento item fittizi,
+ma i conteggi osservati sull'intero foglio. Compila tutte le componenti, il
+tempo effettivo in minuti e le eventuali note procedurali. Per calcolare il
+punteggio:
+
+```r
+source("R/scoring/administer.R")
+record <- read.csv("percorso/del/CL_record_form.csv", stringsAsFactors = FALSE)
+risultato <- score_fixed_time_record("CL", record)
+risultato$raw_score
+risultato$warnings
+```
+
+Il tempo effettivo può produrre un warning, ma non cambia il punteggio. La
+presenza dei moduli non indica che gli stimoli CL o SS siano già completi: i due
+subtest restano senza item bank e senza fogli risposta.

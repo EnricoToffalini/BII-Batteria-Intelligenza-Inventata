@@ -71,7 +71,19 @@ for (id in banked) {
 
 # --- i moduli di registrazione sono artefatti derivati ------------------------
 
-for (id in banked) {
+form_ids <- record_form_subtests(root)
+timed_ids <- spec$battery$subtest_order[vapply(
+  spec$subtests[spec$battery$subtest_order],
+  function(st) identical(st$administration$route_type, "fixed_time"),
+  logical(1)
+)]
+stopifnot(
+  all(banked %in% form_ids),
+  setequal(setdiff(form_ids, banked), timed_ids),
+  identical(form_ids, spec$battery$subtest_order[spec$battery$subtest_order %in% form_ids])
+)
+
+for (id in form_ids) {
   path <- record_form_path(id, root)
   if (!file.exists(path)) stop(id, ": modulo di registrazione mancante.")
   # Il confronto avviene in memoria: il test non riscrive mai il file.

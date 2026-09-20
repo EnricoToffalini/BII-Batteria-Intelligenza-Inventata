@@ -90,7 +90,28 @@ validate_bii_spec <- function(spec) {
         spec_error(id, ": raw_max incompatibile con numero item e scoring.")
       }
     }
+    if (identical(st$scoring$type, "derived_from_response_components")) {
+      if (is.null(st$scoring$formula) || length(st$scoring$components) == 0L) {
+        spec_error(id, ": scoring aggregato senza formula o components.")
+      }
+      for (component in names(st$scoring$components)) {
+        limits <- st$scoring$components[[component]]
+        minimum <- as_int(limits$min, paste0(id, ".scoring.components.", component, ".min"))
+        maximum <- as_int(limits$max, paste0(id, ".scoring.components.", component, ".max"))
+        if (minimum < 0L || maximum < minimum) {
+          spec_error(id, ": range non valido per la componente ", component, ".")
+        }
+      }
+    }
     route_type <- st$administration$route_type
+    if (identical(route_type, "fixed_time")) {
+      if (!identical(st$scoring$type, "derived_from_response_components")) {
+        spec_error(id, ": fixed_time richiede scoring aggregato da componenti.")
+      }
+      if (!is.null(st$administration$basal) || !is.null(st$administration$ceiling)) {
+        spec_error(id, ": fixed_time non ammette basal o ceiling.")
+      }
+    }
     if (route_type %in% c("adaptive_items", "adaptive_levels", "adaptive_levels_by_microblock")) {
       starts <- st$administration$start_points
       if (length(starts) == 0L) spec_error(id, ": start_points mancanti.")

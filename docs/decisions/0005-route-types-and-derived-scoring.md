@@ -26,9 +26,15 @@ registrarlo, non modificare `route_subtest()`.
 | `delayed_retrieval` | `bii_route_delayed_retrieval` | CR, DM |
 | `adaptive_levels` | `bii_route_levels` | PG |
 | `adaptive_levels_by_microblock` | `bii_route_levels` | SM |
-| `fixed_time` | **non implementato** | CL, SS |
+| `fixed_time` | `bii_route_fixed_time` | CL, SS |
 
 Un route type non registrato produce un errore che elenca quelli disponibili.
+
+Per `fixed_time` non esiste un vettore di risposte item-level: l'handler verifica
+l'età e descrive una procedura che termina per tempo. Il punteggio passa da
+`score_fixed_time_record()`, che riceve una singola osservazione aggregata con le
+componenti dichiarate nella spec. In questo modo CL e SS non richiedono cento
+righe fittizie prima che esistano i loro item bank.
 
 ### 2. Il routing a livelli riusa la logica di quello per item
 
@@ -135,3 +141,17 @@ penalizzandolo più di chi le sbaglia entrambe. Scartata.
 **Tenere PG a 24 item come SM per uniformità.** PG con 16 item è già coerente:
 8 livelli × 2 prove su una griglia di 16 celle. Uniformare avrebbe cambiato un
 subtest coerente per farlo somigliare a uno che non lo è ancora.
+
+## Estensione: scoring aggregato delle prove timed
+
+Le formule aggregate supportate sono registrate esplicitamente nel motore e non
+sono eseguite con `eval(parse())`: per ora `max(0, correct - errors)` e
+`max(0, hits - false_alarms)`. Nomi, range delle componenti e vincoli fra
+componenti restano nella spec. CL dichiara così che corrette, errori e omissioni
+non possono superare insieme il numero di item; SS non riceve un vincolo analogo
+finché la ripartizione target/distrattori non sarà dichiarata.
+
+Il tempo effettivo è metadato procedurale e non altera il raw score. CL ha un
+limite fisso di due minuti; SS dichiara soltanto una durata pianificata di 2–3
+minuti, quindi uno scostamento può essere segnalato ma non trattato come
+violazione di un limite inesistente.

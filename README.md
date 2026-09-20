@@ -24,7 +24,9 @@ tecnica.
 
 La direzione di sviluppo e le priorità sono descritte nella
 [roadmap verso la v0](ROADMAP_V0.md). Le regole operative del repository sono
-in [AGENTS.md](AGENTS.md).
+in [AGENTS.md](AGENTS.md). Per richieste aperte come «procedi col lavoro», la
+[coda dei pacchetti](docs/development/WORK_PACKETS.md) indica il prossimo blocco
+piccolo, i prerequisiti e le capacità richieste.
 
 ## Quick start
 
@@ -76,9 +78,8 @@ uno (MR). Ogni punteggio composito prodotto adesso sarebbe incompleto.
 I sette subtest rimanenti sono bloccati da due cose diverse, e la distinzione
 conta:
 
-- **route type non implementati** — CL e SS usano `fixed_time` con punteggio
-  derivato da componenti (`corrette - errori`), che il motore non interpreta
-  ancora;
+- **item bank ancora da costruire** — CL e SS hanno routing `fixed_time` e
+  scoring aggregato implementati, ma non hanno ancora stimoli né item bank;
 - **stimoli non producibili** — MR, MO, RP, MP, DM richiedono figure
   geometriche deterministiche o materiale manipolabile.
 
@@ -91,8 +92,9 @@ subtest con stimoli finti non lo è. Vedi
 Le regole di somministrazione non sono scritte nel codice:
 `R/scoring/administer.R` le legge dalla spec e smista sul route type. Sono
 implementati `adaptive_items`, `delayed_retrieval`, `adaptive_levels` e
-`adaptive_levels_by_microblock`: per un subtest che usa uno di questi non serve
-nuovo codice di routing. La procedura completa è in [AGENTS.md](AGENTS.md).
+`adaptive_levels_by_microblock`, oltre a `fixed_time` per le prove timed con
+record aggregato: per un subtest che usa uno di questi non serve nuovo codice di
+routing. La procedura completa è in [AGENTS.md](AGENTS.md).
 
 Per una raccolta didattica di dati anonimi, copiare i modelli in
 [`data/templates/`](data/templates/) e seguire le istruzioni in

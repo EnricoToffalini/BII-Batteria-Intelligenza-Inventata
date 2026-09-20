@@ -8,6 +8,17 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
 
 ### Added
 
+- `docs/development/WORK_PACKETS.md`: coda operativa per richieste aperte,
+  pacchetti piccoli con dipendenze e criteri di uscita, fallback non grafici e
+  gate obbligatori per stimoli `symbol_grid`, `vector_geometry` e
+  `manipulative`. Gli agenti privi di generazione, rendering e ispezione visiva
+  affidabili devono evitare interamente i pacchetti grafici.
+- Supporto generico a `route_type: fixed_time`: routing senza item fittizi e
+  `score_fixed_time_record()` per una singola osservazione aggregata, con range
+  e vincoli letti dalla spec, formule ammesse esplicitamente e warning sul tempo
+  effettivo che non alterano il punteggio. Il generatore produce moduli timed a
+  riga singola direttamente dalla spec; CL e SS restano senza item bank.
+
 - Fondazione del repository per `v0.0.0-dev`: README, convenzioni, decision
   record iniziale, comando unico di test e comando unico di rebuild.
 - `spec/` come fonte di verità per 15 subtest, ruoli, range grezzi, routing,
@@ -69,7 +80,7 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
 - `route_subtest()` è ora un dispatcher su `BII_ROUTE_HANDLERS`: aggiungere un
   route type significa scrivere un handler e registrarlo. Implementati
   `adaptive_items`, `delayed_retrieval`, `adaptive_levels` e
-  `adaptive_levels_by_microblock`; manca `fixed_time` (CL, SS).
+  `adaptive_levels_by_microblock`.
 - Routing a livelli (`bii_route_levels`): livelli di lunghezza con prove
   multiple, basale, inversione e interruzione per livello, e la stessa procedura
   applicata indipendentemente a ciascun microblocco. Riusa deliberatamente la

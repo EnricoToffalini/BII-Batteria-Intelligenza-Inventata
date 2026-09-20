@@ -7,6 +7,7 @@ response_format: binary_marking
 stimulus_mode: visual_paper_pencil
 stimulus_production: symbol_grid
 construct: "Confronto percettivo rapido di stringhe di simboli."
+symbol_vocabulary: ["○", "△", "□", "◆", "+", "★"]
 item_ordering: fixed_sheet
 n_scored_items: 100
 n_practice_items: 10
@@ -19,5 +20,9 @@ scoring:
     correct: {min: 0, max: 100}
     errors: {min: 0, max: 100}
     omissions: {min: 0, max: 100}
+  constraints:
+    - type: sum_lte
+      components: [correct, errors, omissions]
+      max_from: n_scored_items
 timing: {fixed_minutes: 2}
 administration: {route_type: fixed_time, basal: null, ceiling: null}

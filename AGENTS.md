@@ -4,7 +4,25 @@
 
 BII (Batteria d'Intelligenza Inventata) is a didactic mock intelligence battery. It is designed to be psychometrically plausible and fully usable for teaching, but it is **not a clinical or diagnostic instrument** and its norms are simulated unless explicitly stated otherwise.
 
-Read `ROADMAP_V0.md` before substantial work.
+Read `ROADMAP_V0.md` before substantial work. For an open-ended request such as
+"proceed with the work", also read `docs/development/WORK_PACKETS.md` and use
+its current queue instead of inventing a new workstream.
+
+## Open-ended work selection
+
+When the user does not name a specific task:
+
+1. inspect the worktree and preserve unfinished user/agent changes;
+2. select the highest-priority `ready` packet in
+   `docs/development/WORK_PACKETS.md` whose capability requirements you meet;
+3. state which packet you selected and why;
+4. complete one packet only, including its tests and derived artifacts;
+5. update the packet state before finishing.
+
+Do not interpret "continue" as authorization for a broad refactor, a complete
+visual item bank, simulated-norm regeneration, or Shiny work. If the first
+packet requires capabilities you do not have, take the first compatible
+non-visual reserve packet. Do not merely relabel a graphical task as text.
 
 ## Core development rule
 
@@ -40,6 +58,17 @@ Visual stimuli should be deterministic and reproducible whenever feasible. Prefe
 
 Do not generate large item banks in one pass without review. Work by subtest and item family, with small prototypes followed by QA and expansion.
 
+For `vector_geometry` and `manipulative` work, follow the staged gates in
+`docs/development/WORK_PACKETS.md`. Design brief, tool spike, 3–6 item
+prototype, visual review, controlled batches and final integration are separate
+packets. Never assume that one prompt can produce a satisfactory complete bank;
+never assume item-by-item work is necessary before the prototype provides
+evidence. Let rendered results determine the next batch size.
+
+`symbol_grid` is simpler but still graphical: take a CL/SS packet only if you
+can generate the sheet layout, render it at intended print scale, and inspect
+the result. Otherwise use the non-visual reserve queue.
+
 ### Only build what you can build faithfully
 
 Each subtest spec declares `stimulus_production`: the capability its stimuli
@@ -52,6 +81,11 @@ a `vector_geometry` subtest in prose, in ASCII art, or as placeholders to be
 replaced later: a mock battery with fake stimuli is worse than one with an empty
 subtest, because the gap stops being visible. Pick a subtest you can actually
 finish, and say in your summary which ones you left untouched and why.
+
+Reliable figure-generation means being able to create the source, render it,
+and inspect the rendered output at its intended scale. If any of these is
+missing, avoid the entire `vector_geometry`/`manipulative` packet, including its
+design and QA, and choose a non-visual packet instead.
 
 `stimulus_production` is not a downgrade path. If a subtest genuinely does not
 need figures, change its `stimulus_production` deliberately and record why — as
@@ -129,12 +163,18 @@ If you write a new file of per-subtest routing rules, you are almost certainly
 doing it wrong. `route_subtest()` dispatches on `route_type` through the
 `BII_ROUTE_HANDLERS` registry in `R/scoring/administer.R`. Implemented:
 `adaptive_items`, `delayed_retrieval`, `adaptive_levels`,
-`adaptive_levels_by_microblock`. Still missing: `fixed_time` (CL, SS).
+`adaptive_levels_by_microblock`, `fixed_time`.
 
 To add a route type, write a handler and register it — do not touch
 `route_subtest()`. Implement it once for the whole class, not per subtest, and
 keep its procedure as close as possible to `adaptive_items`: the examiner should
 learn one procedure with different numbers, not several different procedures.
+
+`fixed_time` is deliberately not item-level: it routes a single timed procedure
+and `score_fixed_time_record()` scores one aggregate observation whose
+components and bounds come from the spec. Do not create placeholder item rows
+to adapt a timed sheet to `score_subtest_record()`. Its generated record form is
+also aggregate and may exist before the stimulus item bank.
 
 **Scoring derived from components.** When a subtest's item score is not recorded
 directly but computed from observed components (CR's `recall` + `recognition`),

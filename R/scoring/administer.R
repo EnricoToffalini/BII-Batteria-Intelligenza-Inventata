@@ -72,12 +72,25 @@ bii_inversion_triggered <- function(scores, trigger, max_score) {
   stop("Trigger di inversione non riconosciuto: servono total_score_lt o correct_lt.", call. = FALSE)
 }
 
-# Applica il routing adattivo a un vettore di punteggi "completi", cioe ai
-# punteggi che si sarebbero osservati somministrando ogni item. Serve per la
-# simulazione e per i test: nella pratica il vettore completo non esiste, per
-# questo lo scoring di una somministrazione vera passa da score_subtest_record().
-route_subtest <- function(subtest_id, complete_scores, age_months, root = NULL, context = NULL) {
-  if (is.null(context)) context <- load_item_bank(subtest_id, root)
+# Applica il routing a un vettore di punteggi "completi", cioe ai punteggi che
+# si sarebbero osservati somministrando ogni item. Serve per simulazione e test:
+# nella pratica lo scoring item-level passa da score_subtest_record(). Per
+# fixed_time non esiste un vettore completo: complete_scores resta NULL e il
+# record aggregato passa da score_fixed_time_record().
+route_subtest <- function(subtest_id, complete_scores = NULL, age_months, root = NULL, context = NULL) {
+  if (is.null(context)) {
+    spec <- bii_spec(root)
+    st <- spec$subtests[[subtest_id]]
+    if (is.null(st)) stop("Subtest sconosciuto nella spec: ", subtest_id, ".", call. = FALSE)
+    if (identical(st$administration$route_type, "fixed_time")) {
+      context <- list(
+        subtest = subtest_id, spec = st, battery = spec$battery,
+        root = spec$root, items = NULL, practice = NULL
+      )
+    } else {
+      context <- load_item_bank(subtest_id, root, spec)
+    }
+  }
   route_type <- context$spec$administration$route_type
   handler <- BII_ROUTE_HANDLERS[[route_type]]
   if (is.null(handler)) {
@@ -89,6 +102,38 @@ route_subtest <- function(subtest_id, complete_scores, age_months, root = NULL, 
     )
   }
   handler(subtest_id, complete_scores, age_months, context)
+}
+
+# Handler per route_type: fixed_time.
+#
+# Non esiste una sequenza item-level da simulare: la prova termina allo scadere
+# del tempo e produce una sola osservazione aggregata, corretta separatamente da
+# score_fixed_time_record(). Il risultato descrive quindi la procedura, non
+# inventa righe per gli item ancora inesistenti.
+bii_route_fixed_time <- function(subtest_id, complete_scores, age_months, context) {
+  if (!is.null(complete_scores) && length(complete_scores) > 0L) {
+    stop(
+      subtest_id, ": fixed_time non accetta complete_scores item-level; usare ",
+      "score_fixed_time_record() per le componenti aggregate.", call. = FALSE
+    )
+  }
+  subtest_age_is_eligible(age_months, context$spec, context$battery)
+
+  result <- data.frame(
+    subtest = subtest_id,
+    route_type = "fixed_time",
+    administration_status = "administered",
+    termination = "time",
+    stringsAsFactors = FALSE
+  )
+  attr(result, "subtest") <- subtest_id
+  attr(result, "start_item") <- NA_integer_
+  attr(result, "inversion_applied") <- FALSE
+  attr(result, "basal_start") <- NA_integer_
+  attr(result, "ceiling_item") <- NA_integer_
+  attr(result, "presented_below_basal") <- integer(0)
+  attr(result, "timing") <- context$spec$timing
+  result
 }
 
 # Handler per route_type: adaptive_items.
@@ -459,8 +504,144 @@ BII_ROUTE_HANDLERS <- list(
   adaptive_items = bii_route_adaptive_items,
   delayed_retrieval = bii_route_delayed_retrieval,
   adaptive_levels = bii_route_levels,
-  adaptive_levels_by_microblock = bii_route_levels
+  adaptive_levels_by_microblock = bii_route_levels,
+  fixed_time = bii_route_fixed_time
 )
+
+# Scoring di una prova fixed_time da una singola osservazione aggregata.
+# Questa interfaccia e distinta da score_subtest_record(), che resta item-level
+# anche quando il punteggio del singolo item e derivato (come in CR).
+score_fixed_time_record <- function(subtest_id, record, root = NULL, context = NULL) {
+  if (is.null(context)) {
+    spec <- bii_spec(root)
+    st <- spec$subtests[[subtest_id]]
+    if (is.null(st)) stop("Subtest sconosciuto nella spec: ", subtest_id, ".", call. = FALSE)
+    context <- list(subtest = subtest_id, spec = st, battery = spec$battery, root = spec$root)
+  }
+  st <- context$spec
+  if (!identical(st$administration$route_type, "fixed_time")) {
+    stop(subtest_id, ": score_fixed_time_record richiede route_type fixed_time.", call. = FALSE)
+  }
+  if (!is.data.frame(record) || nrow(record) != 1L) {
+    stop(subtest_id, ": il record timed deve essere un data.frame di una sola riga.", call. = FALSE)
+  }
+
+  components <- st$scoring$components
+  component_names <- names(components)
+  required <- c("subtest", component_names)
+  missing <- setdiff(required, names(record))
+  if (length(missing)) stop("Colonne mancanti: ", paste(missing, collapse = ", "), call. = FALSE)
+  if (is.na(record$subtest[1]) || !identical(as.character(record$subtest[1]), subtest_id)) {
+    stop(subtest_id, ": identificativo subtest incoerente nel record timed.", call. = FALSE)
+  }
+
+  values <- stats::setNames(numeric(length(component_names)), component_names)
+  for (component in component_names) {
+    value <- suppressWarnings(as.numeric(record[[component]][1]))
+    limits <- components[[component]]
+    minimum <- as.numeric(limits$min)
+    maximum <- as.numeric(limits$max)
+    if (length(value) != 1L || is.na(value) || !is.finite(value) || value != round(value)) {
+      stop(subtest_id, ": ", component, " deve essere un intero non mancante.", call. = FALSE)
+    }
+    if (value < minimum || value > maximum) {
+      stop(
+        subtest_id, ": ", component, " fuori range (", minimum, "-", maximum, ").",
+        call. = FALSE
+      )
+    }
+    values[[component]] <- value
+    record[[component]] <- value
+  }
+
+  bii_validate_aggregate_constraints(subtest_id, values, st)
+  raw <- bii_score_aggregate_formula(subtest_id, values, st$scoring$formula)
+  raw_min <- as.numeric(st$scoring$raw_min)
+  raw_max <- as.numeric(st$scoring$raw_max)
+  if (!is.finite(raw) || raw < raw_min || raw > raw_max) {
+    stop(subtest_id, ": punteggio grezzo fuori dal range dichiarato nella spec.", call. = FALSE)
+  }
+
+  list(
+    subtest = subtest_id,
+    observation = record,
+    raw_score = raw,
+    raw_max = raw_max,
+    expected_timing = st$timing,
+    valid = TRUE,
+    reason = "complete",
+    warnings = bii_fixed_time_warnings(record, st)
+  )
+}
+
+# Registro volutamente piccolo delle formule aggregate supportate. Le stringhe
+# sono confrontate, mai eseguite con eval(parse()).
+bii_score_aggregate_formula <- function(subtest_id, values, formula) {
+  key <- gsub("[[:space:]]+", "", as.character(formula))
+  if (identical(key, "max(0,correct-errors)")) {
+    return(max(0, values[["correct"]] - values[["errors"]]))
+  }
+  if (identical(key, "max(0,hits-false_alarms)")) {
+    return(max(0, values[["hits"]] - values[["false_alarms"]]))
+  }
+  stop(subtest_id, ": formula aggregata non supportata: ", formula, ".", call. = FALSE)
+}
+
+# I vincoli fra componenti sono dichiarati dalla spec: il motore implementa la
+# classe di vincolo, senza conoscere gli ID CL/SS.
+bii_validate_aggregate_constraints <- function(subtest_id, values, st_spec) {
+  constraints <- st_spec$scoring$constraints
+  if (is.null(constraints)) return(invisible(TRUE))
+  for (constraint in constraints) {
+    if (!identical(constraint$type, "sum_lte")) {
+      stop(subtest_id, ": vincolo aggregato non supportato: ", constraint$type, ".", call. = FALSE)
+    }
+    names_to_sum <- unlist(constraint$components, use.names = FALSE)
+    if (!all(names_to_sum %in% names(values))) {
+      stop(subtest_id, ": vincolo aggregato riferito a componenti sconosciute.", call. = FALSE)
+    }
+    limit <- if (identical(constraint$max_from, "n_scored_items")) {
+      as.numeric(st_spec$n_scored_items)
+    } else {
+      as.numeric(constraint$max)
+    }
+    if (length(limit) != 1L || is.na(limit) || sum(values[names_to_sum]) > limit) {
+      stop(
+        subtest_id, ": combinazione impossibile: ", paste(names_to_sum, collapse = " + "),
+        " supera ", limit, ".", call. = FALSE
+      )
+    }
+  }
+  invisible(TRUE)
+}
+
+# Il tempo effettivo e un dato procedurale. Non cambia mai il punteggio.
+bii_fixed_time_warnings <- function(record, st_spec) {
+  out <- character()
+  if (!"actual_time_minutes" %in% names(record)) {
+    return("Tempo effettivo non registrato.")
+  }
+  actual <- suppressWarnings(as.numeric(record$actual_time_minutes[1]))
+  if (length(actual) != 1L || is.na(actual) || !is.finite(actual) || actual < 0) {
+    return("Tempo effettivo non registrato.")
+  }
+
+  fixed <- as.numeric(st_spec$timing$fixed_minutes)
+  if (length(fixed) == 1L && !is.na(fixed) && !isTRUE(all.equal(actual, fixed))) {
+    out <- c(out, sprintf(
+      "Tempo effettivo di %g minuti diverso dal limite fisso previsto di %g minuti.",
+      actual, fixed
+    ))
+  }
+  planned <- as.numeric(unlist(st_spec$timing$planned_minutes, use.names = FALSE))
+  if (length(planned) == 2L && (actual < planned[1] || actual > planned[2])) {
+    out <- c(out, sprintf(
+      "Tempo effettivo di %g minuti fuori dalla durata pianificata di %g-%g minuti; la spec non dichiara un limite fisso.",
+      actual, planned[1], planned[2]
+    ))
+  }
+  out
+}
 
 # Scoring di un record reale: nessuna informazione sugli item non somministrati
 # viene inventata, e gli stati esterni non diventano mai risposte errate.
