@@ -315,7 +315,22 @@ worktree prima di usarla.
 
 ### P5R2 — SS review gate della disposizione revisionata
 
-- **Stato:** `ready`.
+- **Stato:** `done` — esito `revisione richiesta`.
+- **Owner/run:** sessione cloud Claude Code 2026-10-10.
+- **Esito:** `items/prototypes/SS/GATE_P5R2.md` documenta il gate. Primitive,
+  scala e vincoli P5R passano. Ricostruito in un secondo ambiente (librsvg
+  2.58), l'SVG è identico byte per byte e le 72 celle lo sono pixel per pixel;
+  cambia solo il testo. Non passa la disposizione: la diagonale principale
+  R1C1–R6C6 è interamente di target ed è visibile nella vista d'insieme; ci
+  sono blocchi 2×2 di target all'inizio e alla fine del percorso; le righe 1–2
+  sono quasi uguali, le righe 1–3 quasi complementari e le righe 1–6 e 3–6
+  quasi copie spostate di una colonna; due distrattori critici sono
+  concentrati per 5/6 in una metà del foglio. Definiti per P5RR2 controlli
+  aggiuntivi dei quali è stata verificata per ricerca casuale la
+  soddisfacibilità (una prima formulazione più severa era impossibile).
+  Osservata anche una debolezza di composizione: barrare ogni cerchio dà 24/30
+  (80/100 sulla forma completa); è registrata come N14. Nessun file sorgente
+  o artefatto modificato. `Rscript tests/run_all.R`: 29 file superati.
 - **Capacità:** QA visivo di `symbol_grid` e controllo di pattern spaziali.
 - **Obiettivo:** riesaminare il prototipo P5RR senza aggiungere celle; verificare
   che il rimescolamento elimini gli indizi di P5R senza introdurre nuovi
@@ -323,6 +338,25 @@ worktree prima di usarla.
 - **Uscita:** approvare, revisionare o scartare la disposizione. Soltanto
   un'approvazione può definire la dimensione del primo lotto di espansione; la
   forma completa non è implicita.
+
+### P5RR2 — SS secondo rimescolamento della disposizione ridotta
+
+- **Stato:** `ready`. Se N14 viene deciso prima dell'avvio e cambia la
+  composizione, rifare il packet sulla nuova composizione.
+- **Capacità:** `symbol_grid`, generazione deterministica e QA di pattern
+  spaziali.
+- **Obiettivo:** rimescolare soltanto le 60 celle `prototype` con una ricerca
+  casuale con seed esplicito e documentato. Vanno mantenuti tutti i vincoli
+  di P5RR e aggiunti a `validate_ss_prototype()` e ai test i controlli
+  elencati in `items/prototypes/SS/GATE_P5R2.md`: diagonali di target lunghe
+  al massimo 3 celle; nessun blocco 2×2 di soli target; distanze fra righe,
+  anche spostate di una colonna; distribuzione per metà dei distrattori
+  critici. Ogni controllo va prima verificato sulla disposizione attuale, che
+  deve rifiutare.
+- **Non-obiettivi:** nessuna nuova cella, forma da 200, modifica a pratica,
+  composizione, timing, scoring, vocabolario o geometria.
+- **Uscita:** sorgente e chiave revisionate, SVG/PDF/PNG rigenerati, QA
+  automatico e visivo con vista d'insieme del foglio; poi review gate P5R3.
 
 ### P6 — Pipeline grafica: capability spike
 
@@ -725,6 +759,28 @@ Questi pacchetti sono adatti a un agente che non supera G0. Scegliere il primo
   a mano li avrebbe aggirati. Aggiunti in `tests/test_sm_scoring.R`; il banco
   attuale li rispetta tutti e le mutazioni vengono rilevate. Nessun item
   modificato. `Rscript tests/run_all.R`: 29 file superati.
+
+### N14 — Decisione: composizione SS e strategia per sola forma
+
+- **Stato:** `blocked` in attesa di una decisione del responsabile; non
+  promosso automaticamente.
+- **Origine:** P5R2. Con 100 target e 20 occorrenze per ciascuno dei cinque
+  distrattori, i cerchi sono 120 e 100 di essi sono target. Barrare ogni cerchio
+  senza guardare la linea interna dà 80/100; barrare ogni linea verticale dà
+  60/100. La congiunzione forma-orientamento è richiesta davvero soltanto dai
+  20 `circle_horizontal`.
+- **Decisione richiesta:** mantenere la composizione v0, documentandone il
+  limite nel brief e nel manuale, oppure aumentare la quota dei distrattori
+  che condividono una caratteristica col target (`circle_horizontal`,
+  `square_vertical`, `triangle_vertical`), riducendo quella di
+  `square_horizontal` e `triangle_horizontal`.
+- **Portata:** cross-cutting. Cambiare la composizione tocca
+  `spec/subtests/SS.yml` (`stimulus_composition`), il brief, il prototipo e i
+  relativi test. Se cambia soltanto la ripartizione fra distrattori, totale
+  target, range e record timed restano invariati. La simulazione
+  (`R/0.Data generation.R`) non usa i conteggi per distrattore, ma andrebbe
+  rivista se più distrattori simili rendessero meno plausibile il modello di
+  falsi allarmi.
 
 ## Aggiornamento obbligatorio della coda
 
