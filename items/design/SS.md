@@ -272,4 +272,11 @@ del layout, non l'espansione della matrice.
   il numero di target: è una decisione di correzione da prendere con il foglio
   di correzione, non in N1.
 - Un rendering in un secondo ambiente resta necessario prima del freeze della
-  forma per verificare la portabilità di testo e primitive.
+  forma per verificare la portabilità di testo e primitive. P5R2 l'ha fatto per
+  il prototipo ridotto: le primitive sono identiche pixel per pixel, il testo
+  dipende dal font disponibile.
+- Con la composizione v0 barrare ogni cerchio dà 80/100 senza applicare la
+  congiunzione (P5R2). Mantenere o riequilibrare i distrattori è la decisione
+  N14 in `docs/development/WORK_PACKETS.md`.
+- I vincoli fra coppie di righe del prototipo (P5R2) non scalano a 20 righe:
+  vanno riformulati prima della forma completa.
