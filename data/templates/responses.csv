@@ -1,1 +1,1 @@
-subject_id,age_months,subtest,item_id,administration_status,response,item_score,response_time_seconds,notes
+subject_id,age_months,subtest,item_id,administration_status,response,item_score,recall,recognition,delay_minutes,response_time_seconds,notes

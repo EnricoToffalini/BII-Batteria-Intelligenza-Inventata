@@ -230,7 +230,7 @@ Rispetto a SP, questo subtest enfatizza maggiormente il **processo di ragionamen
 
 2. **Categoria**  
    “Quale parola **non** appartiene al gruppo?  
-   mela – pera – carota – pesca”
+   mela – pera – carota – arancia”
 
 3. **Funzione**  
    “Una **bussola** serve principalmente per:  

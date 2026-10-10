@@ -8,10 +8,47 @@
     "role": {"enum": ["core", "completion", "supplementary"]},
     "n_scored_items": {"type": "integer", "minimum": 1},
     "n_practice_items": {"type": "integer", "minimum": 0},
+    "symbol_vocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "stimulus_count": {"type": "integer", "minimum": 1},
+    "stimulus_composition": {
+      "type": "object",
+      "required": ["target_token", "target_count", "distractor_counts"],
+      "properties": {
+        "target_token": {"type": "string", "minLength": 1},
+        "target_count": {"type": "integer", "minimum": 1},
+        "distractor_counts": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
     "scoring": {
       "type": "object",
       "required": ["type", "raw_min", "raw_max"],
-      "properties": {"raw_min": {"type": "number"}, "raw_max": {"type": "number"}}
+      "properties": {
+        "raw_min": {"type": "number"},
+        "raw_max": {"type": "number"},
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "components"],
+            "properties": {
+              "type": {"enum": ["sum_lte"]},
+              "components": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+              "max": {"type": "integer", "minimum": 0},
+              "max_from": {"enum": ["n_scored_items", "stimulus_composition.target_count"]}
+            },
+            "oneOf": [{"required": ["max"]}, {"required": ["max_from"]}]
+          }
+        }
+      }
     }
   }
 }

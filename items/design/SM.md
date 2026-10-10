@@ -71,6 +71,11 @@ l'unico ordine diverso da quello crescente è il suo esatto opposto, quindi a
 quel livello resta solo il vincolo "non già ordinato". È dichiarato nella
 rubrica, non nascosto.
 
+Tutti i vincoli della tabella sono verificati da `tests/test_sm_scoring.R`
+**sul CSV**, come per PG: un item sostituito a mano resta sotto controllo. Fino
+al 2026-10-01 tre di essi (run di cifre consecutive, monotonia, sequenza già
+ordinata) erano applicati solo dal generatore.
+
 `running_span` ammette la ripetizione di cifre (mai adiacente) ai livelli alti,
 perché la lista presentata (livello + 3 cifre di buffer) supera le nove cifre
 disponibili dal livello 7 in su (7+3=10 > 9).

@@ -1,0 +1,15 @@
+prototype_id,family,left_string,right_string,status
+CL-P01,distinct_substitution,○△□◆,○△□◆,non_definitive
+CL-P02,distinct_substitution,△○◆★,△○◆+,non_definitive
+CL-P03,distinct_substitution,□◆○+,★◆○+,non_definitive
+CL-P04,distinct_substitution,+★○△,+★○△,non_definitive
+CL-P05,distinct_substitution,◆□★+,◆□★+,non_definitive
+CL-P06,distinct_substitution,+◆★○,+□★○,non_definitive
+CL-P07,distinct_substitution,★○+□,★○+□,non_definitive
+CL-P08,distinct_substitution,△◆○★,△◆+★,non_definitive
+CL-P09,distinct_substitution,□+△○,◆+△○,non_definitive
+CL-P10,distinct_substitution,○◆★△,○◆★△,non_definitive
+CL-P11,distinct_substitution,+□◆★,+□◆○,non_definitive
+CL-P12,distinct_substitution,△★□+,△★□+,non_definitive
+CL-P13,distinct_substitution,◆○△□,◆○△□,non_definitive
+CL-P14,distinct_substitution,★+○◆,★□○◆,non_definitive

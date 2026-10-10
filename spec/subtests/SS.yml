@@ -7,6 +7,22 @@ response_format: target_marking
 stimulus_mode: visual_paper_pencil
 stimulus_production: symbol_grid
 construct: "Ricerca visiva selettiva rapida con regola stabile."
+symbol_vocabulary:
+  - circle_vertical
+  - circle_horizontal
+  - square_vertical
+  - square_horizontal
+  - triangle_vertical
+  - triangle_horizontal
+stimulus_composition:
+  target_token: circle_vertical
+  target_count: 100
+  distractor_counts:
+    circle_horizontal: 20
+    square_vertical: 20
+    square_horizontal: 20
+    triangle_vertical: 20
+    triangle_horizontal: 20
 item_ordering: fixed_matrix
 n_scored_items: 100
 n_practice_items: 1
@@ -20,5 +36,9 @@ scoring:
     hits: {min: 0, max: 100}
     false_alarms: {min: 0, max: 100}
     omissions: {min: 0, max: 100}
+  constraints:
+    - type: sum_lte
+      components: [hits, omissions]
+      max_from: stimulus_composition.target_count
 timing: {planned_minutes: [2, 3]}
 administration: {route_type: fixed_time, basal: null, ceiling: null}

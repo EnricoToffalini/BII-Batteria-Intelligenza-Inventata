@@ -79,7 +79,9 @@ I sette subtest rimanenti sono bloccati da due cose diverse, e la distinzione
 conta:
 
 - **item bank ancora da costruire** — CL e SS hanno routing `fixed_time` e
-  scoring aggregato implementati, ma non hanno ancora stimoli né item bank;
+  scoring aggregato implementati. CL ha un prototipo di 14 righe fermo al
+  review gate fisico; SS ha il design brief e la composizione dichiarata, ma
+  non ancora il prototipo reso. Nessuno dei due ha un item bank completo;
 - **stimoli non producibili** — MR, MO, RP, MP, DM richiedono figure
   geometriche deterministiche o materiale manipolabile.
 

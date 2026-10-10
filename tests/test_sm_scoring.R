@@ -45,6 +45,26 @@ for (i in seq_len(nrow(items))) {
   }
 }
 
+# Vincoli dichiarati in items/design/SM.md, verificati sul CSV e non solo nel
+# generatore: un item sostituito a mano deve restare sotto controllo, come in PG.
+for (i in seq_len(nrow(items))) {
+  seq_val <- as.integer(strsplit(trimws(items$sequence[i]), " +")[[1]])
+  target_val <- as.integer(strsplit(trimws(items$target[i]), " +")[[1]])
+  id <- items$item_id[i]
+  steps <- diff(seq_val)
+  # tre interi consecutivi adiacenti, in salita o in discesa: «4 5 6», «6 5 4»
+  if (length(steps) >= 2L && any((steps[-1] == 1L & steps[-length(steps)] == 1L) |
+                                 (steps[-1] == -1L & steps[-length(steps)] == -1L))) {
+    stop(id, ": tre cifre consecutive adiacenti, ricordabili come blocco.")
+  }
+  monotone <- function(x) length(x) > 2L && (all(diff(x) > 0L) || all(diff(x) < 0L))
+  checked <- switch(items$microblock[i], backward_repetition = seq_val, running_span = target_val, NULL)
+  if (!is.null(checked) && monotone(checked)) stop(id, ": sequenza monotona, risolvibile contando.")
+  if (items$microblock[i] == "rule_based_reordering" && !is.unsorted(seq_val)) {
+    stop(id, ": la sequenza da riordinare è già in ordine crescente.")
+  }
+}
+
 # rule_based_reordering: dal livello 3 in su la sequenza presentata non deve
 # essere l'esatto opposto del target (altrimenti coincide con backward_repetition).
 reordering <- items[items$microblock == "rule_based_reordering" & items$level >= 3, ]

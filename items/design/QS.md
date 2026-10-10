@@ -59,7 +59,7 @@ valore intermedio è di per sé una risposta sbagliata tipica:
 | QS-SC-03 | 10 | 12 | moltiplica e dimentica la perdita |
 | QS-SC-04 | 2 | 4 | trova la differenza e non la dimezza |
 | QS-SC-08 | 15 | 5 | calcola lo sconto e non lo sottrae |
-| QS-SC-09 | 8 | più di 4 giorni, ma sbagliato | vede la relazione inversa, sbaglia il conto |
+| QS-SC-09 | 8 | più di 4 giorni con «metà operai» o «24 giorni per uno» | imposta la relazione inversa, sbaglia il conto |
 | QS-SC-12 | 12 | 24 | calcola un tubo solo e si ferma |
 
 Questo è ciò che rende la scala 2/1/0 informativa su un subtest numerico: il 1
@@ -74,6 +74,18 @@ proprietà, altrimenti l'item diventa di fatto 0/2 e la scala si sbilancia.
   loro difficoltà progettuale o si spostano: non si abbassa il criterio del 2.
 - L'item 11 (due pompe) richiede di combinare due velocità e potrebbe essere
   più difficile di quanto la posizione 11 suggerisca.
+- L'audit delle rubriche (2026-10-01) ha precisato che il punto parziale
+  marca un risultato intermedio di un percorso valido, non la sola direzione
+  giusta. In QS-SC-09 e QS-SC-11 un tempo nella direzione giusta ottenuto con un
+  metodo additivo o trattando le pompe come uguali passa da 1 a 0; in QS-SC-04,
+  QS-SC-06, QS-SC-07 e QS-SC-10 sono ora riconosciuti passaggi intermedi di
+  percorsi alternativi prima esclusi. La frequenza attesa del punteggio 1 cambia
+  quindi in entrambe le direzioni; i `difficulty_target` non sono stati
+  ricalibrati.
+- QS-SC-05 distingue il 2 dal 1 sull'aggiustamento della stima; per «12» o
+  «circa 12» la domanda «Come hai fatto?» è obbligatoria. Se nel pilot la
+  domanda risultasse poco affidabile, conviene riformulare l'item in modo che
+  l'aggiustamento sia visibile nella risposta stessa, non spostare il criterio.
 - La distinzione fra 1 e 0 dipende dal riconoscimento del passaggio intermedio,
   e quindi dalla domanda «Come hai fatto?». Serve un controllo di accordo fra
   due correttori indipendenti, come per CS.

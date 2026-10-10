@@ -3,8 +3,10 @@
 > Materiale didattico, non clinico. Le procedure sono plausibili ma non
 > validate empiricamente.
 
-Otto subtest su quindici hanno una sezione completa. I sette rimanenti non
-hanno ancora un item bank e quindi nemmeno una procedura da documentare.
+Otto subtest su quindici hanno una sezione completa. CL e SS hanno già una
+procedura a tempo e un modulo di registrazione, ma non ancora stimoli
+definitivi, e quindi non si somministrano. MR, MO, RP, MP e DM non hanno ancora
+item.
 
 | Subtest | Ruolo | Come si somministra |
 |---|---|---|
@@ -20,8 +22,43 @@ hanno ancora un item bank e quindi nemmeno una procedura da documentare.
 Le **regole comuni** qui sotto valgono per SP, RS, RR, CS e QS. CR, SM e PG
 hanno procedure proprie, descritte nelle rispettive sezioni.
 
-> **Il QI totale non è ancora calcolabile**: richiede nove subtest core e ne
-> sono pronti cinque. Non presentare punteggi compositi come completi.
+> **Né il QI totale né il QI rapido sono ancora calcolabili.** Il QI totale
+> richiede nove subtest core e ne sono pronti cinque; il QI rapido richiede MR,
+> che non ha ancora item. Non presentare punteggi compositi come completi.
+
+## Ordine di somministrazione
+
+L'ordine è fissato in `spec/battery.yml` (`administration.sequences`). Con la
+batteria incompleta si somministrano i subtest disponibili **nello stesso
+ordine**, saltando quelli non ancora pronti. Un subtest non si sposta per
+riempire un vuoto: l'ordine fa parte delle condizioni di somministrazione.
+
+| Sequenza | Ordine previsto dalla spec | Oggi disponibili |
+|---|---|---|
+| QI rapido | MR, SP, RR, RS | SP, RR, RS |
+| QI totale | MR, SP, RR, RS, MO, SM, CR studio, RP, CL, F15_V se serve, CR recupero | SP, RR, RS, SM, CR studio, CR recupero |
+| Indici completi, dopo il QI totale | DM studio, CS, SS, F15_A se serve, DM recupero, QS, PG, MP | CS, QS, PG |
+
+> **Intervallo CR con la batteria attuale.** Fra lo studio e il recupero di CR
+> la spec prevede RP, CL e, se serve, il filler visivo `F15_V`. Nessuno dei tre
+> esiste ancora, quindi l'intervallo di 15 minuti non può essere riempito come
+> previsto. Per decisione (vedi `docs/decisions/0007`), finché RP e CL non
+> esistono CR si usa solo in esercitazione: chi conduce annota in `notes` come
+> ha riempito l'intervallo, e il punteggio non è confrontabile con quello della
+> procedura prevista.
+
+Durate previste dalla spec, utili per pianificare la seduta:
+
+| Subtest | Minuti previsti |
+|---|---|
+| SP | 8–12 |
+| RS | 8–10 |
+| RR | 8–10 |
+| CS | 8–10 |
+| QS | 10–12 |
+| SM | 10–12 |
+| PG | 6–8 |
+| CR | studio 1, intervallo 15, recupero 3–4 |
 
 ## Regole comuni ai subtest adattivi per item
 
@@ -47,6 +84,32 @@ Le procedure sotto sono uguali per SP, RS, RR, CS e QS, e valgono per ogni subte
    `external_missing`, `invalidated`. Gli ultimi due non sono errori: in loro
    presenza il totale del subtest non viene calcolato automaticamente.
 
+## Interruzioni ed errori procedurali (tutti i subtest)
+
+Il modulo registra ciò che è successo, non ciò che sarebbe dovuto succedere.
+Non si corregge un modulo per farlo sembrare regolare.
+
+- **Seduta interrotta** (stanchezza, evento esterno): si riprende appena
+  possibile dal primo item non ancora somministrato, con le stesse regole, e si
+  annotano in `notes` motivo e durata della pausa. Se il subtest non può essere
+  ripreso, gli item rimanenti si registrano `external_missing`. Per CR conta il
+  ritardo effettivo, che si registra comunque.
+- **Rifiuto di continuare:** gli item non presentati si registrano
+  `external_missing`, non `omitted`. `omitted` vale solo per un item presentato
+  a cui non è seguita una risposta.
+- **Item saltato per errore:** se ce ne si accorge prima della fine del
+  subtest, lo si somministra subito e lo si annota; altrimenti si registra
+  `external_missing`.
+- **Punto di partenza o regola applicati male:** non si ripete il subtest. Si
+  registra quello che è stato fatto; lo scorer calcola il punteggio e segnala
+  nei `warnings` le procedure improbabili.
+- **Item compromesso** (consegna letta male, interruzione a metà item, aiuto
+  dato per errore): si registra `invalidated` e si annota il motivo.
+
+`external_missing` e `invalidated` impediscono il calcolo automatico del totale
+del subtest: è voluto, perché un totale con item mancanti trattati come errori
+sottostimerebbe la prestazione.
+
 # SP — Significato delle Parole
 
 ## Materiali
@@ -60,8 +123,19 @@ Le procedure sotto sono uguali per SP, RS, RR, CS e QS, e valgono per ogni subte
 
 Leggere l'istruzione e i due item di prova riportati nella rubrica SP. Durante
 gli item scored è consentita una sola query neutra, «Puoi spiegarmi meglio?»,
-quando la risposta è troppo vaga per assegnare il punteggio. Non suggerire
-sinonimi o contesti e non dare feedback.
+quando la risposta è troppo vaga per assegnare il punteggio, quando si limita
+a un esempio o a un uso della parola in una frase, e per le risposte segnate
+*(query)* nella rubrica. Non si fa la query su una risposta già da 2 punti. Si
+può ripetere la parola se la persona lo chiede o sembra averla sentita male.
+Non suggerire sinonimi o contesti e non dare feedback; se si fa la query,
+scrivere `1` nella colonna `query_used` del modulo. Dopo circa trenta secondi senza risposta si
+incoraggia una volta («Prova a dirmi quello che pensi», che non conta come
+query); se la risposta non arriva, si registra `omitted`.
+
+Il criterio 2/1/0 è unico per tutto il subtest ed è descritto all'inizio della
+rubrica: 2 punti per il tratto definitorio in forma generale, 1 per un passo
+corretto non generalizzato, 0 per significato errato, associazione o
+circolarità. Ogni accezione attestata della parola è accettata.
 
 ## Punto di partenza
 
@@ -179,7 +253,11 @@ risultato$warnings
 ```
 
 `warnings` segnala procedure improbabili — per esempio una regola di
-interruzione non applicata — senza rifiutare il calcolo.
+interruzione non applicata — senza rifiutare il calcolo. Il controllo
+dell'interruzione parte dal punto di partenza ricavato da `age_months`: gli zeri
+raccolti a ritroso durante l'inversione sono legittimi e non contano. Se l'età
+manca nel record, il controllo parte dall'item 1 e può segnalare per errore una
+somministrazione con inversione.
 
 # RR — Ragionamento per Regole
 
@@ -266,6 +344,9 @@ Leggere l'istruzione e l'item di prova riportati nella rubrica CS. Durante gli
 item scored è consentita **una sola query neutra**, «Puoi spiegarmi meglio?»,
 quando la risposta è troppo vaga per assegnare il punteggio. Non suggerire
 contenuti, non completare la frase e non approvare o disapprovare la risposta.
+Dopo circa trenta secondi senza risposta si incoraggia una volta («Prova a
+dirmi quello che pensi», che non conta come query); se la risposta non arriva,
+si registra `omitted`.
 
 ## Punto di partenza
 
@@ -298,7 +379,7 @@ avanti. Non applicare la regola di interruzione mentre si procede a ritroso.
 Usare gli stati elencati nelle regole comuni. Il range grezzo valido è 0–20.
 
 Trascrivere la risposta in `response` **prima** di assegnare il punteggio, e
-annotare in `notes` se è stata usata la query neutra. Su un subtest a risposta
+scrivere `1` in `query_used` se è stata usata la query neutra. Su un subtest a risposta
 aperta la trascrizione è ciò che rende il punteggio verificabile da un secondo
 correttore.
 
@@ -346,8 +427,12 @@ partenza.
 ## Inversione e basale
 
 Se nei primi due item si ottengono meno di 2 punti su 4, procedere a ritroso un
-item alla volta. Il basale è raggiunto quando due item consecutivi ricevono 2
-punti ciascuno. Gli item precedenti ricevono 2 punti inferiti.
+item alla volta. Il basale è raggiunto quando due item consecutivi, letti nel
+loro ordine naturale, ricevono 2 punti ciascuno. Gli item precedenti ricevono
+2 punti inferiti.
+
+Se i primi due item totalizzano almeno 2 punti, non si applica l'inversione e
+gli item precedenti al punto di partenza ricevono 2 punti inferiti.
 
 ## Interruzione
 
@@ -359,10 +444,16 @@ avanti. Non applicare la regola di interruzione mentre si procede a ritroso.
 Usare gli stati elencati nelle regole comuni. Il range grezzo valido è 0–24.
 
 Il punteggio 1 esiste per una ragione precisa: separa chi ha impostato bene il
-problema e si è fermato a metà da chi non lo ha impostato. Quando la risposta
-non basta a decidere fra 1 e 0, si chiede **una sola volta** «Come hai fatto?»,
-dopo che la risposta è già stata data. Trascrivere la risposta in `response` e
-il passaggio dichiarato in `notes`.
+problema e si è fermato a metà da chi non lo ha impostato. Vale 1 un
+risultato intermedio di un percorso valido, anche diverso da quello
+dell'esempio; non vale 1 la sola direzione giusta ottenuta con un metodo
+sbagliato. Quando la risposta non basta a decidere il punteggio, e sempre per
+le risposte segnate *(come hai fatto?)* nella rubrica, si chiede **una sola
+volta** «Come hai fatto?», dopo che la risposta è già stata data. Basta un
+numero detto o indicato sul foglio: non si richiede una spiegazione verbale
+ordinata. Trascrivere la risposta in `response`, scrivere `1` in `query_used`
+se è stata posta la domanda e annotare il passaggio dichiarato in `notes`. Se la persona corregge la risposta prima dell'item successivo, si
+valuta l'ultima.
 
 Il foglio dei calcoli non si corregge e non si conserva come dato.
 
@@ -379,7 +470,8 @@ CR si somministra **in due momenti separati**, con altri subtest in mezzo.
 - coppie, chiave e ordine di lettura in `items/rubrics/CR.md`;
 - record form `materials/record_forms/CR_record_form.csv`;
 - **un orologio o cronometro** per misurare i 15 minuti di intervallo;
-- il filler `F15_A` se la sequenza di subtest si esaurisce prima.
+- il filler visivo `F15_V` se la sequenza di subtest si esaurisce prima (non
+  ancora disponibile: vedi «Ordine di somministrazione»).
 
 ## La regola da non violare
 
@@ -402,8 +494,12 @@ coppie sono.
 Proseguire con i subtest successivi previsti dalla sequenza. Annotare l'ora di
 fine studio: serve per misurare il ritardo effettivo.
 
-Se i subtest previsti finiscono prima dei 15 minuti, usare il filler `F15_A`
-(2–4 minuti, materiale uditivo-verbale non scorato).
+Se, finiti i subtest previsti, il cronometro segna **meno di 14 minuti**, usare
+il filler `F15_V` (2–4 minuti, compito visivo non scorato) quanto basta per
+rientrare nella finestra. Il filler è visivo perché un compito verbale
+interferirebbe con le coppie di parole; `F15_A`, uditivo-verbale, è riservato
+a DM. Se il cronometro segna già 14 minuti o più, si passa direttamente al
+recupero.
 
 ## Fase 2 — recupero differito (3–4 minuti)
 

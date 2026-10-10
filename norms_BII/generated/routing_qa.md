@@ -6,12 +6,12 @@
 
 ## Manifest di build
 
-- data: 2026-09-12
+- data: 2026-09-26
 - seed: 20260912
 - n simulati per subtest: 4000
 - versione spec: 0.0.0-dev
-- hash spec: a6c1bd6f7d03cb4819ff8e0d358f0d51
-- commit: f8e58fb
+- hash spec: 382daf462d87b78483b9f40b8a145d63
+- commit: eb89e75
 - modello: logistico a soglie ordinate, slope 1.2, passo soglie 0.55
 
 ## SP — Significato delle Parole

@@ -600,11 +600,7 @@ bii_validate_aggregate_constraints <- function(subtest_id, values, st_spec) {
     if (!all(names_to_sum %in% names(values))) {
       stop(subtest_id, ": vincolo aggregato riferito a componenti sconosciute.", call. = FALSE)
     }
-    limit <- if (identical(constraint$max_from, "n_scored_items")) {
-      as.numeric(st_spec$n_scored_items)
-    } else {
-      as.numeric(constraint$max)
-    }
+    limit <- bii_constraint_limit(constraint, st_spec)
     if (length(limit) != 1L || is.na(limit) || sum(values[names_to_sum]) > limit) {
       stop(
         subtest_id, ": combinazione impossibile: ", paste(names_to_sum, collapse = " + "),
@@ -613,6 +609,19 @@ bii_validate_aggregate_constraints <- function(subtest_id, values, st_spec) {
     }
   }
   invisible(TRUE)
+}
+
+# Limite di un vincolo: un numero esplicito (`max`) oppure un campo della spec
+# (`max_from`), cosi il valore non viene ricopiato a mano. Le sorgenti ammesse
+# sono le stesse validate da R/spec/load_spec.R.
+bii_constraint_limit <- function(constraint, st_spec) {
+  source_field <- constraint$max_from
+  if (is.null(source_field)) return(as.numeric(constraint[["max"]]))
+  if (identical(source_field, "n_scored_items")) return(as.numeric(st_spec$n_scored_items))
+  if (identical(source_field, "stimulus_composition.target_count")) {
+    return(as.numeric(st_spec$stimulus_composition$target_count))
+  }
+  NA_real_
 }
 
 # Il tempo effettivo e un dato procedurale. Non cambia mai il punteggio.
@@ -710,8 +719,29 @@ score_subtest_record <- function(subtest_id, records, root = NULL, context = NUL
     raw_max = raw_max,
     valid = valid,
     reason = if (valid) "complete" else "external_missing_or_invalidated",
-    warnings = bii_record_warnings(records, st)
+    warnings = bii_record_warnings(records, st, groups = bii_record_groups(items, st))
   )
+}
+
+# Gruppi entro cui basale e ceiling sono indipendenti: i microblocchi per
+# adaptive_levels_by_microblock, altrimenti l'intero subtest.
+bii_record_groups <- function(items, st_spec) {
+  if (identical(st_spec$administration$route_type, "adaptive_levels_by_microblock")) {
+    return(items$microblock)
+  }
+  rep("all", nrow(items))
+}
+
+# Item da cui parte la procedura in avanti, ricavato dall'eta registrata nel
+# modulo. Senza un'eta unica e valida si torna all'item 1.
+bii_record_start_item <- function(records, st_spec) {
+  if (!identical(st_spec$administration$route_type, "adaptive_items")) return(1L)
+  if (!"age_months" %in% names(records)) return(1L)
+  age <- unique(suppressWarnings(as.integer(records$age_months)))
+  age <- age[!is.na(age)]
+  if (length(age) != 1L) return(1L)
+  start <- tryCatch(subtest_start_item(age, st_spec), error = function(e) 1L)
+  min(start, nrow(records))
 }
 
 # Punteggio di item derivato da componenti osservate.
@@ -767,7 +797,9 @@ bii_derive_component_scores <- function(subtest_id, records, st_spec, administer
 }
 
 # Avvisi procedurali: non bloccano il calcolo, segnalano procedure improbabili.
-bii_record_warnings <- function(records, st_spec) {
+# `groups` separa le parti con basale e ceiling indipendenti (i microblocchi):
+# l'ordine degli stati si controlla dentro ciascuna, mai fra l'una e l'altra.
+bii_record_warnings <- function(records, st_spec, groups = rep("all", nrow(records))) {
   out <- character()
   status <- records$administration_status
   n <- length(status)
@@ -775,14 +807,19 @@ bii_record_warnings <- function(records, st_spec) {
   if (length(administered_idx) == 0L) {
     out <- c(out, "Nessun item risulta somministrato.")
   } else {
-    below <- which(status == "below_basal")
-    above <- which(status == "above_ceiling")
-    if (length(below) && max(below) > min(administered_idx)) {
-      out <- c(out, "Item sotto basale collocati dopo item somministrati.")
+    below_late <- FALSE
+    above_early <- FALSE
+    for (group in unique(groups)) {
+      in_group <- groups == group
+      administered_g <- which(in_group & status == "administered")
+      if (!length(administered_g)) next
+      below <- which(in_group & status == "below_basal")
+      above <- which(in_group & status == "above_ceiling")
+      if (length(below) && max(below) > min(administered_g)) below_late <- TRUE
+      if (length(above) && min(above) < max(administered_g)) above_early <- TRUE
     }
-    if (length(above) && min(above) < max(administered_idx)) {
-      out <- c(out, "Item sopra ceiling collocati prima di item somministrati.")
-    }
+    if (below_late) out <- c(out, "Item sotto basale collocati dopo item somministrati.")
+    if (above_early) out <- c(out, "Item sopra ceiling collocati prima di item somministrati.")
   }
   # Il ritardo effettivo del recupero differito e un dato procedurale, non un
   # punteggio: fuori finestra si avvisa, non si rifiuta il calcolo.
@@ -806,11 +843,13 @@ bii_record_warnings <- function(records, st_spec) {
     }
   }
 
+  # Il ceiling vale solo in avanti dal punto di partenza: gli zeri degli item
+  # somministrati a ritroso durante l'inversione non contano.
   zero_limit <- as.integer(st_spec$administration$ceiling$consecutive_items)
   if (length(zero_limit) == 1L && !is.na(zero_limit) && length(administered_idx) > 0L) {
     scored <- records$assigned_score
     run <- 0L
-    for (i in seq_len(n)) {
+    for (i in seq.int(bii_record_start_item(records, st_spec), n)) {
       if (identical(status[i], "administered") && !is.na(scored[i]) && scored[i] == 0) {
         run <- run + 1L
       } else {

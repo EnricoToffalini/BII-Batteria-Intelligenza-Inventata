@@ -42,12 +42,37 @@ va presentata come calibrazione.
 - nessuna famiglia ripetuta in posizioni adiacenti;
 - distrattori costruiti come errori plausibili e non come riempitivi;
 - nessun item che richieda nozioni scolastiche specifiche, formule o
-  terminologia tecnica.
+  terminologia tecnica;
+- la risposta corretta non è l'unica opzione più lunga in parole;
+- nessuna parola che SP chiede di definire compare negli stimoli.
 
-I primi tre controlli sono automatici in `tests/test_rs_scoring.R`; gli altri
+Sono automatici i controlli su consegne ripetute, distribuzione delle risposte,
+famiglie adiacenti e opzioni più lunghe (`tests/test_multiple_choice_banks.R`)
+e quello sulle parole di SP (`tests/test_cross_subtest_overlap.R`); gli altri
 sono revisione umana e vanno rifatti a ogni sostituzione di item.
 
 ## Punti aperti
+
+- QA concettuale per item (2026-10-01, packet N10). Corretti sette item senza
+  cambiare chiavi, ordine o difficoltà progettuale:
+  - `RS-SC-03`: «pesca» sostituita da «arancia», perché RS si presenta a voce e
+    «pesca» è anche l'attività del pescare;
+  - `RS-SC-12`: «pino» sostituito da «pioppo». Con il pino esisteva una seconda
+    risposta difendibile (l'unico albero con gli aghi); ora sia «non è un
+    albero» sia «è sempreverde» indicano soltanto l'edera;
+  - `RS-SC-14` e `RS-SC-21`: la risposta corretta era l'unica opzione più lunga
+    o composta da più parole; ora le opzioni hanno forma parallela;
+  - `RS-SC-22`: «il tempo» era difendibile (un moderatore regola anche i tempi
+    degli interventi) ed è sostituito da «il traffico»;
+  - `RS-SC-06` e `RS-SC-23`: la coppia di esempio usava *provvisorio* e
+    *implicito*, che SP chiede di definire; la stessa parola sarebbe entrata in
+    due subtest di qIC. Ora le coppie sono «parziale/totale» e
+    «dichiarato/sottinteso».
+- Da osservare nel pilot: `RS-SC-02` (*bussola*) in posizione 3 potrebbe
+  misurare il vocabolario dei bambini di 6 anni più della relazione di
+  funzione; `RS-SC-05` e `RS-SC-07` condividono i distrattori «nido» e
+  «piuma», quindi chi ha scartato le due opzioni nel primo item può
+  riconoscerle nel secondo.
 
 - `RS-SC-06`, `RS-SC-20`, `RS-SC-23` e `RS-SC-24` distinguono quasi sinonimi:
   sono i candidati più probabili a misurare vocabolario più che ragionamento e

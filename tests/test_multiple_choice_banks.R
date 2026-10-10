@@ -50,6 +50,25 @@ for (id in mc_ids) {
     stop(id, ": risposte corrette sbilanciate fra le quattro lettere.")
   }
 
+  # Indizio di forma: la risposta corretta non deve essere l'unica opzione più
+  # lunga in parole (per esempio l'unica con una precisazione, come «conservare
+  # documenti in modo ordinato» contro tre opzioni di due parole). Fa eccezione
+  # un'opzione che compare come distrattore in altri item dello stesso banco:
+  # la sua presenza è già stata resa non informativa (RR, «non si può sapere»).
+  n_words <- function(x) lengths(strsplit(trimws(x), "\\s+"))
+  distractor_texts <- unlist(lapply(seq_len(nrow(all_items)), function(i) {
+    key <- match(all_items$correct_answer[i], LETTERS[1:4])
+    unlist(all_items[i, option_columns[-key]], use.names = FALSE)
+  }), use.names = FALSE)
+  for (i in seq_len(nrow(all_items))) {
+    options <- unlist(all_items[i, option_columns], use.names = FALSE)
+    key <- match(all_items$correct_answer[i], LETTERS[1:4])
+    words <- n_words(options)
+    if (words[key] > 1L && words[key] > max(words[-key]) && !options[key] %in% distractor_texts) {
+      stop(all_items$item_id[i], ": la risposta corretta è l'unica opzione più lunga in parole.")
+    }
+  }
+
   # Ogni distrattore deve essere motivato.
   if (any(!nzchar(trimws(all_items$distractor_rationale)))) {
     stop(id, ": rationale dei distrattori mancante.")

@@ -18,12 +18,6 @@ bii_build_root <- function() {
   normalizePath(".", winslash = "/", mustWork = TRUE)
 }
 
-# Colonne aggiuntive richieste da singoli subtest, dichiarate qui e non
-# nascoste dentro il generatore.
-BII_RECORD_FORM_EXTRA <- list(
-  SP = "query_used"
-)
-
 # Contenuto del modulo, senza scrivere nulla: cosi i test possono confrontare
 # il file versionato con quello atteso senza modificare artefatti.
 record_form_table <- function(subtest_id, root) {
@@ -70,7 +64,9 @@ record_form_table <- function(subtest_id, root) {
     for (component in derived_from) form[[component]] <- ""
   }
 
-  for (extra in BII_RECORD_FORM_EXTRA[[subtest_id]]) form[[extra]] <- ""
+  # Le rubriche aperte 0/1/2 ammettono una query neutra: il modulo registra
+  # se è stata usata, perché cambia il modo di leggere la risposta.
+  if (subtest_id %in% open_response_subtests(spec)) form$query_used <- ""
 
   # Il ritardo effettivo si registra solo dove la spec prevede una finestra.
   if (!is.null(context$spec$administration$retrieval_window_minutes)) {

@@ -68,3 +68,17 @@ subtests_with_item_bank <- function(root = NULL, spec = NULL) {
   ids <- spec$battery$subtest_order
   ids[vapply(spec$subtests[ids], function(x) !is.null(x$item_bank), logical(1))]
 }
+
+# Subtest corretti con giudizio dell'esaminatore: risposta aperta e scala
+# 0/1/2 dichiarate nella spec, con item bank. Li usano il modulo di
+# registrazione (colonna query_used), il controllo dell'accordo fra correttori
+# e il test sulla struttura delle rubriche aperte.
+open_response_subtests <- function(spec) {
+  ids <- unlist(spec$battery$subtest_order, use.names = FALSE)
+  ids[vapply(ids, function(id) {
+    st <- spec$subtests[[id]]
+    scores <- as.numeric(unlist(st$scoring$item_scores, use.names = FALSE))
+    !is.null(st$item_bank) && identical(scores, c(0, 1, 2)) &&
+      st$response_format %in% c("oral_open_response", "controlled_short_response")
+  }, logical(1))]
+}

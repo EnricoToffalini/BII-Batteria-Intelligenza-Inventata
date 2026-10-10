@@ -11,6 +11,11 @@ Per SP:
 3. inserisci `item_score` soltanto per gli item `administered`;
 4. salva come CSV.
 
+I moduli di SP, CS e QS, i subtest con rubrica aperta 0/1/2, hanno la colonna
+`query_used`: scrivere `1` se per quell'item è stata fatta la query prevista
+dalla rubrica, altrimenti lasciarla vuota. La colonna non cambia il punteggio
+ma serve a chi rilegge o ricorregge il protocollo.
+
 Per controllare il punteggio da R:
 
 ```r
@@ -39,6 +44,9 @@ risultato$raw_score
 risultato$warnings
 ```
 
-Il tempo effettivo può produrre un warning, ma non cambia il punteggio. La
+Il tempo effettivo può produrre un warning, ma non cambia il punteggio. Per
+controllare in un colpo solo più persone, copiare le righe compilate in
+`data/templates/timed_records.csv` e usare `R/data/check_timed_records.R`
+(istruzioni in `data/README.md`). La
 presenza dei moduli non indica che gli stimoli CL o SS siano già completi: i due
 subtest restano senza item bank e senza fogli risposta.

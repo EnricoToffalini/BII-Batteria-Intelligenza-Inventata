@@ -43,7 +43,7 @@ Vincoli rispettati nella costruzione:
 - **nessuna rima e nessuna allitterazione** fra cue e bersaglio, che darebbero
   un appiglio fonologico;
 - parole **concrete, bisillabe o trisillabe, ad alta frequenza**, note a sei
-  anni;
+  anni (unica eccezione: «violino», di quattro sillabe);
 - **cue tutti diversi, bersagli tutti diversi**, e nessuna parola usata sia come
   cue sia come bersaglio;
 - interferenza semantica fra bersagli tenuta bassa, ma non azzerata: con
@@ -69,7 +69,27 @@ basterebbe scegliere l'unica parola che suona «già sentita» per prendere 1 pu
 senza ricordare l'associazione. Con due parole già sentite fra le opzioni, il
 riconoscimento richiede la coppia e non la familiarità.
 
+Due vincoli aggiunti dal QA del 2026-10-01:
+
+- **nessun bersaglio di un'altra coppia fortemente associato al cue** fra le
+  opzioni. In CR-SC-03 (*fiume*), CR-SC-09 (*albero*) e CR-SC-14 (*gatto*) erano
+  offerti «barca», «mela» e «pesce»: un'esca che attira per associazione
+  preesistente, non per ricordo della lista. Sono stati sostituiti da
+  «forchetta», «guanto» e «candela»;
+- **ogni bersaglio compare come distrattore da una a tre volte.** Prima
+  «barca» compariva quattro volte e tre bersagli mai: un bersaglio molto
+  presentato diventa più familiare nel riconoscimento. Il vincolo è verificato
+  in `tests/test_cr_scoring.R`; l'associazione col cue richiede invece
+  giudizio umano.
+
 ## Punti aperti
+
+- **Intrusioni semantiche nel richiamo.** Le esche sono state tolte dal
+  riconoscimento, ma le coppie restano: davanti ai cue *fiume*, *albero* e
+  *gatto* le parole «barca», «mela» e «pesce» sono comunque nella lista e
+  possono intrudere nel richiamo per associazione. Eliminarle richiederebbe di
+  cambiare cue o coppie; prima conviene osservare nel pilot quanto sono
+  frequenti queste intrusioni rispetto alle altre.
 
 - **Rischio procedurale, non psicometrico.** CR è il subtest più facile da
   sbagliare a somministrare: richiamo immediato accidentale, una presentazione

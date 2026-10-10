@@ -12,7 +12,8 @@ minuti**. Nessun item si salta e nessuno si aggiunge: l'insieme è fisso.
 
 Fra studio e recupero si somministrano altri subtest, come previsto dalla
 sequenza in `spec/battery.yml`. Se la sequenza si esaurisce prima dei 15 minuti,
-si usa il filler `F15_A`.
+si usa il filler visivo `F15_V`: un compito visivo non interferisce con il
+ripasso delle coppie di parole. `F15_A`, uditivo-verbale, è riservato a DM.
 
 ## Fase 1 — studio
 
@@ -83,18 +84,18 @@ Le coppie vanno lette in questo ordine in entrambe le presentazioni.
 |---|---|---|---|---|
 | 1 | CR-SC-01 | luna … **sedia** | poltrona / sedia / barca / cucchiaio | B |
 | 2 | CR-SC-02 | cane … **bottone** | bottone / cintura / chiave / lampada | A |
-| 3 | CR-SC-03 | fiume … **violino** | chitarra / barca / violino / mela | C |
+| 3 | CR-SC-03 | fiume … **violino** | chitarra / forchetta / violino / mela | C |
 | 4 | CR-SC-04 | pane … **chiave** | serratura / martello / cucchiaio / chiave | D |
 | 5 | CR-SC-05 | nuvola … **martello** | martello / tenaglia / pesce / sedia | A |
 | 6 | CR-SC-06 | scarpa … **mela** | pera / mela / barca / bottone | B |
 | 7 | CR-SC-07 | finestra … **pesce** | rana / lampada / pesce / violino | C |
 | 8 | CR-SC-08 | libro … **cucchiaio** | cucchiaio / mestolo / chiave / pesce | A |
-| 9 | CR-SC-09 | albero … **lampada** | torcia / mela / sedia / lampada | D |
+| 9 | CR-SC-09 | albero … **lampada** | torcia / guanto / sedia / lampada | D |
 | 10 | CR-SC-10 | mano … **barca** | barca / zattera / martello / mela | A |
 | 11 | CR-SC-11 | ponte … **guanto** | sciarpa / guanto / tamburo / chiave | B |
 | 12 | CR-SC-12 | neve … **tamburo** | flauto / sedia / tamburo / barca | C |
 | 13 | CR-SC-13 | sasso … **candela** | fiammifero / bottone / cucchiaio / candela | D |
-| 14 | CR-SC-14 | gatto … **forchetta** | forchetta / coltello / lampada / pesce | A |
+| 14 | CR-SC-14 | gatto … **forchetta** | forchetta / coltello / lampada / candela | A |
 
 ## Risposte da accettare e da non accettare
 

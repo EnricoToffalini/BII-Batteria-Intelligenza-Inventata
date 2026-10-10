@@ -36,3 +36,24 @@ Sono presenti 18 item scored, dal lessico quotidiano a parole astratte. L'ordine
 resta un'ipotesi progettuale: prima di considerare SP stabile servono una
 revisione umana indipendente delle rubriche e un piccolo pilot di comprensione.
 In particolare gli item 15–18 potrebbero risentire molto della scolarizzazione.
+
+## Punti aperti
+
+- L'audit delle rubriche (2026-10-01) ha portato a 2 punti sinonimi adeguati
+  prima trattati come parziali («sottinteso» per *implicito*, «passeggero» per
+  *effimero*) e accezioni attestate prima escluse (*prevedere* come «stabilire
+  in anticipo», *plausibile* come «accettabile», *arbitrario* come
+  «illegittimo», *paradossale* nel senso estensivo con contrasto esplicito).
+  Gli item 13, 16, 17 e 18 potrebbero quindi risultare più facili dei loro
+  `difficulty_target`, che restano ipotesi di progetto e non sono stati
+  ricalibrati.
+- La query è ora esplicita anche per le risposte che si limitano a un esempio
+  o a un uso in una frase, coerentemente con un'istruzione che invita a usare
+  «una frase». Nei bambini più piccoli questo può alzare i punteggi rispetto a
+  una query riservata alle risposte vaghe; da verificare nel pilot.
+- La regola della risposta *guastata* (un'aggiunta che mostra un
+  fraintendimento del nucleo porta a 0) è una convenzione v0: va controllata
+  nell'accordo fra correttori, perché il confine fra aggiunta imprecisa e
+  fraintendimento è un giudizio.
+- La scala 2/1/0 richiede un controllo di accordo fra due correttori
+  indipendenti sugli stessi protocolli prima di considerare SP stabile.

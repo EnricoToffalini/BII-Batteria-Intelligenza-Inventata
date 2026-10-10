@@ -8,6 +8,32 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
 
 ### Added
 
+- `R/data/score_collected.R` (packet N8): punteggi grezzi per persona e
+  subtest dai dati raccolti, dopo gli stessi controlli dei checker, con stato
+  esplicito per protocolli con dati esterni mancanti o incompleti. Nessun
+  punteggio ponderato, indice o QI.
+- `R/data/check_scorer_agreement.R` e `data/templates/scorer_agreement.csv`
+  (packet N5): doppia correzione indipendente delle rubriche aperte 0/1/2. I
+  subtest ammessi vengono dalla spec; il comando valida il file e riporta per
+  subtest e item accordo esatto, kappa pesato quadratico, differenza media fra
+  correttori e disaccordi 2 contro 0, senza soglie automatiche.
+- Prototipo G3 di MR per la famiglia `set_combination`: quattro matrici 3×3
+  non scored per unione, intersezione, differenza e XOR, sorgente geometrica e
+  chiave separate, rationale dei distrattori, quattro tavole A4 SVG/PNG a 300
+  dpi e test di unicità entro la grammatica finita. L'espansione resta bloccata
+  dal review gate G4 e dalla verifica fisica al 100%.
+- Design brief G1 di MR: confine fra Gf e Gv, grammatica vettoriale, quattro
+  famiglie candidate, progressione, distrattori diagnostici e controlli contro
+  soluzioni alternative. Il prossimo gate resta limitato a quattro prototipi
+  non scored della sola famiglia `set_combination`.
+- Capability spike P6 per `vector_geometry`: tavola A4 non scored con
+  spessori, primitive, trasformazioni, clipping e slot di risposta, generata
+  come SVG puro e resa a 300 dpi con test automatico. La pipeline è pronta per
+  il design brief MR, ma non sono stati creati item figurali.
+- Prototipo ridotto SS: sorgente e chiave separate per 12 celle di pratica e
+  una matrice non definitiva 6×10, sei primitive SVG deterministiche,
+  rendering A4/300 dpi e QA automatico. La forma scored da 200 stimoli resta
+  esclusa fino al review gate fisico; nessun timing o scoring è cambiato.
 - `docs/development/WORK_PACKETS.md`: coda operativa per richieste aperte,
   pacchetti piccoli con dipendenze e criteri di uscita, fallback non grafici e
   gate obbligatori per stimoli `symbol_grid`, `vector_geometry` e
@@ -18,6 +44,20 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
   e vincoli letti dalla spec, formule ammesse esplicitamente e warning sul tempo
   effettivo che non alterano il punteggio. Il generatore produce moduli timed a
   riga singola direttamente dalla spec; CL e SS restano senza item bank.
+- `tests/test_end_to_end_administration.R`: per ogni subtest con item bank,
+  profili estremi ai bordi delle fasce d'età e 120 somministrazioni simulate con
+  seed passano da routing, modulo di registrazione versionato compilato, scorer
+  e checker dei dati raccolti. Il test non nomina ID: copre per classe di route
+  e fallisce se un route type item-level resta scoperto.
+- `R/data/check_timed_records.R` e `data/templates/timed_records.csv`: controllo
+  dei record aggregati CL/SS raccolti, una riga per persona e prova, separato
+  dal checker item-level. Riusa `score_fixed_time_record()`, riporta tutti i
+  problemi con il numero di riga e tratta il tempo mancante come avviso.
+- SS dichiara il vincolo `hits + omissions <= target_count` con
+  `max_from: stimulus_composition.target_count`; la spec valida ora i vincoli
+  aggregati al caricamento. Moduli, norme e Shiny non dipendono dal vincolo;
+  `norms_BII/generated/routing_qa.md` è stato rigenerato e cambia solo nel
+  manifest (data, hash spec, commit), con risultati identici.
 
 - Fondazione del repository per `v0.0.0-dev`: README, convenzioni, decision
   record iniziale, comando unico di test e comando unico di rebuild.
@@ -135,6 +175,29 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
 
 ### Fixed
 
+- **Quattro item RR con due risposte difendibili** (packet N11): in RR-SC-06,
+  RR-SC-11, RR-SC-16 e RR-SC-20 una regola semplice diversa da quella prevista
+  spiegava tutti gli esempi e portava a un distrattore. Corretti esempi e
+  opzioni senza cambiare le chiavi; `tests/test_rr_rule_induction.R` cerca ora
+  in modo esaustivo regole alternative di una o due condizioni. Nessuna norma
+  da rigenerare.
+- **Filler sbagliato nell'intervallo CR** (packet N6): manuale e rubrica CR
+  indicavano `F15_A`, uditivo-verbale, mentre spec e specifica legacy
+  assegnano a CR il filler visivo `F15_V`; un filler verbale interferirebbe
+  proprio con le coppie di parole. Corretti; `tests/test_manual_spec.R`
+  confronta ora con la spec range, punti di partenza, filler, sequenze e
+  durate citati nel manuale.
+- **Avvisi procedurali falsi dello scorer item-level**, trovati dalle
+  amministrazioni sintetiche end-to-end (packet N2). Su somministrazioni
+  corrette, «regola di interruzione non applicata» compariva nel 2–4% dei casi
+  `adaptive_items` con inversione, perché gli zeri raccolti a ritroso venivano
+  contati come se il ceiling valesse anche all'indietro; in SM gli avvisi
+  sull'ordine basale/ceiling comparivano in circa il 90% dei casi, perché
+  l'ordine era controllato sull'intero subtest invece che per microblocco. Ora
+  il conteggio parte dal punto di partenza ricavato da `age_months` e l'ordine
+  si controlla dentro ogni microblocco. Punteggi grezzi invariati; il report di
+  routing QA rigenerato è identico.
+
 - **CR aveva un soffitto misurato al 10,9%** nella fascia 17–22 anni (35,5%
   entro due punti dal massimo), su un subtest core che entra nel QI totale.
   Portato da 10 a 14 coppie, `raw_max` 20 → 28: massimo al 2,5%, entro due punti
@@ -185,6 +248,49 @@ psicometricamente rilevanti e devono indicare gli artefatti rigenerati.
 
 ### Changed
 
+- `tests/test_sm_scoring.R` verifica ora sul CSV tutti i vincoli sulle
+  sequenze dichiarati in `items/design/SM.md`, non solo quelli già controllati;
+  prima tre erano applicati solo dal generatore (packet N13). Nessun item
+  modificato.
+- **QA concettuale di CR** (packet N12): nel riconoscimento di CR-SC-03, 09 e 14
+  il distrattore «bersaglio di un'altra coppia» era fortemente associato al cue
+  (fiume→barca, albero→mela, gatto→pesce) ed è stato sostituito; l'uso dei
+  bersagli come distrattori è ora bilanciato (da 1 a 3 volte) e testato. Coppie,
+  chiavi e ordine invariati.
+- **QA concettuale di RS** (packet N10): corretti sette item senza cambiare
+  chiavi, ordine o difficoltà progettuale (omofono in presentazione orale, due
+  risposte alternative difendibili, indizi di lunghezza delle opzioni, due
+  parole condivise con SP), e RR-SC-14, la cui risposta corretta era l'unico
+  gruppo di quattro figure. Nuovi controlli automatici sulle opzioni più lunghe
+  e sulle parole di SP negli stimoli di altri subtest. Nessuna norma da
+  rigenerare: la simulazione usa i soli `difficulty_target`.
+- I moduli di registrazione di CS e QS hanno ora la colonna `query_used`, come
+  SP: la colonna è derivata dalla spec per ogni subtest con rubrica aperta
+  0/1/2 invece che da una lista per ID nel generatore (packet N9).
+- `manual/ADMINISTRATION.md`: nuova sezione sull'ordine di somministrazione
+  (sequenze della spec, subtest disponibili, durate), regole comuni per sedute
+  interrotte ed errori procedurali, convenzione v0 sul silenzio per SP e CS,
+  clausola di non inversione per QS. Il manuale dichiara che con la batteria
+  attuale l'intervallo CR non può essere riempito come previsto: per
+  decisione 0007, CR resta in sola esercitazione finché RP e CL non esistono.
+- **Rubrica QS auditata** (packet N3-QS). Il punto parziale marca ora un
+  risultato intermedio di un percorso valido, non la sola direzione giusta: in
+  QS-SC-09 e QS-SC-11 un tempo nella direzione corretta ottenuto con un metodo
+  sbagliato passa da 1 a 0, mentre QS-SC-04, 06, 07, 10 e 12 riconoscono
+  passaggi di percorsi alternativi. Per QS-SC-05 la domanda «Come hai fatto?» è
+  obbligatoria su 12/«circa 12». Basta un numero, non una spiegazione verbale.
+  Problemi, routing, range e `difficulty_target` invariati: nessun derivato da
+  rigenerare.
+- **Rubrica SP auditata** (packet N3-SP). Il criterio 2/1/0 è dichiarato una
+  volta in testa: 2 per il tratto definitorio in forma generale, 1 per un passo
+  corretto non generalizzato, 0 per significato errato, associazione o
+  circolarità. Due sinonimi adeguati erano a 1 punto («sottinteso» per
+  *implicito*, «passeggero» per *effimero*) e passano a 2; le accezioni attestate
+  di undici parole sono ora accettate esplicitamente. La query è prevista anche
+  per risposte solo esemplificative. Parole, ordine, routing, range e
+  `difficulty_target` invariati: nessun derivato da rigenerare, ma gli item
+  13, 16, 17 e 18 potrebbero risultare più facili del previsto (vedi
+  `items/design/SP.md`, Punti aperti).
 - La Shiny e gli script legacy di fit/indici leggono ora dalla spec range e
   composizioni applicabili.
 - Il range formalizzato è 6;0–21;11; PG usa una griglia 4×4.

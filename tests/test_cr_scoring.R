@@ -49,6 +49,18 @@ for (i in seq_len(nrow(items))) {
   if (!items$target[i] %in% options) stop(items$item_id[i], ": bersaglio assente fra le opzioni.")
 }
 
+# Ogni bersaglio compare come distrattore in altri item fra una e tre volte:
+# un bersaglio mai usato o usato molto più degli altri diventa più o meno
+# familiare nel riconoscimento per ragioni che non dipendono dalla coppia.
+distractor_uses <- table(factor(unlist(lapply(seq_len(nrow(items)), function(i) {
+  options <- unlist(items[i, option_columns], use.names = FALSE)
+  options[options %in% items$target & options != items$target[i]]
+})), levels = items$target))
+if (any(distractor_uses < 1L | distractor_uses > 3L)) {
+  stop("CR: bersagli usati come distrattori in modo sbilanciato: ",
+       paste(names(distractor_uses), distractor_uses, sep = "=", collapse = ", "), ".")
+}
+
 # --- punteggio derivato dalle componenti --------------------------------------
 
 base_record <- data.frame(

@@ -7,6 +7,20 @@ stopifnot(identical(as.integer(table(subtests$role)[c("completion", "core", "sup
 stopifnot(identical(spec$battery$quotients$QI_rapido$components, c("SP", "RS", "MR", "RR")))
 stopifnot(identical(spec$battery$quotients$QI_totale$components, subtests$id[subtests$role == "core"]))
 
+ss <- spec$subtests$SS
+ss_distractors <- unlist(ss$stimulus_composition$distractor_counts, use.names = TRUE)
+stopifnot(
+  identical(as.integer(ss$stimulus_composition$target_count), as.integer(ss$n_scored_items)),
+  identical(as.integer(ss$stimulus_composition$target_count + sum(ss_distractors)), as.integer(ss$stimulus_count)),
+  identical(as.integer(ss$scoring$components$hits$max), as.integer(ss$stimulus_composition$target_count)),
+  identical(as.integer(ss$scoring$components$omissions$max), as.integer(ss$stimulus_composition$target_count)),
+  identical(as.integer(ss$scoring$components$false_alarms$max), as.integer(sum(ss_distractors))),
+  setequal(
+    c(ss$stimulus_composition$target_token, names(ss_distractors)),
+    unlist(ss$symbol_vocabulary, use.names = FALSE)
+  )
+)
+
 # The legacy conversion table remains derived, but until its item-level rebuild
 # it must at least cover the exact IDs and raw-score range declared by spec.
 norm_file <- file.path(root, "norms_BII", "tasks_conversion_tables_grezzo_to_PP_by_ageband_OFFICIAL.csv")

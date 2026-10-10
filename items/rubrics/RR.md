@@ -72,7 +72,7 @@ sola prima di passare agli item scored. Il fatto va annotato in `notes`.
 | 11 | RR-SC-11 | B — ■□■ | rule_induction |
 | 12 | RR-SC-12 | A — ▲ ● ■ | constraint_ordering |
 | 13 | RR-SC-13 | D — ● | series_completion |
-| 14 | RR-SC-14 | A — ● ○ ▲ ○ | conditional_rule |
+| 14 | RR-SC-14 | A — ● ○ ▲ | conditional_rule |
 | 15 | RR-SC-15 | C — △ ■ ▲ ○ | rule_transformation |
 | 16 | RR-SC-16 | D — ○■△ | rule_induction |
 | 17 | RR-SC-17 | D — non si può sapere | constraint_ordering |
@@ -107,6 +107,13 @@ stessa forma e la terza no» e «la terza figura ha forma diversa dalla prima».
 I tre distrattori falliscono sotto entrambe le letture, quindi la risposta
 corretta è la stessa in ogni caso. Chi sostituisce questo item deve rifare
 questa verifica: è l'errore più facile da introdurre negli item di induzione.
+
+Per tutti e quattro gli item di induzione (RR-SC-06, 11, 16, 20) la verifica è
+ora automatica: `tests/test_rr_rule_induction.R` prova ogni regola formata da
+una o due condizioni su forma, riempimento, posizione e conteggio, e fallisce
+se una di esse spiega tutti gli esempi e accetta un distrattore. Il messaggio
+indica la regola alternativa trovata, quindi dice anche quale esempio negativo
+aggiungere.
 
 ## Limiti dichiarati
 

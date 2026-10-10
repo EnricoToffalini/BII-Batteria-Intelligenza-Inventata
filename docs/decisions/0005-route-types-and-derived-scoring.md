@@ -36,6 +36,15 @@ l'età e descrive una procedura che termina per tempo. Il punteggio passa da
 componenti dichiarate nella spec. In questo modo CL e SS non richiedono cento
 righe fittizie prima che esistano i loro item bank.
 
+I vincoli fra componenti sono dichiarati in `scoring.constraints` (oggi solo
+`sum_lte`). Il limite è un numero (`max`) oppure un campo della spec
+(`max_from: n_scored_items` o `max_from: stimulus_composition.target_count`),
+così CL controlla `correct + errors + omissions` sul numero di item e SS
+`hits + omissions` sul numero di target senza ricopiare il valore 100. La spec
+rifiuta al caricamento vincoli con componenti sconosciute o sorgenti non
+ammesse. Più righe raccolte si controllano insieme con
+`R/data/check_timed_records.R`, che riusa lo stesso scorer.
+
 ### 2. Il routing a livelli riusa la logica di quello per item
 
 Nei subtest a livelli il livello prende il posto della finestra iniziale, ma la
@@ -148,8 +157,13 @@ Le formule aggregate supportate sono registrate esplicitamente nel motore e non
 sono eseguite con `eval(parse())`: per ora `max(0, correct - errors)` e
 `max(0, hits - false_alarms)`. Nomi, range delle componenti e vincoli fra
 componenti restano nella spec. CL dichiara così che corrette, errori e omissioni
-non possono superare insieme il numero di item; SS non riceve un vincolo analogo
-finché la ripartizione target/distrattori non sarà dichiarata.
+non possono superare insieme il numero di item. SS inizialmente non riceveva un
+vincolo analogo perché la ripartizione target/distrattori non era dichiarata.
+
+> Aggiornamento 2026-09-22: P5 ha formalizzato in `spec/subtests/SS.yml` 100
+> target e 100 distrattori. Il controllo dei record `hits + omissions <=
+> target_count` resta assegnato a N1, così non viene hard-codato durante il
+> design degli stimoli.
 
 Il tempo effettivo è metadato procedurale e non altera il raw score. CL ha un
 limite fisso di due minuti; SS dichiara soltanto una durata pianificata di 2–3

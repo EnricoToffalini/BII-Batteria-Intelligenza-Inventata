@@ -455,8 +455,8 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 | `text_only` | SP, RS, CS, QS, CR, SM | forma completa in bozza |
 | `symbol_text` | RR | forma completa in bozza |
 | `symbol_grid` | PG | forma completa in bozza |
-| `symbol_grid` | CL, SS | `fixed_time` e record aggregati pronti; item bank e fogli da fare |
-| `vector_geometry` | MR, RP, MP, DM | **bloccati**: serve generazione SVG deterministica |
+| `symbol_grid` | CL, SS | `fixed_time` pronto; prototipi riproducibili ai rispettivi review gate, item bank e fogli definitivi da fare |
+| `vector_geometry` | MR, RP, MP, DM | pipeline SVG dimostrata; brief G1 di MR completo e prototipo G3 di una famiglia pronto, nessun item bank ancora |
 | `manipulative` | MO | **bloccato**: serve riferimento stampabile + tasselli |
 
 ### 3A. Stimoli testuali e simbolici
@@ -469,8 +469,8 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 - [x] CR — 14 coppie, recupero differito con riconoscimento.
 - [x] PG — 16 prove su 8 livelli, griglia 4×4.
 - [x] SM — 36 item, 3 microblocchi indipendenti su 6 livelli.
-- [ ] CL, SS — architettura timed pronta; servono design, prototipi revisionati,
-  item bank e fogli risposta.
+- [ ] CL, SS — architettura timed e prototipi riproducibili pronti; servono i
+  review gate fisici, l'espansione controllata, item bank e fogli risposta.
 
 #### Task
 
@@ -487,6 +487,14 @@ ragioni di costrutto e non vanno riformulati come testo. Vedi
 > `adaptive_levels_by_microblock` e `fixed_time`. CL e SS hanno scoring e moduli
 > aggregati, ma restano intenzionalmente senza item bank finché design e piccoli
 > prototipi `symbol_grid` non superano il review gate.
+>
+> Stato 2026-09-30: CL dispone di un prototipo di 14 confronti al gate fisico
+> dopo un primo micro-lotto. Per SS sono ora versionati 12 stimoli di pratica e
+> una matrice ridotta 6×10 con 30 target e 30 distrattori, sorgente e chiave
+> separate, sei primitive SVG deterministiche e rendering A4/300 dpi. Il QA
+> automatico e l'ispezione digitale sono superati; la forma da 200 stimoli
+> resta vietata finché il gate P5R non verifica pop-out, stampa al 100% e
+> marcabilità a matita. Nessuno dei due prototipi è un item bank completo.
 >
 > **Difetto di copertura di SM corretto prima della costruzione, non dopo.**
 > La spec dichiarava 24 item su tre microblocchi (4 livelli, 2 prove ciascuno)
@@ -548,6 +556,18 @@ Evitare di affidare item centrali a immagini generative raster non riproducibili
 > la generazione di item né una vasta libreria condivisa anticipata. L'ordine
 > corretto è: dimostrare sorgente/render/ispezione, progettare un solo subtest,
 > prototipare 3–6 item, revisionare il rendering e solo allora espandere.
+>
+> **Aggiornamento 2026-09-30:** P6 ha dimostrato la pipeline minima con una
+> tavola A4 non scored: sorgente R, SVG puro, rendering PNG a 300 dpi,
+> trasformazioni, clipping, spessori e scala fisica controllabili. La
+> fattibilità tecnica non è più il blocco. MR è scelto come primo candidato e
+> può passare al solo design brief G1; MR, RP, MP e DM restano senza item e non
+> sono autorizzati a saltare prototipo e review gate.
+>
+> **Aggiornamento G1:** `items/design/MR.md` delimita il costrutto rispetto a
+> RR e qVS, definisce grammatica, famiglie e controlli di risposta unica. È
+> autorizzato soltanto un prototipo G3 di quattro matrici `set_combination`;
+> nessuna delle 24 posizioni scored è stata popolata.
 >
 > Due sottoclassi sono più vicine di quanto sembri: CL, SS e PG sono
 > `symbol_grid`, cioè griglie di caratteri stampabili con layout regolare. Non
@@ -1103,6 +1123,12 @@ Rscript R/data/check_responses.R data/collected/responses.csv
 Il controllo verifica struttura, età, ID item/subtest e stati di
 somministrazione. Non calcola punteggi né converte dati raccolti in norme.
 
+Per le prove a tempo e per la doppia correzione delle rubriche aperte esistono
+due controlli analoghi, descritti in `data/README.md`:
+`R/data/check_timed_records.R` e `R/data/check_scorer_agreement.R`.
+`R/data/score_collected.R` produce poi i soli punteggi grezzi per persona e
+subtest, senza norme.
+
 ---
 
 # 6. Workflow di revisione retroattiva
@@ -1602,7 +1628,7 @@ Se il tempo è limitato, seguire questo ordine:
 7. **Shiny integrata**;
 8. **QA e release**.
 
-### Ordine consigliato per i prossimi blocchi (2026-09-20)
+### Ordine consigliato per i prossimi blocchi (aggiornato 2026-09-30)
 
 I route type necessari sono ora implementati. Il collo di bottiglia è la
 produzione fedele e revisionabile degli stimoli mancanti:
@@ -1616,14 +1642,17 @@ produzione fedele e revisionabile degli stimoli mancanti:
    subtest reale, non solo registrato nel dispatcher. Vedi decision record 0006;
 4. ~~estendere il motore a `fixed_time`~~ — **fatto**: CL e SS hanno routing,
    scoring aggregato, controlli temporali e moduli di registrazione, ma non item;
-5. eseguire P1–P4 della coda operativa: CL design brief, 3–6 prototipi, review
-   gate e soli lotti successivi approvati;
-6. applicare le lezioni di CL a SS senza assumere che i due fogli abbiano la
-   stessa grammatica percettiva;
-7. in parallelo soltanto con un agente graficamente forte, eseguire P6: uno
-   spike SVG non scored. Dopo il review gate scegliere MR come primo candidato
-   `vector_geometry`, perché blocca QI rapido e QI totale;
-8. gli agenti senza capacità grafica scelgono N1–N3, non placeholder visivi.
+5. ~~eseguire P1–P4 della coda operativa per CL~~ — **fatto fino al primo
+   micro-lotto**; P4R resta bloccato dalla prova fisica A4 al 100%;
+6. ~~applicare le lezioni di CL al design e al prototipo ridotto SS~~ — **fatto
+   con P5/P5P**, senza copiare la grammatica percettiva di CL; il prossimo
+   blocco SS è P5R, che richiede review visivo e prova di marcatura prima di
+   qualunque espansione;
+7. ~~eseguire P6 e il design brief G1 di MR~~ — **fatto**; pipeline R/SVG/PNG
+   verificata e grammatica MR documentata. Il prossimo packet P7P è soltanto
+   il prototipo G3 di quattro matrici di una famiglia, non la banca completa;
+8. gli agenti senza capacità grafica scelgono i pacchetti N della coda di
+   riserva, non placeholder visivi.
 
 Il QI totale arriva a 6 componenti su 9 soltanto quando CL avrà stimoli e
 procedura completi, non perché il suo scorer esiste. Resterebbero poi i tre
@@ -1631,6 +1660,28 @@ figurali core MR, MO e RP. Fino ad allora la Shiny non va ampliata per simulare
 una completezza che la batteria non possiede.
 
 Non investire molto tempo nel perfezionamento cosmetico della Shiny o nel fit delle simulazioni prima che item e procedure siano sufficientemente stabili.
+
+### Stima dinamica dell'avanzamento v0 (2026-09-30)
+
+La checklist grezza della roadmap conta 39 voci chiuse su 72 (54%), ma
+sovrastima l'avanzamento perché molte voci chiuse riguardano l'infrastruttura e
+alcune voci aperte comprendono interi item bank, materiali e rigenerazioni.
+Una stima ponderata più realistica colloca la repository attorno al **45% della
+v0**, con intervallo prudente **40–50%**.
+
+Elementi già solidi: fonte di verità, validazione, route type, scoring di base,
+otto subtest completi in bozza, record form e test automatici. Il lavoro
+residuo più pesante è concentrato in CL/SS, nei quattro subtest
+`vector_geometry`, in MO manipolativo, nel kit completo, nella rigenerazione
+finale di simulazioni/norme, nella Shiny e nel QA/freeze.
+
+Con la regola corrente di un packet per richiesta aperta, la previsione
+operativa è di **35–50 ulteriori prompt** del tipo «prosegui». La forchetta può
+salire a **50–70** se i review gate fisici richiedono revisioni o più
+micro-lotti; può scendere se, dopo prototipi stabili, più derivati meccanici
+vengono legittimamente chiusi nello stesso packet. Le prove fisiche e alcune
+decisioni su MO/N4 richiederanno comunque intervento umano, non soltanto
+prompt.
 
 ---
 

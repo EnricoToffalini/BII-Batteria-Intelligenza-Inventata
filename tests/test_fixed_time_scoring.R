@@ -107,6 +107,11 @@ ss_out_of_range <- ss_record
 ss_out_of_range$false_alarms <- 101
 expect_error(score_fixed_time_record("SS", ss_out_of_range, root), "fuori range")
 
+# Il limite viene da stimulus_composition.target_count, non da un 100 ricopiato.
+ss_impossible <- ss_record
+ss_impossible$omissions <- ss_record$omissions + 1
+expect_error(score_fixed_time_record("SS", ss_impossible, root), "hits + omissions supera 100")
+
 ss_no_time <- ss_record[names(ss_record) != "actual_time_minutes"]
 ss_no_time_scored <- score_fixed_time_record("SS", ss_no_time, root)
 stopifnot(

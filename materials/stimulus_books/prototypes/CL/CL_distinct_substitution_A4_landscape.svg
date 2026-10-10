@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 297 210">
+<metadata>CL P4; formato A4 orizzontale; scala 100%; famiglia distinct_substitution; 14 stimoli non definitivi; glifi SVG deterministici</metadata>
+<rect x="0" y="0" width="100%" height="100%" fill="white"/>
+<text x="10.000" y="10.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="5.000" font-weight="bold">CL - PROTOTIPO NON SCORATO</text>
+<text x="287.000" y="10.000" text-anchor="end" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="normal">A4 orizzontale - stampa 100%</text>
+<text x="10.000" y="17.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="normal">Confronta le stringhe e barra una sola lettera: U = UGUALE, D = DIVERSO.</text>
+<text x="12.000" y="27.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="3.000" font-weight="bold">1</text>
+<text x="62.250" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">U</text>
+<text x="70.250" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">D</text>
+<rect x="10.000" y="34.000" width="66.250" height="162.000" fill="none" stroke="#777" stroke-width="0.25"/>
+<line x1="10.000" y1="40.480" x2="76.250" y2="40.480" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="46.960" x2="76.250" y2="46.960" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="53.440" x2="76.250" y2="53.440" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="59.920" x2="76.250" y2="59.920" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="66.400" x2="76.250" y2="66.400" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="72.880" x2="76.250" y2="72.880" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="79.360" x2="76.250" y2="79.360" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="85.840" x2="76.250" y2="85.840" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="92.320" x2="76.250" y2="92.320" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="98.800" x2="76.250" y2="98.800" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="105.280" x2="76.250" y2="105.280" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="111.760" x2="76.250" y2="111.760" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="118.240" x2="76.250" y2="118.240" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="124.720" x2="76.250" y2="124.720" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="131.200" x2="76.250" y2="131.200" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="137.680" x2="76.250" y2="137.680" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="144.160" x2="76.250" y2="144.160" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="150.640" x2="76.250" y2="150.640" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="157.120" x2="76.250" y2="157.120" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="163.600" x2="76.250" y2="163.600" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="170.080" x2="76.250" y2="170.080" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="176.560" x2="76.250" y2="176.560" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="183.040" x2="76.250" y2="183.040" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="10.000" y1="189.520" x2="76.250" y2="189.520" stroke="#dddddd" stroke-width="0.18"/>
+<text x="43.125" y="200.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.800" font-weight="bold">CONTINUA -&gt;</text>
+<text x="82.250" y="27.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="3.000" font-weight="bold">2</text>
+<text x="132.500" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">U</text>
+<text x="140.500" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">D</text>
+<rect x="80.250" y="34.000" width="66.250" height="162.000" fill="none" stroke="#777" stroke-width="0.25"/>
+<line x1="80.250" y1="40.480" x2="146.500" y2="40.480" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="46.960" x2="146.500" y2="46.960" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="53.440" x2="146.500" y2="53.440" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="59.920" x2="146.500" y2="59.920" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="66.400" x2="146.500" y2="66.400" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="72.880" x2="146.500" y2="72.880" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="79.360" x2="146.500" y2="79.360" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="85.840" x2="146.500" y2="85.840" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="92.320" x2="146.500" y2="92.320" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="98.800" x2="146.500" y2="98.800" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="105.280" x2="146.500" y2="105.280" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="111.760" x2="146.500" y2="111.760" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="118.240" x2="146.500" y2="118.240" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="124.720" x2="146.500" y2="124.720" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="131.200" x2="146.500" y2="131.200" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="137.680" x2="146.500" y2="137.680" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="144.160" x2="146.500" y2="144.160" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="150.640" x2="146.500" y2="150.640" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="157.120" x2="146.500" y2="157.120" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="163.600" x2="146.500" y2="163.600" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="170.080" x2="146.500" y2="170.080" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="176.560" x2="146.500" y2="176.560" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="183.040" x2="146.500" y2="183.040" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="80.250" y1="189.520" x2="146.500" y2="189.520" stroke="#dddddd" stroke-width="0.18"/>
+<text x="113.375" y="200.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.800" font-weight="bold">CONTINUA -&gt;</text>
+<text x="152.500" y="27.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="3.000" font-weight="bold">3</text>
+<text x="202.750" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">U</text>
+<text x="210.750" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">D</text>
+<rect x="150.500" y="34.000" width="66.250" height="162.000" fill="none" stroke="#777" stroke-width="0.25"/>
+<line x1="150.500" y1="40.480" x2="216.750" y2="40.480" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="46.960" x2="216.750" y2="46.960" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="53.440" x2="216.750" y2="53.440" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="59.920" x2="216.750" y2="59.920" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="66.400" x2="216.750" y2="66.400" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="72.880" x2="216.750" y2="72.880" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="79.360" x2="216.750" y2="79.360" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="85.840" x2="216.750" y2="85.840" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="92.320" x2="216.750" y2="92.320" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="98.800" x2="216.750" y2="98.800" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="105.280" x2="216.750" y2="105.280" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="111.760" x2="216.750" y2="111.760" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="118.240" x2="216.750" y2="118.240" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="124.720" x2="216.750" y2="124.720" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="131.200" x2="216.750" y2="131.200" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="137.680" x2="216.750" y2="137.680" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="144.160" x2="216.750" y2="144.160" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="150.640" x2="216.750" y2="150.640" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="157.120" x2="216.750" y2="157.120" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="163.600" x2="216.750" y2="163.600" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="170.080" x2="216.750" y2="170.080" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="176.560" x2="216.750" y2="176.560" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="183.040" x2="216.750" y2="183.040" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="150.500" y1="189.520" x2="216.750" y2="189.520" stroke="#dddddd" stroke-width="0.18"/>
+<text x="183.625" y="200.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.800" font-weight="bold">CONTINUA -&gt;</text>
+<text x="222.750" y="27.000" text-anchor="start" dominant-baseline="middle" font-family="Arial" font-size="3.000" font-weight="bold">4</text>
+<text x="273.000" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">U</text>
+<text x="281.000" y="27.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.200" font-weight="bold">D</text>
+<rect x="220.750" y="34.000" width="66.250" height="162.000" fill="none" stroke="#777" stroke-width="0.25"/>
+<line x1="220.750" y1="40.480" x2="287.000" y2="40.480" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="46.960" x2="287.000" y2="46.960" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="53.440" x2="287.000" y2="53.440" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="59.920" x2="287.000" y2="59.920" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="66.400" x2="287.000" y2="66.400" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="72.880" x2="287.000" y2="72.880" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="79.360" x2="287.000" y2="79.360" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="85.840" x2="287.000" y2="85.840" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="92.320" x2="287.000" y2="92.320" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="98.800" x2="287.000" y2="98.800" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="105.280" x2="287.000" y2="105.280" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="111.760" x2="287.000" y2="111.760" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="118.240" x2="287.000" y2="118.240" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="124.720" x2="287.000" y2="124.720" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="131.200" x2="287.000" y2="131.200" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="137.680" x2="287.000" y2="137.680" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="144.160" x2="287.000" y2="144.160" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="150.640" x2="287.000" y2="150.640" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="157.120" x2="287.000" y2="157.120" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="163.600" x2="287.000" y2="163.600" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="170.080" x2="287.000" y2="170.080" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="176.560" x2="287.000" y2="176.560" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="183.040" x2="287.000" y2="183.040" stroke="#dddddd" stroke-width="0.18"/>
+<line x1="220.750" y1="189.520" x2="287.000" y2="189.520" stroke="#dddddd" stroke-width="0.18"/>
+<text x="253.875" y="200.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.800" font-weight="bold">FINE</text>
+<text x="12.500" y="37.240" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">1</text>
+<g transform="translate(19.125 37.240) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(40.125 37.240) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(23.325 37.240) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(44.325 37.240) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(27.525 37.240) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 37.240) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(31.725 37.240) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(52.725 37.240) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<line x1="37.125" y1="35.140" x2="37.125" y2="39.340" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="37.240" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="37.240" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="43.720" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">2</text>
+<g transform="translate(19.125 43.720) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(40.125 43.720) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(23.325 43.720) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(44.325 43.720) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 43.720) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(48.525 43.720) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(31.725 43.720) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(52.725 43.720) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<line x1="37.125" y1="41.620" x2="37.125" y2="45.820" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="43.720" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="43.720" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="50.200" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">3</text>
+<g transform="translate(19.125 50.200) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(40.125 50.200) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(23.325 50.200) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(44.325 50.200) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(27.525 50.200) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 50.200) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(31.725 50.200) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(52.725 50.200) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<line x1="37.125" y1="48.100" x2="37.125" y2="52.300" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="50.200" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="50.200" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="56.680" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">4</text>
+<g transform="translate(19.125 56.680) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(40.125 56.680) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(23.325 56.680) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(44.325 56.680) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(27.525 56.680) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 56.680) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(31.725 56.680) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(52.725 56.680) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<line x1="37.125" y1="54.580" x2="37.125" y2="58.780" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="56.680" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="56.680" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="63.160" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">5</text>
+<g transform="translate(19.125 63.160) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(40.125 63.160) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(23.325 63.160) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(44.325 63.160) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 63.160) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(48.525 63.160) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(31.725 63.160) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(52.725 63.160) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<line x1="37.125" y1="61.060" x2="37.125" y2="65.260" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="63.160" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="63.160" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="69.640" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">6</text>
+<g transform="translate(19.125 69.640) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(40.125 69.640) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(23.325 69.640) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(44.325 69.640) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 69.640) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(48.525 69.640) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(31.725 69.640) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(52.725 69.640) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<line x1="37.125" y1="67.540" x2="37.125" y2="71.740" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="69.640" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="69.640" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="76.120" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">7</text>
+<g transform="translate(19.125 76.120) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(40.125 76.120) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(23.325 76.120) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(44.325 76.120) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 76.120) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(48.525 76.120) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(31.725 76.120) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(52.725 76.120) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<line x1="37.125" y1="74.020" x2="37.125" y2="78.220" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="76.120" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="76.120" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="82.600" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">8</text>
+<g transform="translate(19.125 82.600) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(40.125 82.600) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(23.325 82.600) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(44.325 82.600) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(27.525 82.600) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 82.600) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(31.725 82.600) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(52.725 82.600) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<line x1="37.125" y1="80.500" x2="37.125" y2="84.700" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="82.600" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="82.600" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="89.080" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">9</text>
+<g transform="translate(19.125 89.080) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(40.125 89.080) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(23.325 89.080) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(44.325 89.080) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(27.525 89.080) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(48.525 89.080) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(31.725 89.080) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(52.725 89.080) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<line x1="37.125" y1="86.980" x2="37.125" y2="91.180" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="89.080" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="89.080" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="95.560" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">10</text>
+<g transform="translate(19.125 95.560) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(40.125 95.560) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(23.325 95.560) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(44.325 95.560) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(27.525 95.560) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(48.525 95.560) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(31.725 95.560) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(52.725 95.560) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<line x1="37.125" y1="93.460" x2="37.125" y2="97.660" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="95.560" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="95.560" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="102.040" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">11</text>
+<g transform="translate(19.125 102.040) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(40.125 102.040) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(23.325 102.040) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(44.325 102.040) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 102.040) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(48.525 102.040) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(31.725 102.040) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(52.725 102.040) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<line x1="37.125" y1="99.940" x2="37.125" y2="104.140" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="102.040" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="102.040" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="108.520" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">12</text>
+<g transform="translate(19.125 108.520) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(40.125 108.520) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(23.325 108.520) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(44.325 108.520) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(27.525 108.520) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 108.520) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(31.725 108.520) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(52.725 108.520) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<line x1="37.125" y1="106.420" x2="37.125" y2="110.620" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="108.520" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="108.520" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="115.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">13</text>
+<g transform="translate(19.125 115.000) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(40.125 115.000) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(23.325 115.000) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(44.325 115.000) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 115.000) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(48.525 115.000) scale(1.0000)"><polygon points="0,-1.70 1.65,1.35 -1.65,1.35" fill="none" stroke="black" stroke-width="0.45" stroke-linejoin="round"/></g>
+<g transform="translate(31.725 115.000) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(52.725 115.000) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<line x1="37.125" y1="112.900" x2="37.125" y2="117.100" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="115.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="115.000" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<text x="12.500" y="121.480" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">14</text>
+<g transform="translate(19.125 121.480) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(40.125 121.480) scale(1.0000)"><path d="M 0,-1.75 L 0.411,-0.566 L 1.664,-0.541 L 0.665,0.216 L 1.029,1.416 L 0,0.700 L -1.029,1.416 L -0.665,0.216 L -1.664,-0.541 L -0.411,-0.566 Z" fill="black"/></g>
+<g transform="translate(23.325 121.480) scale(1.0000)"><path d="M -1.55 0 H 1.55 M 0 -1.55 V 1.55" fill="none" stroke="black" stroke-width="0.55" stroke-linecap="square"/></g>
+<g transform="translate(44.325 121.480) scale(1.0000)"><rect x="-1.50" y="-1.50" width="3.00" height="3.00" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(27.525 121.480) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(48.525 121.480) scale(1.0000)"><circle cx="0" cy="0" r="1.55" fill="none" stroke="black" stroke-width="0.45"/></g>
+<g transform="translate(31.725 121.480) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<g transform="translate(52.725 121.480) scale(1.0000)"><polygon points="0,-1.70 1.70,0 0,1.70 -1.70,0" fill="black"/></g>
+<line x1="37.125" y1="119.380" x2="37.125" y2="123.580" stroke="#999" stroke-width="0.3"/>
+<text x="62.250" y="121.480" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">U</text>
+<text x="70.250" y="121.480" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="3.400" font-weight="bold">D</text>
+<line x1="237.000" y1="20.000" x2="287.000" y2="20.000" stroke="black" stroke-width="0.5"/>
+<line x1="237.000" y1="18.500" x2="237.000" y2="21.500" stroke="black" stroke-width="0.5"/>
+<line x1="287.000" y1="18.500" x2="287.000" y2="21.500" stroke="black" stroke-width="0.5"/>
+<text x="262.000" y="17.500" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="2.700" font-weight="normal">50 mm</text>
+</svg>

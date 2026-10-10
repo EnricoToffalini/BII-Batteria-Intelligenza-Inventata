@@ -34,12 +34,11 @@ consegna salvo un richiamo generale a continuare in ordine.
 - Una coppia `UGUALE` replica i quattro simboli senza alcuna variazione. Una
   coppia `DIVERSO` appartiene a una sola famiglia definita sotto.
 
-Il font candidato per il prototipo è **Segoe UI Symbol**, presente
-nell'ambiente di sviluppo e capace di coprire i sei glifi. Il rendering deve
-incorporare o delineare il font: un fallback silenzioso può cambiare larghezze,
-peso e centratura. Questa scelta è provvisoria finché P2 non dimostra la resa
-nel PDF e nella stampa al 100%; non è una richiesta di aggiungere il font al
-repository.
+P2 ha usato **Segoe UI Symbol**, ma P3 ha respinto la dipendenza da un font di
+sistema non portabile. P2R ha quindi associato ciascun token del vocabolario a
+una primitiva SVG deterministica, con bounding box e stroke comuni; P3R ha
+approvato questa convenzione per un micro-lotto. La stringa nel CSV resta la
+fonte semantica: il renderer non può sostituire o reinterpretare un token.
 
 ## Famiglie di confronto
 
@@ -93,23 +92,26 @@ Ogni riga contiene, nell'ordine:
 2. prima stringa in quattro celle invisibili di uguale larghezza;
 3. separatore verticale neutro;
 4. seconda stringa nello stesso reticolo;
-5. casella `UGUALE`;
-6. casella `DIVERSO`.
+5. lettera-bersaglio `U`;
+6. lettera-bersaglio `D`.
 
 Le celle strutturano l'allineamento ma i loro bordi non vengono stampati. Le
-due caselle di risposta devono essere abbastanza grandi da accettare una barra
-con matita senza invadere la riga vicina. La marcatura non deve richiedere di
-ricopiare simboli.
+lettere `U` e `D` sono ripetute su ogni riga e vengono barrate direttamente,
+senza caselle, cerchi o altri contenitori geometrici. Il prototipo P2 ha
+mostrato che una casella quadrata compete visivamente con `□`; una casella
+circolare sposterebbe lo stesso problema su `○`. La marcatura non deve
+richiedere di ricopiare simboli.
 
-P2 deve confrontare almeno due impaginazioni a scala reale prima di scegliere:
+P2 ha confrontato due impaginazioni a scala reale:
 
 - A4 orizzontale, 4 colonne × 25 righe;
 - A3 orizzontale, 4 colonne × 25 righe.
 
-Il confronto non implica che A3 sia preferibile: deve mostrare se A4 mantiene
-glifi, spaziatura e bersagli motori leggibili. La stampa va eseguita al 100%,
-senza “adatta alla pagina”. Non si decide ora se il formato finale debba essere
-A4 o A3.
+P3 conserva **A4 come unico candidato**: è leggibile al 100% e riduce la
+distanza fra stimolo e risposta; A3 aggiunge movimento oculomotorio, richiede
+hardware meno comune e non migliora il matching. A4 non è ancora approvato per
+la forma completa: P3R lo ha approvato soltanto per un micro-lotto e la
+marcabilità va ancora verificata su carta al 100%, senza “adatta alla pagina”.
 
 ## Difficoltà prevista e ordine
 
@@ -136,23 +138,28 @@ Il primo prototipo comprende **6 stimoli non definitivi** della famiglia
 - quattro simboli distinti in ogni stringa;
 - nessun simbolo o risposta corretta prevedibile dalla posizione nel mini-set.
 
-P2 deve produrre una sorgente deterministica, un PDF o immagine reso a scala di
-stampa e una tabella di chiavi separata. Gli stessi sei stimoli vanno collocati
-in entrambe le impaginazioni candidate; non si riempiono le altre 94 righe con
-item fittizi.
+P2 ha prodotto una sorgente deterministica, immagini rese a scala di stampa e
+una tabella di chiavi separata. P3 ha poi ritirato A3 e P2R ha conservato i sei
+stimoli nel solo A4, senza riempire le altre 94 righe con item fittizi.
 
-## Criteri osservabili per il review gate
+## P4 — primo micro-lotto controllato
 
-Il prototipo può passare a P3 solo se l'ispezione a stampa o al 100% conferma:
+P4 ha aggiunto **8 stimoli non definitivi** della stessa famiglia, portando il
+prototipo a 14 righe: 4 `UGUALE`, 4 `DIVERSO`, una sostituzione in ciascuna
+posizione e copertura completa del vocabolario. Il lotto è tornato a review
+gate; non autorizza una seconda espansione né modifica lo status di CL.
 
-- tutti i sei glifi sono presenti e provengono dal font previsto, senza
-  quadratini mancanti o fallback;
+## Criteri osservabili applicati nei review gate
+
+P3 e P3R hanno applicato questi criteri all'ispezione al 100%:
+
+- tutti i sei glifi sono presenti come primitive previste, senza fallback;
 - i quattro simboli di ogni stringa sono centrati e non si toccano;
 - stringhe sinistra e destra hanno identica metrica e nessun indizio di
   lunghezza complessiva rivela la risposta;
 - a normale distanza di lettura la riga corretta si segue senza invadere quella
   sopra o sotto;
-- le caselle sono marcabili e le etichette non dominano visivamente gli
+- le lettere-bersaglio `U`/`D` sono marcabili e non dominano visivamente gli
   stimoli;
 - il passaggio fra colonne è inequivocabile;
 - la coppia uguale è una copia esatta e ciascuna coppia diversa ha una sola
@@ -161,18 +168,18 @@ Il prototipo può passare a P3 solo se l'ispezione a stampa o al 100% conferma:
   conteggio o memoria;
 - il file riporta formato pagina e scala, così una ristampa è riproducibile.
 
-Un esito negativo non si corregge espandendo la banca: P3 deve approvare,
-revisionare o scartare il prototipo e definire soltanto il lotto seguente.
+Un esito negativo non si corregge espandendo la banca. P3R ha autorizzato un
+solo lotto di otto stimoli, prodotto da P4 e ora fermo al nuovo review gate.
 
 ## Rischi di resa e contaminazione
 
-- **Fallback del font:** può rendere un glifo più piccolo o cambiare il peso;
-  va rilevato nel rendering, non accettato come differenza di piattaforma.
+- **Deriva delle primitive:** bounding box o stroke diversi possono rendere un
+  simbolo più saliente; il test deve verificare che ogni token abbia una sola
+  definizione versionata.
 - **Densità eccessiva:** 100 righe su una pagina possono trasformare CL in una
   prova di inseguimento visivo o motricità fine.
-- **Etichette di risposta:** ripetere per esteso `UGUALE` e `DIVERSO` in ogni
-  riga può introdurre affollamento e lettura; il prototipo deve misurarne
-  l'impatto prima di abbreviare le etichette.
+- **Etichette di risposta:** le sole lettere `U` e `D` riducono l'affollamento,
+  ma la comprensione della legenda va verificata negli esercizi guidati.
 - **Ordine prevedibile:** un pattern regolare delle chiavi misura
   apprendimento della sequenza, non matching.
 - **Differenze troppo salienti:** una sostituzione con un simbolo isolato per
@@ -183,14 +190,14 @@ revisionare o scartare il prototipo e definire soltanto il lotto seguente.
 
 ## Punti aperti
 
-- A4 o A3: la decisione dipende dalla resa reale dei sei prototipi e dalla
-  disponibilità pratica di stampa, non dalla quantità di spazio teorica.
-- Segoe UI Symbol è disponibile nell'ambiente corrente ma non è ancora una
-  dipendenza portabile. P2 deve stabilire se incorporarlo nel PDF è sufficiente
-  o se serve in seguito un font libero versionabile.
-- Non è ancora noto se ripetere le parole `UGUALE` e `DIVERSO` in ogni riga
-  provochi più affollamento di una testatina di colonna; entrambe le soluzioni
-  vanno confrontate senza cambiare la regola di risposta.
+- A4 è il solo formato candidato dopo P3, ma la densità di 25 righe per colonna
+  e la marcabilità delle lettere `U`/`D` richiedono ancora una stampa al 100%.
+- Prima dell'integrazione finale serve almeno un rendering in un secondo
+  ambiente per verificare la portabilità dell'intero foglio, non solo dei
+  glifi scored.
+- Non è ancora verificato che tutti, in particolare i più giovani, mantengano
+  stabile la legenda `U`/`D` per due minuti. Le prove guidate devono includere
+  correzione esplicita della modalità di marcatura.
 - Le famiglie di trasposizione potrebbero risultare più facili, non più
   difficili, perché producono due posizioni discordanti. Vanno incluse solo
   dopo evidenza dal prototipo o da un micro-pilot.

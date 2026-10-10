@@ -58,8 +58,14 @@ progettuale, non una calibrazione.
   una regola di conteggio senza antecedente.
 - **regole multiple compatibili con gli esempi.** In `rule_induction` è facile
   che gli esempi ammettano due regole diverse e che un distrattore sia corretto
-  sotto una delle due. In RR-SC-11 e RR-SC-20 sono stati aggiunti esempi
-  negativi appositi e i distrattori falliscono sotto ogni lettura ammissibile.
+  sotto una delle due. Il controllo a mano non bastava: il QA del 2026-10-01
+  ha trovato regole alternative semplici in tutti e quattro gli item di
+  induzione («stessa forma» in RR-SC-06, «ultima figura piena» in RR-SC-11,
+  «comincia con un cerchio» e «quadrato al centro» in RR-SC-16, «seconda
+  figura vuota» in RR-SC-20), ciascuna capace di accettare un distrattore.
+  Esempi e opzioni sono stati corretti senza cambiare le chiavi, e
+  `tests/test_rr_rule_induction.R` prova ora in modo esaustivo le regole di una
+  o due condizioni elementari.
 - **«non si può sapere» come indizio.** L'opzione compare in tutti e quattro gli
   item di `constraint_ordering` ed è corretta in uno solo.
 - **crescita del vocabolario simbolico.** Il set di sei simboli è dichiarato
@@ -73,5 +79,12 @@ progettuale, non una calibrazione.
 - RR-SC-19 intreccia due serie e alla posizione 19 potrebbe risultare più
   difficile del previsto per carico di memoria di lavoro più che per
   ragionamento. Da osservare nel pilot.
+- RR-SC-03 (2026-10-01): «è davanti al» è diventato «è prima del», come negli
+  altri item di ordinamento. Su un foglio «davanti» può voler dire anche più
+  vicino a chi guarda.
+- RR-SC-14 (2026-10-01): la risposta corretta era l'unico gruppo di quattro
+  figure fra opzioni di tre, un indizio di forma indipendente dalla regola. Ora
+  tutte le opzioni hanno tre figure; un controllo comune ai banchi a scelta
+  multipla impedisce che l'indizio ricompaia.
 - L'ordine dei 20 item è un'ipotesi progettuale. Prima di considerare RR
   stabile servono revisione umana indipendente e un piccolo pilot.

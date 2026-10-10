@@ -81,6 +81,42 @@ validate_bii_spec <- function(spec) {
     }
     n_items <- as_int(st$n_scored_items, paste0(id, ".n_scored_items"))
     if (n_items < 1L || as_int(st$n_practice_items, paste0(id, ".n_practice_items")) < 0L) spec_error(id, ": numero item non valido.")
+    if (!is.null(st$symbol_vocabulary)) {
+      vocabulary <- unlist(st$symbol_vocabulary, use.names = FALSE)
+      if (!is.character(vocabulary) || length(vocabulary) == 0L || any(!nzchar(vocabulary)) || anyDuplicated(vocabulary)) {
+        spec_error(id, ": symbol_vocabulary deve contenere token univoci e non vuoti.")
+      }
+    }
+    if (!is.null(st$stimulus_composition)) {
+      composition <- st$stimulus_composition
+      required_composition <- c("target_token", "target_count", "distractor_counts")
+      missing_composition <- setdiff(required_composition, names(composition))
+      if (length(missing_composition)) {
+        spec_error(id, ": stimulus_composition incompleta: ", paste(missing_composition, collapse = ", "), ".")
+      }
+      if (is.null(st$symbol_vocabulary)) spec_error(id, ": stimulus_composition richiede symbol_vocabulary.")
+      distractor_counts <- unlist(composition$distractor_counts, use.names = TRUE)
+      distractor_tokens <- names(distractor_counts)
+      target_token <- as.character(composition$target_token)
+      target_count <- as_int(composition$target_count, paste0(id, ".stimulus_composition.target_count"))
+      if (length(target_token) != 1L || !target_token %in% vocabulary) spec_error(id, ": target_token fuori vocabolario.")
+      if (length(distractor_counts) == 0L || anyDuplicated(distractor_tokens) ||
+          !setequal(c(target_token, distractor_tokens), vocabulary)) {
+        spec_error(id, ": target e distrattori devono coprire esattamente symbol_vocabulary.")
+      }
+      distractor_counts <- vapply(
+        seq_along(distractor_counts),
+        function(i) as_int(distractor_counts[[i]], paste0(id, ".stimulus_composition.distractor_counts.", distractor_tokens[i])),
+        integer(1)
+      )
+      if (target_count < 1L || any(distractor_counts < 1L)) spec_error(id, ": conteggi target/distrattori non validi.")
+      if (!is.null(st$stimulus_count) && target_count + sum(distractor_counts) != as_int(st$stimulus_count, paste0(id, ".stimulus_count"))) {
+        spec_error(id, ": stimulus_composition non somma a stimulus_count.")
+      }
+      if (identical(st$response_format, "target_marking") && target_count != n_items) {
+        spec_error(id, ": target_count deve coincidere con n_scored_items per target_marking.")
+      }
+    }
     raw_min <- as_int(st$scoring$raw_min, paste0(id, ".scoring.raw_min"))
     raw_max <- as_int(st$scoring$raw_max, paste0(id, ".scoring.raw_max"))
     if (raw_min != 0L || raw_max < raw_min) spec_error(id, ": range grezzo non valido.")
@@ -100,6 +136,36 @@ validate_bii_spec <- function(spec) {
         maximum <- as_int(limits$max, paste0(id, ".scoring.components.", component, ".max"))
         if (minimum < 0L || maximum < minimum) {
           spec_error(id, ": range non valido per la componente ", component, ".")
+        }
+      }
+      # Vincoli fra componenti: stesse classi e sorgenti del limite accettate
+      # da bii_validate_aggregate_constraints() in R/scoring/administer.R.
+      for (constraint in st$scoring$constraints) {
+        if (!identical(constraint$type, "sum_lte")) {
+          spec_error(id, ": vincolo aggregato non supportato: ", constraint$type, ".")
+        }
+        constrained <- unlist(constraint$components, use.names = FALSE)
+        if (length(constrained) < 2L || anyDuplicated(constrained) ||
+            !all(constrained %in% names(st$scoring$components))) {
+          spec_error(id, ": vincolo sum_lte con componenti mancanti, duplicate o sconosciute.")
+        }
+        if (is.null(constraint[["max"]]) == is.null(constraint$max_from)) {
+          spec_error(id, ": un vincolo sum_lte richiede esattamente uno fra max e max_from.")
+        }
+        limit <- if (!is.null(constraint[["max"]])) {
+          constraint[["max"]]
+        } else if (identical(constraint$max_from, "n_scored_items")) {
+          st$n_scored_items
+        } else if (identical(constraint$max_from, "stimulus_composition.target_count")) {
+          if (is.null(st$stimulus_composition)) {
+            spec_error(id, ": max_from stimulus_composition.target_count senza stimulus_composition.")
+          }
+          st$stimulus_composition$target_count
+        } else {
+          spec_error(id, ": max_from non supportato: ", constraint$max_from, ".")
+        }
+        if (as_int(limit, paste0(id, ".scoring.constraints")) < 0L) {
+          spec_error(id, ": limite negativo in un vincolo sum_lte.")
         }
       }
     }

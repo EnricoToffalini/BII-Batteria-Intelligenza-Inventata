@@ -35,7 +35,7 @@ o indicata sul foglio.
 | 10 | RS-SC-05 | C - uccello | development |
 | 11 | RS-SC-12 | B - edera | category_exclusion |
 | 12 | RS-SC-13 | D - romanzo | part_whole |
-| 13 | RS-SC-14 | A - conservare documenti in modo ordinato | function |
+| 13 | RS-SC-14 | A - conservare documenti | function |
 | 14 | RS-SC-15 | B - contrarsi | opposition |
 | 15 | RS-SC-16 | C - rana | development |
 | 16 | RS-SC-17 | D - memoria | category_exclusion |
